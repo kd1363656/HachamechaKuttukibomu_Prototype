@@ -85,6 +85,24 @@
     <Filter Include="Src\Application\Scene\TitleScene">
       <UniqueIdentifier>{79ee70a1-187a-4dd1-8140-bdd9d69d2a00}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\GameObject\Actor">
+      <UniqueIdentifier>{5efba321-bd9d-484d-96e1-cd09be16dd63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Map">
+      <UniqueIdentifier>{6c16fb34-3cdf-4fc5-99b8-aa1bcdd8244c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Utility">
+      <UniqueIdentifier>{0898495c-37c3-454b-a401-3f59d93c58fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Actor\Player">
+      <UniqueIdentifier>{ea60a7ed-d9e1-4b03-928b-0ef61bc048c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Utility\ImGui">
+      <UniqueIdentifier>{ab3c4a33-bbb5-4849-b6c5-df7e85f88381}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Factory">
+      <UniqueIdentifier>{a06d722d-a883-4a6a-870a-37362287b6ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -267,6 +285,27 @@
     <ClInclude Include="Src\Framework\Utility\KdDebugGUI.h">
       <Filter>Src\Framework\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Actor\ActorBase.h">
+      <Filter>Src\Application\GameObject\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Utility\Struct.h">
+      <Filter>Src\Application\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Actor\Player\Player.h">
+      <Filter>Src\Application\GameObject\Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Utility\ImGui\ImGuiManager.h">
+      <Filter>Src\Application\Utility\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Factory\Factory.h">
+      <Filter>Src\Application\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Utility\SingletonBase.h">
+      <Filter>Src\Application\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Utility\JsonUtility.h">
+      <Filter>Src\Application\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -418,6 +457,18 @@
     </ClCompile>
     <ClCompile Include="Src\Framework\Utility\KdDebugGUI.cpp">
       <Filter>Src\Framework\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Actor\ActorBase.cpp">
+      <Filter>Src\Application\GameObject\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Actor\Player\Player.cpp">
+      <Filter>Src\Application\GameObject\Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Utility\ImGui\ImGuiManager.cpp">
+      <Filter>Src\Application\Utility\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Factory\Factory.cpp">
+      <Filter>Src\Application\Factory</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

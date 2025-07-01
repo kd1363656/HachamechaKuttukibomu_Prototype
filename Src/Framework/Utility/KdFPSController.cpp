@@ -1,57 +1,77 @@
 ﻿#include "KdFPSController.h"
 
 // ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### #####
-// FPSの制御コントローラー
+// FPSの制御コントローラー + DeltaTime(可変長フレームレート)
 // ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### ##### #####
 void KdFPSController::Init()
 {
-	m_fpsMonitorBeginTime = timeGetTime();
+	m_maxFps = 60;
+	m_nowFps = 0;
+
+	m_deltaTime = 0.0f;
+	m_timeScale = 1.0f;
+
+	m_scaledDeltaTime = 0.0f;
+
+	// 初期化時に過去の時間を計測
+	m_previousTime = std::chrono::steady_clock::now();
+
+	// モニタリング用の時刻も過去の時間に収める
+	m_frameBeginTime = m_previousTime;
 }
 
 void KdFPSController::UpdateStartTime()
 {
-	m_frameStartTime = timeGetTime();
+	m_frameBeginTime = std::chrono::steady_clock::now();
+
+	// デルタタイム(ゲームループでさっき取得した一フレーム前の時間と今の時間を引く)
+	std::chrono::duration<float> elapsed_ = m_frameBeginTime - m_previousTime;
+	// 秒単位で取得(ミリ秒で取得する必要がある)
+	m_deltaTime = elapsed_.count();
+
+	// "TimeScale"の影響を受けるデルタタイム
+	m_scaledDeltaTime = m_deltaTime * m_timeScale;
 }
 
 void KdFPSController::Update()
 {
-	Control();
-
+	Control   ();
 	Monitoring();
+
+	// Updateが終わるつまり前回の計測時刻として現在の時刻を入れる
+	m_previousTime = m_frameBeginTime;
 }
 
 // FPS制御
 void KdFPSController::Control()
 {
-	// 処理終了時間Get
-	DWORD frameProcessEndTime = timeGetTime();
+	// 現在の時刻を取得
+	std::chrono::steady_clock::time_point currentTime_ = std::chrono::steady_clock::now();
+	// 1000ミリ秒 / 60フレーム
+	std::chrono::milliseconds             frameTime_   = std::chrono::milliseconds(1000 / m_maxFps);
+	// 現在の時刻を過去の時間と引いてやることで経過時間を算出
+	std::chrono::milliseconds elapsedTime_ = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime_ - m_frameBeginTime);
 
-	// 1フレームで経過すべき時間
-	DWORD timePerFrame = kSecond / m_maxFps;
-
-	if (frameProcessEndTime - m_frameStartTime < timePerFrame)
+	if(elapsedTime_ < frameTime_)
 	{
-		// 1秒間にMaxFPS回数以上処理が回らないように待機する
-		Sleep(timePerFrame - (frameProcessEndTime - m_frameStartTime));
+		// 超過した時間分スリープをかます
+		std::this_thread::sleep_for(frameTime_ - elapsedTime_);
 	}
 }
 
 // 現在のFPS計測
 void KdFPSController::Monitoring()
 {
-	// FPS計測のタイミング　0.5秒おき
-	constexpr float kFpsRefreshFrame = 500;		
+	std::chrono::steady_clock::time_point currentTime_ = std::chrono::steady_clock::now();
+	std::chrono::milliseconds             elapsedTime_ = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime_ - m_previousTime);
 
-	m_fpsCnt++;
-
-	// 0.5秒おきに FPS計測
-	if (m_frameStartTime - m_fpsMonitorBeginTime >= kFpsRefreshFrame)
+	if(m_deltaTime > 0.0f)
 	{
-		// 現在のFPS算出
-		m_nowfps = (m_fpsCnt * kSecond) / (m_frameStartTime - m_fpsMonitorBeginTime);
-
-		m_fpsMonitorBeginTime = m_frameStartTime;
-
-		m_fpsCnt = 0;
+		// Fps = 1.0(秒) / DeltaTime(ミリ秒)
+		m_nowFps = static_cast<int>(1.0f / m_deltaTime);
+	}
+	else
+	{
+		m_nowFps = m_maxFps;
 	}
 }

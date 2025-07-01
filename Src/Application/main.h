@@ -15,11 +15,20 @@ public:
 	// アプリケーション終了
 	void End()							{ m_endFlag = true; }
 
-	HWND GetWindowHandle()		const	{ return m_window.GetWndHandle(); }
-	int GetMouseWheelValue()	const	{ return m_window.GetMouseWheelVal(); }
+	HWND GetWindowHandle  ()	 const	{ return m_window.GetWndHandle    (); }
+	int GetMouseWheelValue()	 const	{ return m_window.GetMouseWheelVal(); }
 
-	int GetNowFPS()				const	{ return m_fpsController.m_nowfps; }
-	int GetMaxFPS()				const	{ return m_fpsController.m_maxFps; }
+	float  GetRawDeltaTime   ()const { return m_fpsController.GetDeltaTime();       }
+	float  GetScaledDeltaTime()const { return m_fpsController.GetScaledDeltaTime(); }
+	float  GetTimeScale      ()const { return m_fpsController.GetTimeScale();       }
+
+	float* GetTimeScalePtr() { return m_fpsController.GetTimeScale(); }
+
+	int GetNowFPS()	const { return m_fpsController.GetNowFps(); }
+	int GetMaxFPS()	const { return m_fpsController.GetMaxFps(); }
+
+	void SetTimeScale(float Set) { m_fpsController.SetTimeScale(Set); }
+
 
 private:
 

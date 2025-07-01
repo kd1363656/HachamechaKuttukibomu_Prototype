@@ -1,30 +1,46 @@
 ﻿#pragma once
 
-//============================================================
+//=======================================================================
 // アプリケーションのFPS制御 + 測定
-//============================================================
-struct KdFPSController
+// ゲーム内の全オブジェクトがフレームレートに依存しなくていいようになる
+// 演出面でも拡張性が高くなる、だから実装しました
+//=======================================================================
+
+class KdFPSController
 {
-	// FPS制御
-	int		m_nowfps = 0;		// 現在のFPS値
-	int		m_maxFps = 60;		// 最大FPS
+public:
 
-	void Init();
+	KdFPSController () = default;
+	~KdFPSController() = default;
 
+	void Init           ();
 	void UpdateStartTime();
+	void Update         ();
 
-	void Update();
+	float  GetDeltaTime      ()const { return m_deltaTime;       }
+	float* GetDeltaTime      ()      { return &m_deltaTime;      }
+	float  GetScaledDeltaTime()const { return m_scaledDeltaTime; }
+	
+	float  GetTimeScale()const { return m_timeScale;  }
+	float* GetTimeScale()      { return &m_timeScale; }
+
+	int GetMaxFps()const { return m_maxFps; }
+	int GetNowFps()const { return m_nowFps; }
+
+	void SetTimeScale(float Set) { m_timeScale = Set; }
 
 private:
 
-	void Control();
+	std::chrono::steady_clock::time_point m_previousTime   = std::chrono::steady_clock::now();
+	std::chrono::steady_clock::time_point m_frameBeginTime = std::chrono::steady_clock::now();
 
+	float m_deltaTime       = 0.0f;
+	float m_timeScale       = 0.0f;
+	float m_scaledDeltaTime = 0.0f;
+
+	int m_maxFps = 0.0f;
+	int m_nowFps = 0.0f;
+
+	void Control   ();
 	void Monitoring();
-
-	DWORD		m_frameStartTime = 0;		// フレームの開始時間
-
-	int			m_fpsCnt = 0;				// FPS計測用カウント
-	DWORD		m_fpsMonitorBeginTime = 0;	// FPS計測開始時間
-
-	const int	kSecond = 1000;				// １秒のミリ秒
 };
