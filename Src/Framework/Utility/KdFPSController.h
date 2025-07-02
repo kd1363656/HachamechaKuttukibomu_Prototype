@@ -38,8 +38,8 @@ private:
 	float m_timeScale       = 0.0f;
 	float m_scaledDeltaTime = 0.0f;
 
-	int m_maxFps = 0.0f;
-	int m_nowFps = 0.0f;
+	int m_maxFps = 0;
+	int m_nowFps = 0;
 
 	void Control   ();
 	void Monitoring();

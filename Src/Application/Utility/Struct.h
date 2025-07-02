@@ -2,6 +2,17 @@
 
 namespace Tag
 {
+	struct GameObjectFactoryInfo
+	{
+		std::function<std::shared_ptr<KdGameObject>()> gameObjectFactoryMethod;
+		const uint32_t								   finalBaseTypeID;
+
+		GameObjectFactoryInfo(std::function<std::shared_ptr<KdGameObject>()> Factory , uint32_t FinalBaseTypeID) : 
+			gameObjectFactoryMethod(Factory)        , 
+			finalBaseTypeID        (FinalBaseTypeID)
+		{}
+	};
+
 	// 3Dのゲームオブジェクトに最低限必要なパラメータ
 	struct Transform3D
 	{

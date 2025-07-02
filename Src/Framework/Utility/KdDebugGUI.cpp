@@ -34,7 +34,7 @@ void KdDebugGUI::GuiInit()
 	io.Fonts->AddFontDefault();
 	// 日本語対応
 	io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\msgothic.ttc", 13.0f, &config, glyphRangesJapanese);
-
+	
 	m_uqLog = std::make_unique<ImGuiAppLog>();
 }
 

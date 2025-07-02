@@ -1,15 +1,21 @@
 ﻿#include "KdGameObject.h"
 
+void KdGameObject::RegisterBaseID()
+{
+	AddBaseTypeIDs(GameObjectID::GetTypeID<KdGameObject>());
+}
+
 void KdGameObject::Init()
 {
-	m_mWorld   = Math::Matrix::Identity;
+	m_mWorld = Math::Matrix::Identity;
+
+	// "Json"ファイルに登録するためだけに使用
+	// 本来なら"typeid"はコンパイラ依存なので使用すべきでない(実装優先なので細かいことはしない)
+	m_typeName = typeid(*this).name();
 
 	m_isExpired = false;
 
-#ifdef _DEBUG
-	m_typeName = typeid(*this).name();
 	if (!m_pDebugWire) { m_pDebugWire = std::make_unique<KdDebugWireFrame>(); }
-#endif // _DEBUG
 }
 
 void KdGameObject::DrawDebug()
@@ -69,4 +75,9 @@ void KdGameObject::SetScale(const Math::Vector3& scale)
 	m_mWorld.Right   (vecX * scale.x);
 	m_mWorld.Up      (vecY * scale.y);
 	m_mWorld.Backward(vecZ * scale.z);
+}
+
+void KdGameObject::AddBaseTypeIDs(uint32_t BaseTypeID)
+{
+	m_baseTypeIDs.insert(BaseTypeID);
 }

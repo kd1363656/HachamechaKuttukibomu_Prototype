@@ -4,6 +4,8 @@
 
 #include "Factory/Factory.h"
 
+#include "Utility/ImGui/ImGuiManager.h"
+
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 // エントリーポイント
 // アプリケーションはこの関数から進行する
@@ -146,10 +148,13 @@ void Application::DrawSprite()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 bool Application::Init(int w, int h)
 {
+	// タイトル名 + Fpsの表示
+	std::string TitleBar = "Title FPS : " + std::to_string(m_fpsController.GetNowFps());
+	
 	//===================================================================
 	// ウィンドウ作成
 	//===================================================================
-	if (m_window.Create(w, h, "3D GameProgramming", "Window") == false) {
+	if (m_window.Create(w, h, "TitleBar", "Window") == false) {
 		MessageBoxA(nullptr, "ウィンドウ作成に失敗", "エラー", MB_OK);
 		return false;
 	}
@@ -210,6 +215,11 @@ bool Application::Init(int w, int h)
 	// ファクトリーの初期化
 	//===================================================================
 	Factory::GetInstance().Init();
+
+	//===================================================================
+	// "ImGui"の初期化
+	//===================================================================
+	ImGuiManager::GetInstance().Init();
 
 	return true;
 }
@@ -313,6 +323,10 @@ void Application::Execute()
 		//=========================================
 
 		m_fpsController.Update();
+
+		// タイトル名 + Fpsの表示
+		std::string TitleBar = "Title FPS : " + std::to_string(m_fpsController.GetNowFps());
+		SetWindowTextA(m_window.GetWndHandle(), TitleBar.c_str());
 	}
 
 	//===================================================================

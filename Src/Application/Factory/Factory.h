@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "../Utility/SingletonBase.h"
+#include "../Utility/Struct.h"
 
 // "class"は必ず"class Name"と書く、さもなければバグが発生する
 class Factory : public SingletonBase<Factory>
@@ -23,7 +24,7 @@ public:
 
 		StripClassPrefix(className_);
 		
-		if (m_gameObjectFactory.contains(className_))
+		if (m_gameObjectFactoryMethodList.contains(className_))
 		{
 			assert(false && "ゲームオブジェクトファクトリーメソッドの重複登録をしています、登録個所を確認してください");
 			return;
@@ -34,19 +35,27 @@ public:
 			return std::make_shared<ObjectType>();
 		};
 
+		// 派生クラスが何を継承しているかを調べるためにインスタンス化を一回だけして調べる
+		auto instance_ = lambda_();
+		
+		uint32_t baseID_ = instance_->GetFinalBaseTypeID();
+
+		Tag::GameObjectFactoryInfo factory_(lambda_, baseID_);
+
 		// クラス名に応じたファクトリーメソッドを提供
-		m_gameObjectFactory.emplace(className_ , lambda_);
+		m_gameObjectFactoryMethodList.emplace(className_, factory_);
 
 #ifdef _DEBUG
-		std::string createLog_ = "\t" + className_ + " : successfully registered\n";
+		std::string createLog_ = "\t[" + className_ + "] : successfully registered\n";
 		KdDebugGUI::Instance().AddLog(createLog_.data());
 #endif
 	}
+
+	const std::unordered_map<std::string, Tag::GameObjectFactoryInfo>& GetGameObjectFactoryMethodList() const { return m_gameObjectFactoryMethodList; }
 
 private:
 
 	void RegisterGameObjectFactoryMethod();
 
-	std::unordered_map<std::string, std::function<std::shared_ptr<KdGameObject>()>> m_gameObjectFactory;
-
+	std::unordered_map<std::string, Tag::GameObjectFactoryInfo> m_gameObjectFactoryMethodList;
 };

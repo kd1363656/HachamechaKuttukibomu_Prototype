@@ -13,14 +13,17 @@ public :
 		Game,
 	};
 
-	void PreUpdate();
-	void Update();
+	void PreUpdate ();
+	void Update    ();
 	void PostUpdate();
 
-	void PreDraw();
-	void Draw();
+	void PreDraw   ();
+	void Draw      ();
 	void DrawSprite();
-	void DrawDebug();
+	void DrawDebug ();
+
+	// 現在のシーンにオブジェクトを追加
+	void AddObject(const std::shared_ptr<KdGameObject>& _obj);
 
 	// 次のシーンをセット (次のフレームから切り替わる)
 	void SetNextScene(SceneType _nextScene)
@@ -30,9 +33,7 @@ public :
 
 	// 現在のシーンのオブジェクトリストを取得
 	const std::list<std::shared_ptr<KdGameObject>>& GetObjList();
-
-	// 現在のシーンにオブジェクトを追加
-	void AddObject(const std::shared_ptr<KdGameObject>& _obj);
+	std::weak_ptr<BaseScene> GetCurrentScene() { return m_currentScene; }
 
 private :
 

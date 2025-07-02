@@ -5,14 +5,16 @@ class ActorBase : public KdGameObject
 {
 public:
 
-	ActorBase         ()         = default;
+	ActorBase()					 = default;
 	virtual ~ActorBase()override = default;
 
-	virtual uint32_t GetTypeID()const override = 0;
+	virtual uint32_t GetFinalBaseTypeID()const { return GameObjectID::GetTypeID<ActorBase>(); }
 
-	virtual void Init   () override;
-	virtual void DrawLit() override;
-	virtual void Update () override;
+	virtual void RegisterBaseID()override;
+
+	virtual void Init    () override;
+	virtual void DrawLit () override;
+	virtual void Update  () override;
 
 protected:
 

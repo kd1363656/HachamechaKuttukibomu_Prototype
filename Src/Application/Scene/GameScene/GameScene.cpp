@@ -14,4 +14,5 @@ void GameScene::Event()
 
 void GameScene::Init()
 {
+	
 }

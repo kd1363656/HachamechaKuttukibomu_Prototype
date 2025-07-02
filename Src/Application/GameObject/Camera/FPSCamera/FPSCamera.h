@@ -7,6 +7,8 @@ public:
 	FPSCamera()							{}
 	~FPSCamera()			override	{}
 
+	uint32_t GetTypeID()const override { return GameObjectID::GetTypeID<FPSCamera>(); }
+
 	void Init()				override;
 	void PostUpdate()		override;
 };

@@ -1,7 +1,18 @@
 ﻿#include "ActorBase.h"
 
+#include "../../Factory/Factory.h"
+
+void ActorBase::RegisterBaseID()
+{
+	KdGameObject::RegisterBaseID();
+
+	AddBaseTypeIDs(GameObjectID::GetTypeID<ActorBase>());
+}
+
 void ActorBase::Init()
 {
+	KdGameObject::Init();
+	
 	m_transform    = {};
 	m_materialInfo = {};
 }

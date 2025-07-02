@@ -1,5 +1,8 @@
 ﻿#include "Factory.h"
 
+#include "../GameObject/Camera/FPSCamera/FPSCamera.h"
+#include "../GameObject/Camera/TPSCamera/TPSCamera.h"
+
 #include "../GameObject/Actor/Player/Player.h"
 
 void Factory::Init()
@@ -24,12 +27,15 @@ void Factory::StripClassPrefix(std::string& ClassName)
 void Factory::RegisterGameObjectFactoryMethod()
 {
 #ifdef _DEBUG
-	KdDebugGUI::Instance().AddLog("=== Start register gameObject factory ===\n");
+	KdDebugGUI::Instance().AddLog("============ Start register gameObject factory ============\n\n");
 #endif // _DEBUG
+
+	RegisterGameObjectFuctoryMethod<FPSCamera>();
+	RegisterGameObjectFuctoryMethod<TPSCamera>();
 
 	RegisterGameObjectFuctoryMethod<Player>();
 
 #ifdef _DEBUG
-	KdDebugGUI::Instance().AddLog("=== End register gameObject factory =====\n");
+	KdDebugGUI::Instance().AddLog("\n============ End register gameObject factory ==============\n\n\n\n");
 #endif // _DEBUG
 }

@@ -7,6 +7,8 @@ public:
 	TPSCamera()							{}
 	~TPSCamera()			override	{}
 
+	uint32_t GetTypeID()const override { return GameObjectID::GetTypeID<TPSCamera>(); }
+	
 	void Init()				override;
 	void PostUpdate()		override;
 };

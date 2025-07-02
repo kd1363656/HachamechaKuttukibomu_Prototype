@@ -1,8 +1,8 @@
 ﻿#pragma once
-#define REGISTER_CLASS_NAME(CLASS) \
-    static std::string ClassName() { return #CLASS; }
 
 // ゲーム上に存在するすべてのオブジェクトの基底となるクラス
+// 派生クラスの"Init"でフィルター分けをするために"TypeID"をセットしているが"KdGameObject"ではしない
+// "KdGameObject"から派生したクラスでフィルター分けしないと意味がないから
 class KdGameObject : public std::enable_shared_from_this<KdGameObject>
 {
 public:
@@ -22,8 +22,11 @@ public:
 
 	// 安全にダウンキャストするために必要な"ID"とても重要
 	virtual uint32_t GetTypeID()const = 0;
+	// 派生する前の最後の基底クラスのみを知りたいときに使う
+	virtual uint32_t GetFinalBaseTypeID()const = 0;
 
-	// 生成される全てに共通するパラメータに対する初期化のみ
+	virtual void RegisterBaseID();
+
 	virtual void Init();
 
 	virtual void PreUpdate () { /* まだ実装されていません、派生クラスで実装してください */ }
@@ -61,6 +64,8 @@ public:
 
 	const Math::Matrix& GetMatrix() const { return m_mWorld; }
 
+	const std::set<uint32_t>& GetBaseTypeIDs()const { return m_baseTypeIDs; }
+
 	std::string_view GetTypeName()const { return m_typeName; }
 
 	float GetDistSqrFromCamera() const { return m_distSqrFromCamera; }
@@ -80,6 +85,8 @@ protected:
 
 	void Release() { /* まだ実装されていません、派生クラスで実装してください */ }
 
+	void AddBaseTypeIDs(uint32_t BaseTypeID);
+
 	std::unique_ptr<KdCollider> m_pCollider = nullptr;
 
 	std::unique_ptr<KdDebugWireFrame> m_pDebugWire = nullptr;
@@ -94,6 +101,11 @@ protected:
 	UINT m_drawType = 0;
 
 	bool m_isExpired = false;
+
+private:
+
+	// どのクラスで派生しているのかを細かく知るために必要
+	std::set<uint32_t> m_baseTypeIDs;
 };
 
 // ゲームオブジェクトを識別するためのIDを割り振るクラス

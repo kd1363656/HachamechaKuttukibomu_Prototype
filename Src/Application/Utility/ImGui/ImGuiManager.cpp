@@ -1,25 +1,139 @@
-﻿#ifdef _DEBUG
-#include "ImGuiManager.h"
+﻿#include "ImGuiManager.h"
 
 #include "../../main.h"
 
+#include "../../GameObject/Camera/CameraBase.h"
+
+#include "../../GameObject/Actor/ActorBase.h"
+
+#include "../../Factory/Factory.h"
+
+#include "../../Scene/SceneManager.h"
+#include "../../Scene/BaseScene/BaseScene.h"
+
 void ImGuiManager::Init()
 {
-	// TODO
+	GenereateGameObjectNameFilter<CameraBase>();
+	GenereateGameObjectNameFilter<ActorBase> ();
 }
 
 void ImGuiManager::Update()
 {
-	// デバッグウィンドウ(日本語を表示したい場合はこう書く)
-	if (ImGui::Begin(U8("WorldSetting")))
+	//ImGui::ShowDemoWindow();
+
+	WorldSettingInspector();
+	FactoryInspector     ();
+}
+
+void ImGuiManager::StripClassPrefix(std::string& ClassName)
+{
+	if (ClassName.empty())return;
+
+	if (ClassName.starts_with("class "))
 	{
-		if(ImGui::TreeNode("TimeDilation"))
+		ClassName.erase(0, 6);
+	}
+	else
+	{
+		assert(false && "クラスの書き方を確認してください");
+	}
+}
+
+void ImGuiManager::WorldSettingInspector()
+{
+	if (ImGui::Begin("WorldSetting"))
+	{
+		if (ImGui::TreeNode("TimeDilation"))
 		{
-			ImGui::DragFloat("TimeScale" , Application::Instance().GetTimeScalePtr() , 0.1f , 0.0f , 1.0f);
+			ImGui::DragFloat("TimeScale", Application::Instance().GetTimeScalePtr(), 0.1f, 0.0f, 1.0f);
 
 			ImGui::TreePop();
 		}
 	}
 	ImGui::End();
 }
-#endif
+
+void ImGuiManager::FactoryInspector()
+{
+	auto& factory_ = Factory::GetInstance();
+
+	// デバッグウィンドウ(日本語を表示したい場合はこう書く)
+	if (ImGui::Begin("FactoryInspector"))
+	{
+		// まず登録した基底クラスの"ID"が見つかるかどうかを探す
+		auto itr_ = m_gameObjectNameFilter.find(GameObjectID::GetTypeID<ActorBase>());
+
+		if(itr_ != m_gameObjectNameFilter.end())
+		{
+			std::string baseTypeName = itr_->second;
+
+			// 見つかったらその基底クラスを含んだ派生クラスをファクトリーのコンボボックスに表示されるようにする
+			if(ImGui::TreeNode(baseTypeName.data()))
+			{
+				// 基底クラスの"ID"を送る
+				SelectCreateObjectInspector(itr_->first);
+				CreateSelectedObjectInspector();
+				ImGui::TreePop();
+			}
+		}
+	}
+	ImGui::End();
+}
+
+void ImGuiManager::SelectCreateObjectInspector(uint32_t BaseTypeID)
+{
+	auto& factory_ = Factory::GetInstance();
+
+	// "ImGui::BeginCombo"は第一引数に何か文字列を入れないとしっかり動作してくれないことが分かった
+	if (ImGui::BeginCombo("## Hidden", m_createObjectName.c_str()))
+	{
+		for(const auto& [key_ , value_] : factory_.GetGameObjectFactoryMethodList())
+		{
+			// 最終の基底クラスの"ID"と一致しなければ処理を飛ばす
+			if (value_.finalBaseTypeID != BaseTypeID)continue;
+		
+			const char* className_ = key_.data();
+
+			// ファクトリーに登録されている名前と今選択している名前が一致しているかどうかを確認
+			bool isSelected_ = (m_createObjectName == className_);
+
+			// ImGui::Selectableはユーザーが項目をクリックしたときだけ"true"を返す
+			if (ImGui::Selectable(className_ , isSelected_))
+			{
+				m_createObjectName = className_;
+			}
+
+			if (isSelected_)
+			{
+				// 選ばれている項目にフォーカスする(カーソルが合うように)
+				ImGui::SetItemDefaultFocus();
+			}
+		}
+
+		ImGui::EndCombo();
+	}
+}
+
+void ImGuiManager::CreateSelectedObjectInspector()
+{
+	auto& sceneManager_ = SceneManager::Instance();
+	auto& factory_      = Factory::GetInstance  ();
+
+	if (auto scene_ = sceneManager_.GetCurrentScene().lock())
+	{
+		// ウィジェットの位置を改行せずに離す形で配置する
+		ImGui::SameLine(350.0f);
+
+		if (ImGui::Button("Add Actor"))
+		{
+			if (auto itr_      = factory_.GetGameObjectFactoryMethodList().find(m_createObjectName);
+				auto instance_ = itr_->second.gameObjectFactoryMethod()							  )
+			{
+				// しっかりと初期化してから渡す
+				instance_->Init();
+
+				scene_->AddObject(instance_);
+			}
+		}
+	}
+}

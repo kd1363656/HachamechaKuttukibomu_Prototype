@@ -1,5 +1,12 @@
 ﻿#include "CameraBase.h"
 
+void CameraBase::RegisterBaseID()
+{
+	KdGameObject::RegisterBaseID();
+
+	AddBaseTypeIDs(GameObjectID::GetTypeID<CameraBase>());
+}
+
 void CameraBase::Init()
 {
 	if (!m_spCamera)
