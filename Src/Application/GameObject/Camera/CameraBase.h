@@ -8,8 +8,6 @@ public:
 
 	virtual uint32_t GetFinalBaseTypeID()const override { return GameObjectID::GetTypeID<CameraBase>(); }
 
-	void RegisterBaseID()override;
-
 	void Init()				override;
 	void PreDraw()			override;
 

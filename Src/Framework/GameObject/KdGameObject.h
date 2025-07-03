@@ -25,8 +25,6 @@ public:
 	// 派生する前の最後の基底クラスのみを知りたいときに使う
 	virtual uint32_t GetFinalBaseTypeID()const = 0;
 
-	virtual void RegisterBaseID();
-
 	virtual void Init();
 
 	virtual void PreUpdate () { /* まだ実装されていません、派生クラスで実装してください */ }
@@ -42,6 +40,9 @@ public:
 	virtual void DrawBright               () { /* まだ実装されていません、派生クラスで実装してください */ }
 	virtual void DrawSprite               () { /* まだ実装されていません、派生クラスで実装してください */ }
 	virtual void DrawDebug				  ();
+
+	// "ImGuiManager"で管理するよりこちらで管理したほうが柔軟性、拡張性が高いからここに書く
+	virtual void ImGuiInspector() { /* まだ実装されていません、派生クラスで実装してください */ }
 
 	virtual void LoadAsset(const std::string&) {/* まだ実装されていません、派生クラスで実装してください */ }
 
@@ -64,8 +65,6 @@ public:
 
 	const Math::Matrix& GetMatrix() const { return m_mWorld; }
 
-	const std::set<uint32_t>& GetBaseTypeIDs()const { return m_baseTypeIDs; }
-
 	std::string_view GetTypeName()const { return m_typeName; }
 
 	float GetDistSqrFromCamera() const { return m_distSqrFromCamera; }
@@ -85,8 +84,6 @@ protected:
 
 	void Release() { /* まだ実装されていません、派生クラスで実装してください */ }
 
-	void AddBaseTypeIDs(uint32_t BaseTypeID);
-
 	std::unique_ptr<KdCollider> m_pCollider = nullptr;
 
 	std::unique_ptr<KdDebugWireFrame> m_pDebugWire = nullptr;
@@ -101,11 +98,6 @@ protected:
 	UINT m_drawType = 0;
 
 	bool m_isExpired = false;
-
-private:
-
-	// どのクラスで派生しているのかを細かく知るために必要
-	std::set<uint32_t> m_baseTypeIDs;
 };
 
 // ゲームオブジェクトを識別するためのIDを割り振るクラス
@@ -116,10 +108,10 @@ class GameObjectID
 {
 public:
 
-	template <class T>
+	template <class ObjectType>
 	static inline uint32_t GetTypeID()
 	{
-		static_assert(std::is_base_of_v<KdGameObject, T>, "KdGameObjectが継承されていないクラスにIDを付与しようとしています、コードを確認してください");
+		static_assert(std::is_base_of_v<KdGameObject, ObjectType>, "KdGameObjectが継承されていないクラスにIDを付与しようとしています、コードを確認してください");
 		static uint32_t id_ = GenerateID();
 		return id_;
 	}

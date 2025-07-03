@@ -1,16 +1,20 @@
 ﻿#pragma once
+#include "../Utility/SingletonBase.h"
 
 class BaseScene;
 
-class SceneManager
+class SceneManager : public SingletonBase<SceneManager>
 {
 public :
+
+	SceneManager () { Init(); }
+	~SceneManager() {}
 
 	// シーン情報
 	enum class SceneType
 	{
-		Title,
-		Game,
+		Title ,
+		Game  ,
 	};
 
 	void PreUpdate ();
@@ -56,21 +60,4 @@ private :
 	
 	// 次のシーンの種類を保持している変数
 	SceneType m_nextSceneType = m_currentSceneType;
-
-private:
-
-	SceneManager() { Init(); }
-	~SceneManager() {}
-
-public:
-
-	// シングルトンパターン
-	// 常に存在する && 必ず1つしか存在しない(1つしか存在出来ない)
-	// どこからでもアクセスが可能で便利だが
-	// 何でもかんでもシングルトンという思考はNG
-	static SceneManager& Instance()
-	{
-		static SceneManager instance;
-		return instance;
-	}
 };

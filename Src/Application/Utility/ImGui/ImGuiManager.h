@@ -1,6 +1,6 @@
 ﻿#pragma once
-
 #include "../SingletonBase.h"
+#include "../StringUtility.h"
 
 class ImGuiManager : public SingletonBase<ImGuiManager>
 {
@@ -11,10 +11,6 @@ public:
 
 	void Init  ();
 	void Update();
-
-	// 同じ関数を"Factory.h"でも使っているが"StringUtility.h"を作ってまで共通化するにしては使う場面が少ないし大げさ
-	// だからコピ-したものを使っています
-	void StripClassPrefix(std::string& ClassName);
 
 	// テンプレートの特殊化で生成した一意な"ID"とそのクラスの基底クラスの名前を結びつける
 	template <class ObjectType>
@@ -30,7 +26,7 @@ public:
 
 		std::string className_ = typeid(ObjectType).name();
 
-		StripClassPrefix(className_);
+		StringUtility::StripClassPrefix(className_);
 
 		m_gameObjectNameFilter.emplace(id_ , className_);
 	}
@@ -46,7 +42,7 @@ private:
 	void DrawCreateButton         (const char* WidgetLabel);
 
 	void DrawTransformInspector();
-
+	
 	// 対応するファクトリーごとに名前を変えていたら霧がないので一つだけ使用
 	// これだけでも十分成り立つ
 	std::string m_createObjectName = "Player";

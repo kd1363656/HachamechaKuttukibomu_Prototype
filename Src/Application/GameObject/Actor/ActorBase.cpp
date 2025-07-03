@@ -2,13 +2,6 @@
 
 #include "../../Factory/Factory.h"
 
-void ActorBase::RegisterBaseID()
-{
-	KdGameObject::RegisterBaseID();
-
-	AddBaseTypeIDs(GameObjectID::GetTypeID<ActorBase>());
-}
-
 void ActorBase::Init()
 {
 	KdGameObject::Init();
@@ -27,6 +20,13 @@ void ActorBase::DrawLit()
 void ActorBase::Update()
 {
 	FixMatrix();
+}
+
+void ActorBase::ImGuiInspector()
+{
+	ImGui::DragFloat3("Location" , &m_transform.location.x , 0.1f);
+	ImGui::DragFloat3("Rotation" , &m_transform.rotation.x , 1.0f);
+	ImGui::DragFloat3("Scale"    , &m_transform.scale.x    , 0.1f);
 }
 
 void ActorBase::FixMatrix()

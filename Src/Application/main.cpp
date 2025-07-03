@@ -63,7 +63,7 @@ void Application::KdPostUpdate()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::PreUpdate()
 {
-	SceneManager::Instance().PreUpdate();
+	SceneManager::GetInstance().PreUpdate();
 }
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
@@ -71,7 +71,7 @@ void Application::PreUpdate()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::Update()
 {
-	SceneManager::Instance().Update();
+	SceneManager::GetInstance().Update();
 }
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
@@ -79,7 +79,7 @@ void Application::Update()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::PostUpdate()
 {
-	SceneManager::Instance().PostUpdate();
+	SceneManager::GetInstance().PostUpdate();
 }
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
@@ -112,7 +112,7 @@ void Application::KdPostDraw()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::PreDraw()
 {
-	SceneManager::Instance().PreDraw();
+	SceneManager::GetInstance().PreDraw();
 }
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
@@ -120,7 +120,7 @@ void Application::PreDraw()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::Draw()
 {
-	SceneManager::Instance().Draw();
+	SceneManager::GetInstance().Draw();
 }
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
@@ -132,7 +132,7 @@ void Application::PostDraw()
 	KdShaderManager::Instance().m_postProcessShader.PostEffectProcess();
 
 	// 現在のシーンのデバッグ描画
-	SceneManager::Instance().DrawDebug();
+	SceneManager::GetInstance().DrawDebug();
 }
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
@@ -140,7 +140,7 @@ void Application::PostDraw()
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 void Application::DrawSprite()
 {
-	SceneManager::Instance().DrawSprite();
+	SceneManager::GetInstance().DrawSprite();
 }
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////

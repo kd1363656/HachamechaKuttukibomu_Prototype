@@ -1,14 +1,9 @@
 ﻿#include "CameraBase.h"
 
-void CameraBase::RegisterBaseID()
-{
-	KdGameObject::RegisterBaseID();
-
-	AddBaseTypeIDs(GameObjectID::GetTypeID<CameraBase>());
-}
-
 void CameraBase::Init()
 {
+	KdGameObject::Init();
+
 	if (!m_spCamera)
 	{
 		m_spCamera = std::make_shared<KdCamera>();

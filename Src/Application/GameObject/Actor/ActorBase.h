@@ -10,11 +10,11 @@ public:
 
 	virtual uint32_t GetFinalBaseTypeID()const { return GameObjectID::GetTypeID<ActorBase>(); }
 
-	virtual void RegisterBaseID()override;
-
 	virtual void Init    () override;
 	virtual void DrawLit () override;
 	virtual void Update  () override;
+
+	virtual void ImGuiInspector()override;
 
 protected:
 

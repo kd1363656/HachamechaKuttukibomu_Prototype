@@ -5,7 +5,7 @@ void TitleScene::Event()
 {
 	if (GetAsyncKeyState(VK_RETURN) & 0x8000)
 	{
-		SceneManager::Instance().SetNextScene
+		SceneManager::GetInstance().SetNextScene
 		(
 			SceneManager::SceneType::Game
 		);

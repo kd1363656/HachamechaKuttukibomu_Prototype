@@ -318,6 +318,9 @@
     <ClInclude Include="Src\Application\Utility\InputManager\RawInputManager.h">
       <Filter>Src\Application\Utility\InputManager</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Utility\StringUtility.h">
+      <Filter>Src\Application\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">

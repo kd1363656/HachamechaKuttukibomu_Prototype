@@ -1,9 +1,6 @@
 ﻿#include "KdGameObject.h"
 
-void KdGameObject::RegisterBaseID()
-{
-	AddBaseTypeIDs(GameObjectID::GetTypeID<KdGameObject>());
-}
+#include "../Src/Application/Utility/StringUtility.h"
 
 void KdGameObject::Init()
 {
@@ -12,6 +9,8 @@ void KdGameObject::Init()
 	// "Json"ファイルに登録するためだけに使用
 	// 本来なら"typeid"はコンパイラ依存なので使用すべきでない(実装優先なので細かいことはしない)
 	m_typeName = typeid(*this).name();
+	// 名前を整形
+	StringUtility::StripClassPrefix(m_typeName);
 
 	m_isExpired = false;
 
@@ -75,9 +74,4 @@ void KdGameObject::SetScale(const Math::Vector3& scale)
 	m_mWorld.Right   (vecX * scale.x);
 	m_mWorld.Up      (vecY * scale.y);
 	m_mWorld.Backward(vecZ * scale.z);
-}
-
-void KdGameObject::AddBaseTypeIDs(uint32_t BaseTypeID)
-{
-	m_baseTypeIDs.insert(BaseTypeID);
 }

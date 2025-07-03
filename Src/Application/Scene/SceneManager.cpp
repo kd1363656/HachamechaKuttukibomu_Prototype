@@ -47,7 +47,7 @@ void SceneManager::DrawDebug()
 
 const std::list<std::shared_ptr<KdGameObject>>& SceneManager::GetObjList()
 {
-	return m_currentScene->GetObjList();
+	return m_currentScene->GetObjectList();
 }
 
 void SceneManager::AddObject(const std::shared_ptr<KdGameObject>& _obj)

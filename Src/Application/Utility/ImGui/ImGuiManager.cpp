@@ -21,22 +21,9 @@ void ImGuiManager::Update()
 {
 	//ImGui::ShowDemoWindow();
 
-	DrawWorldSettingPanel();
-	DrawFactoryPanel     ();
-}
-
-void ImGuiManager::StripClassPrefix(std::string& ClassName)
-{
-	if (ClassName.empty())return;
-
-	if (ClassName.starts_with("class "))
-	{
-		ClassName.erase(0, 6);
-	}
-	else
-	{
-		assert(false && "クラスの書き方を確認してください");
-	}
+	DrawWorldSettingPanel ();
+	DrawFactoryPanel      ();
+	DrawTransformInspector();
 }
 
 void ImGuiManager::DrawWorldSettingPanel()
@@ -120,7 +107,7 @@ void ImGuiManager::DrawClassSelectorDropdown(uint32_t BaseTypeID)
 
 void ImGuiManager::DrawCreateButton(const char* WidgetLabel)
 {
-	auto& sceneManager_ = SceneManager::Instance();
+	auto& sceneManager_ = SceneManager::GetInstance();
 	auto& factory_      = Factory::GetInstance  ();
 
 	if (auto scene_ = sceneManager_.GetCurrentScene().lock())
@@ -137,6 +124,11 @@ void ImGuiManager::DrawCreateButton(const char* WidgetLabel)
 				// 初期化してから渡す
 				instance_->Init();
 
+				std::string log_ = "Add ";
+				log_ += instance_->GetTypeName().data();
+
+				KdDebugGUI::Instance().AddLog(log_.data());
+
 				scene_->AddObject(instance_);
 			}
 		}
@@ -145,11 +137,27 @@ void ImGuiManager::DrawCreateButton(const char* WidgetLabel)
 
 void ImGuiManager::DrawTransformInspector()
 {
-
-
-	auto scene_ = SceneManager::Instance().GetCurrentScene().lock();
+	auto scene_ = SceneManager::GetInstance().GetCurrentScene().lock();
 
 	if (!scene_)return;
 
+	if (ImGui::Begin("TransformInspector"))
+	{
+		for (auto cache_ : scene_->GetCacheObjectList<ActorBase>())
+		{
+			if (auto wp_ = cache_.lock())
+			{
+				std::string className_ = wp_->GetTypeName().data();
+				// ウィジェットの"TreeNode"が個別に識別できるようにポインターを刷り込ませる
+				className_ += "##" + std::to_string(reinterpret_cast<uintptr_t>(wp_.get()));
 
+				if(ImGui::TreeNode(className_.data()))
+				{
+					wp_->ImGuiInspector();
+					ImGui::TreePop();
+				}
+			}
+		}
+	}
+	ImGui::End();
 }

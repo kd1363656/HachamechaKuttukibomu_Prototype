@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "../Utility/SingletonBase.h"
 #include "../Utility/Struct.h"
+#include "../Utility/StringUtility.h"
 
 // "class"は必ず"class Name"と書く、でなければバグがファクトリーメソッドで発生する
 class Factory : public SingletonBase<Factory>
@@ -12,8 +13,6 @@ public:
 
 	void Init();
 
-	void StripClassPrefix(std::string& ClassName);
-
 	// "KdGameObject"の派生クラスの名前をキーとしてインスタンスを生成する
 	template <class ObjectType>
 	void RegisterGameObjectFuctoryMethod()
@@ -22,7 +21,7 @@ public:
 
 		std::string className_ = typeid(ObjectType).name();
 
-		StripClassPrefix(className_);
+		StringUtility::StripClassPrefix(className_);
 		
 		if (m_gameObjectFactoryMethodList.contains(className_))
 		{

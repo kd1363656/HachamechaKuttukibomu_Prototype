@@ -2,28 +2,12 @@
 
 void BaseScene::PreUpdate()
 {
-	// Updateの前の更新処理
-	// オブジェクトリストの整理 ・・・ 無効なオブジェクトを削除
-	auto it = m_objList.begin();
+	ClearExpiredGameObject         ();
+	ClearExpiredGameObjectCacheList();
 
-	while (it != m_objList.end())
+	for (auto& obj_ : m_objectList)
 	{
-		if ((*it)->IsExpired())	// IsExpired() ・・・ 無効ならtrue
-		{
-			// 無効なオブジェクトをリストから削除
-			it = m_objList.erase(it);
-		}
-		else
-		{
-			++it;	// 次の要素へイテレータを進める
-		}
-	}
-
-	// ↑の後には有効なオブジェクトだけのリストになっている
-
-	for (auto& obj : m_objList)
-	{
-		obj->PreUpdate();
+		obj_->PreUpdate();
 	}
 }
 
@@ -33,25 +17,25 @@ void BaseScene::Update()
 	Event();
 
 	// KdGameObjectを継承した全てのオブジェクトの更新 (ポリモーフィズム)
-	for (auto& obj : m_objList)
+	for (auto& obj_ : m_objectList)
 	{
-		obj->Update();
+		obj_->Update();
 	}
 }
 
 void BaseScene::PostUpdate()
 {
-	for (auto& obj : m_objList)
+	for (auto& obj_ : m_objectList)
 	{
-		obj->PostUpdate();
+		obj_->PostUpdate();
 	}
 }
 
 void BaseScene::PreDraw()
 {
-	for (auto& obj : m_objList)
+	for (auto& obj_ : m_objectList)
 	{
-		obj->PreDraw();
+		obj_->PreDraw();
 	}
 }
 
@@ -61,9 +45,9 @@ void BaseScene::Draw()
 	// 光を遮るオブジェクト(不透明な物体や2Dキャラ)はBeginとEndの間にまとめてDrawする
 	KdShaderManager::Instance().m_StandardShader.BeginGenerateDepthMapFromLight();
 	{
-		for (auto& obj : m_objList)
+		for (auto& obj_ : m_objectList)
 		{
-			obj->GenerateDepthMapFromLight();
+			obj_->GenerateDepthMapFromLight();
 		}
 	}
 	KdShaderManager::Instance().m_StandardShader.EndGenerateDepthMapFromLight();
@@ -72,9 +56,9 @@ void BaseScene::Draw()
 	// 陰影のないオブジェクト(背景など)はBeginとEndの間にまとめてDrawする
 	KdShaderManager::Instance().m_StandardShader.BeginUnLit();
 	{
-		for (auto& obj : m_objList)
+		for (auto& obj_ : m_objectList)
 		{
-			obj->DrawUnLit();
+			obj_->DrawUnLit();
 		}
 	}
 	KdShaderManager::Instance().m_StandardShader.EndUnLit();
@@ -83,9 +67,9 @@ void BaseScene::Draw()
 	// 陰影のあるオブジェクト(不透明な物体や2Dキャラ)はBeginとEndの間にまとめてDrawする
 	KdShaderManager::Instance().m_StandardShader.BeginLit();
 	{
-		for (auto& obj : m_objList)
+		for (auto& obj_ : m_objectList)
 		{
-			obj->DrawLit();
+			obj_->DrawLit();
 		}
 	}
 	KdShaderManager::Instance().m_StandardShader.EndLit();
@@ -94,9 +78,9 @@ void BaseScene::Draw()
 	// 陰影のないオブジェクト(エフェクトなど)はBeginとEndの間にまとめてDrawする
 	KdShaderManager::Instance().m_StandardShader.BeginUnLit();
 	{
-		for (auto& obj : m_objList)
+		for (auto& obj_ : m_objectList)
 		{
-			obj->DrawEffect();
+			obj_->DrawEffect();
 		}
 	}
 	KdShaderManager::Instance().m_StandardShader.EndUnLit();
@@ -105,9 +89,9 @@ void BaseScene::Draw()
 	// 光源オブジェクト(自ら光るオブジェクトやエフェクト)はBeginとEndの間にまとめてDrawする
 	KdShaderManager::Instance().m_postProcessShader.BeginBright();
 	{
-		for (auto& obj : m_objList)
+		for (auto& obj_ : m_objectList)
 		{
-			obj->DrawBright();
+			obj_->DrawBright();
 		}
 	}
 	KdShaderManager::Instance().m_postProcessShader.EndBright();
@@ -119,9 +103,9 @@ void BaseScene::DrawSprite()
 	// 2Dの描画はこの間で行う
 	KdShaderManager::Instance().m_spriteShader.Begin();
 	{
-		for (auto& obj : m_objList)
+		for (auto& obj_ : m_objectList)
 		{
-			obj->DrawSprite();
+			obj_->DrawSprite();
 		}
 	}
 	KdShaderManager::Instance().m_spriteShader.End();
@@ -133,9 +117,9 @@ void BaseScene::DrawDebug()
 	// デバッグ情報の描画はこの間で行う
 	KdShaderManager::Instance().m_StandardShader.BeginUnLit();
 	{
-		for (auto& obj : m_objList)
+		for (auto& obj_ : m_objectList)
 		{
-			obj->DrawDebug();
+			obj_->DrawDebug();
 		}
 	}
 	KdShaderManager::Instance().m_StandardShader.EndUnLit();
@@ -149,4 +133,49 @@ void BaseScene::Event()
 void BaseScene::Init()
 {
 	// 各シーンで必要な内容を実装(オーバーライド)する
+}
+
+void BaseScene::ClearExpiredGameObject()
+{
+	// Updateの前の更新処理
+	// オブジェクトリストの整理 ・・・ 無効なオブジェクトを削除
+	auto itr_ = m_objectList.begin();
+
+	while (itr_ != m_objectList.end())
+	{
+		if ((*itr_)->IsExpired())	// IsExpired() ・・・ 無効なら"true"
+		{
+			// 無効なオブジェクトをリストから削除
+			itr_ = m_objectList.erase(itr_);
+		}
+		else
+		{
+			++itr_;	// 次の要素へイテレータを進める
+		}
+	}
+	// ↑の後には有効なオブジェクトだけのリストになっている
+}
+void BaseScene::ClearExpiredGameObjectCacheList()
+{
+	// もしゲームオブジェクトが"Expired"で切れているなら"WeakPtr"からキャッシュ用の
+	// "WeakPtr"を消す
+	for (auto& [key_ , value_] : m_cachedObjectsByBaseType)
+	{
+		auto itr_ = value_.begin();
+	
+		while (itr_ != value_.end())
+		{
+			auto wp_ = itr_->lock();
+
+			// もし有効な"std::weak_ptr<T>"でなければ消す
+			if (wp_)
+			{
+				++itr_;
+			}
+			else
+			{
+				itr_ = value_.erase(itr_);
+			}
+		}
+	}
 }

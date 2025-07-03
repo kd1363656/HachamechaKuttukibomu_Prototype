@@ -288,6 +288,7 @@
     <ClInclude Include="Src\Application\Utility\ImGui\ImGuiManager.h" />
     <ClInclude Include="Src\Application\Utility\InputManager\RawInputManager.h" />
     <ClInclude Include="Src\Application\Utility\JsonUtility.h" />
+    <ClInclude Include="Src\Application\Utility\StringUtility.h" />
     <ClInclude Include="Src\Application\Utility\Struct.h" />
     <ClInclude Include="Src\Application\Utility\SingletonBase.h" />
     <ClInclude Include="Src\Framework\Direct3D\KdMaterial.h" />
