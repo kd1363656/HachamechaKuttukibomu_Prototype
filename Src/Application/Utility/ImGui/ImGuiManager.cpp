@@ -21,8 +21,8 @@ void ImGuiManager::Update()
 {
 	//ImGui::ShowDemoWindow();
 
-	WorldSettingInspector();
-	FactoryInspector     ();
+	DrawWorldSettingPanel();
+	DrawFactoryPanel     ();
 }
 
 void ImGuiManager::StripClassPrefix(std::string& ClassName)
@@ -39,9 +39,9 @@ void ImGuiManager::StripClassPrefix(std::string& ClassName)
 	}
 }
 
-void ImGuiManager::WorldSettingInspector()
+void ImGuiManager::DrawWorldSettingPanel()
 {
-	if (ImGui::Begin("WorldSetting"))
+	if (ImGui::Begin("WorldSettingPanel"))
 	{
 		if (ImGui::TreeNode("TimeDilation"))
 		{
@@ -53,34 +53,38 @@ void ImGuiManager::WorldSettingInspector()
 	ImGui::End();
 }
 
-void ImGuiManager::FactoryInspector()
+void ImGuiManager::DrawFactoryPanel()
 {
-	auto& factory_ = Factory::GetInstance();
-
-	// デバッグウィンドウ(日本語を表示したい場合はこう書く)
-	if (ImGui::Begin("FactoryInspector"))
+	if (ImGui::Begin("FactoryPanel"))
 	{
-		// まず登録した基底クラスの"ID"が見つかるかどうかを探す
-		auto itr_ = m_gameObjectNameFilter.find(GameObjectID::GetTypeID<ActorBase>());
-
-		if(itr_ != m_gameObjectNameFilter.end())
-		{
-			std::string baseTypeName = itr_->second;
-
-			// 見つかったらその基底クラスを含んだ派生クラスをファクトリーのコンボボックスに表示されるようにする
-			if(ImGui::TreeNode(baseTypeName.data()))
-			{
-				// 基底クラスの"ID"を送る
-				SelectCreateObjectInspector(itr_->first);
-				CreateSelectedObjectInspector();
-				ImGui::TreePop();
-			}
-		}
+		DrawFactoryPanel(GameObjectID::GetTypeID<ActorBase >() , "Add Actor" );
+		DrawFactoryPanel(GameObjectID::GetTypeID<CameraBase>() , "Add Camera");
 	}
 	ImGui::End();
 }
 
-void ImGuiManager::SelectCreateObjectInspector(uint32_t BaseTypeID)
+void ImGuiManager::DrawFactoryPanel(uint32_t BaseTypeID, const char* WidgetLabel)
+{
+	// まず登録した基底クラスの"ID"が見つかるかどうかを探す
+	auto itr_ = m_gameObjectNameFilter.find(BaseTypeID);
+
+	if (itr_ != m_gameObjectNameFilter.end())
+	{
+		std::string baseTypeName = itr_->second;
+
+		// 見つかったらその基底クラスを含んだ派生クラスをファクトリーのコンボボックスに表示されるようにする
+		if (ImGui::TreeNode(baseTypeName.data()))
+		{
+			// 基底クラスの"ID"を送りその基底クラスの"ID"とファクトリーが保持している
+			// "ID"が一致すれば基底クラスを継承した派生クラスなのでウェジットに表示する
+			DrawClassSelectorDropdown(itr_->first);
+			DrawCreateButton         (WidgetLabel);
+			ImGui::TreePop();
+		}
+	}
+}
+
+void ImGuiManager::DrawClassSelectorDropdown(uint32_t BaseTypeID)
 {
 	auto& factory_ = Factory::GetInstance();
 
@@ -114,7 +118,7 @@ void ImGuiManager::SelectCreateObjectInspector(uint32_t BaseTypeID)
 	}
 }
 
-void ImGuiManager::CreateSelectedObjectInspector()
+void ImGuiManager::DrawCreateButton(const char* WidgetLabel)
 {
 	auto& sceneManager_ = SceneManager::Instance();
 	auto& factory_      = Factory::GetInstance  ();
@@ -124,16 +128,28 @@ void ImGuiManager::CreateSelectedObjectInspector()
 		// ウィジェットの位置を改行せずに離す形で配置する
 		ImGui::SameLine(350.0f);
 
-		if (ImGui::Button("Add Actor"))
+		if (ImGui::Button(WidgetLabel))
 		{
+			// しっかりとファクトリーに登録されているか確認
 			if (auto itr_      = factory_.GetGameObjectFactoryMethodList().find(m_createObjectName);
 				auto instance_ = itr_->second.gameObjectFactoryMethod()							  )
 			{
-				// しっかりと初期化してから渡す
+				// 初期化してから渡す
 				instance_->Init();
 
 				scene_->AddObject(instance_);
 			}
 		}
 	}
+}
+
+void ImGuiManager::DrawTransformInspector()
+{
+
+
+	auto scene_ = SceneManager::Instance().GetCurrentScene().lock();
+
+	if (!scene_)return;
+
+
 }

@@ -2,7 +2,7 @@
 #include "../Utility/SingletonBase.h"
 #include "../Utility/Struct.h"
 
-// "class"は必ず"class Name"と書く、さもなければバグが発生する
+// "class"は必ず"class Name"と書く、でなければバグがファクトリーメソッドで発生する
 class Factory : public SingletonBase<Factory>
 {
 public:

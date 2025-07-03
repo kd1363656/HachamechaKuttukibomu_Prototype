@@ -37,13 +37,18 @@ public:
 
 private:
 
-	void WorldSettingInspector();
-	void FactoryInspector     ();
+	void DrawWorldSettingPanel();
 
-	void SelectCreateObjectInspector (uint32_t BaseTypeID);
+	void DrawFactoryPanel();
+	void DrawFactoryPanel(uint32_t BaseTypeID , const char* WidgetLabel);
 
-	void CreateSelectedObjectInspector();
+	void DrawClassSelectorDropdown(uint32_t BaseTypeID);
+	void DrawCreateButton         (const char* WidgetLabel);
 
+	void DrawTransformInspector();
+
+	// 対応するファクトリーごとに名前を変えていたら霧がないので一つだけ使用
+	// これだけでも十分成り立つ
 	std::string m_createObjectName = "Player";
 
 	std::unordered_map<uint32_t , std::string> m_gameObjectNameFilter;

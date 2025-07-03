@@ -103,6 +103,12 @@
     <Filter Include="Src\Application\Factory">
       <UniqueIdentifier>{a06d722d-a883-4a6a-870a-37362287b6ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\Utility\DebugKey">
+      <UniqueIdentifier>{63419e37-eee8-4c55-8080-2d26323accbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Utility\InputManager">
+      <UniqueIdentifier>{26fa6ce6-2e29-441a-85fc-c7ac97e93b43}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -306,6 +312,12 @@
     <ClInclude Include="Src\Application\Utility\JsonUtility.h">
       <Filter>Src\Application\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Utility\DebugKey\DebugKey.h">
+      <Filter>Src\Application\Utility\DebugKey</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Utility\InputManager\RawInputManager.h">
+      <Filter>Src\Application\Utility\InputManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -469,6 +481,12 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Factory\Factory.cpp">
       <Filter>Src\Application\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Utility\DebugKey\DebugKey.cpp">
+      <Filter>Src\Application\Utility\DebugKey</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Utility\InputManager\RawInputManager.cpp">
+      <Filter>Src\Application\Utility\InputManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

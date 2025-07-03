@@ -284,7 +284,9 @@
     <ClInclude Include="Src\Application\Scene\GameScene\GameScene.h" />
     <ClInclude Include="Src\Application\Scene\SceneManager.h" />
     <ClInclude Include="Src\Application\Scene\TitleScene\TitleScene.h" />
+    <ClInclude Include="Src\Application\Utility\DebugKey\DebugKey.h" />
     <ClInclude Include="Src\Application\Utility\ImGui\ImGuiManager.h" />
+    <ClInclude Include="Src\Application\Utility\InputManager\RawInputManager.h" />
     <ClInclude Include="Src\Application\Utility\JsonUtility.h" />
     <ClInclude Include="Src\Application\Utility\Struct.h" />
     <ClInclude Include="Src\Application\Utility\SingletonBase.h" />
@@ -346,7 +348,9 @@
     <ClCompile Include="Src\Application\Scene\GameScene\GameScene.cpp" />
     <ClCompile Include="Src\Application\Scene\SceneManager.cpp" />
     <ClCompile Include="Src\Application\Scene\TitleScene\TitleScene.cpp" />
+    <ClCompile Include="Src\Application\Utility\DebugKey\DebugKey.cpp" />
     <ClCompile Include="Src\Application\Utility\ImGui\ImGuiManager.cpp" />
+    <ClCompile Include="Src\Application\Utility\InputManager\RawInputManager.cpp" />
     <ClCompile Include="Src\Framework\Direct3D\KdMaterial.cpp">
       <SubType>
       </SubType>

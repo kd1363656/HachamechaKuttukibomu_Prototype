@@ -2,6 +2,8 @@
 
 #include "KdWindow.h"
 
+#include "../Src/Application/Utility/InputManager/RawInputManager.h"
+
 // ImGui
 LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -63,6 +65,17 @@ bool KdWindow::Create(int clientWidth, int clientHeight, std::string_view titleN
 	ShowWindow(m_hWnd, SW_SHOW);
 	//ウィンドウの更新
 	UpdateWindow(m_hWnd);
+
+	// ===============================
+	//  RawInputSystemの初期化
+	// ===============================
+
+	RawInputManager& manager_ = RawInputManager::GetInstance();
+
+	// ウィンドウズハンドルの初期化
+	manager_.SetHWnd(m_hWnd);
+	// デバイスの登録
+	manager_.RegisterDevice();
 
 	// timeGetTime関数の精度を1msに設定
 	timeBeginPeriod(1);
@@ -141,6 +154,11 @@ LRESULT KdWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 	//メッセージによって処理を選択
 	//===================================
 	switch (message) {
+	case WM_INPUT:
+		{
+			RawInputManager::GetInstance().ProcessInput(lParam);
+		}
+
 	// ホイールスクロール時
 	case WM_MOUSEWHEEL:
 		{

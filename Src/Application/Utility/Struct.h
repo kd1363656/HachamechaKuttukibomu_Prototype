@@ -13,6 +13,14 @@ namespace Tag
 		{}
 	};
 
+	// フラグはこのまま将来増えないので"bool"で管理
+	struct KeyToggleInfo
+	{
+		int  keyCode   = NULL;
+		bool isActive  = false;
+		bool isKeyHeld = false;
+	};
+
 	// 3Dのゲームオブジェクトに最低限必要なパラメータ
 	struct Transform3D
 	{

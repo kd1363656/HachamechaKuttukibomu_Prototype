@@ -4,17 +4,17 @@ class BaseScene
 {
 public :
 
-	BaseScene()			 { Init(); }
+	BaseScene         () { Init(); }
 	virtual ~BaseScene() {}
 
-	void PreUpdate();
-	void Update();
+	void PreUpdate ();
+	void Update    ();
 	void PostUpdate();
 
-	void PreDraw();
-	void Draw();
+	void PreDraw   ();
+	void Draw      ();
 	void DrawSprite();
-	void DrawDebug();
+	void DrawDebug ();
 
 	// オブジェクトリストを取得
 	const std::list<std::shared_ptr<KdGameObject>>& GetObjList()
@@ -36,4 +36,6 @@ protected :
 
 	// 全オブジェクトのアドレスをリストで管理
 	std::list<std::shared_ptr<KdGameObject>> m_objList;
+
+	//std::list<uint32_t, std::list<std::weak_ptr<KdGameObject>>> m_objectCacheList;
 };
