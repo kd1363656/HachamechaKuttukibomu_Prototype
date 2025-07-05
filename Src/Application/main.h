@@ -15,6 +15,8 @@ public:
 	// アプリケーション終了
 	void End()							{ m_endFlag = true; }
 
+	const KdWindow& GetWindow()const { return m_window; }
+
 	HWND GetWindowHandle  ()	 const	{ return m_window.GetWndHandle    (); }
 	int GetMouseWheelValue()	 const	{ return m_window.GetMouseWheelVal(); }
 

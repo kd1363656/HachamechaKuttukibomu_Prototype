@@ -23,6 +23,8 @@ void FPSCamera::PostUpdate()
 
 	// カメラの回転
 	UpdateRotateByMouse();
+	
+
 	m_mRotation = GetRotationMatrix();
 	m_mWorld	= m_mRotation * m_mLocalPos * _targetMat;
 }

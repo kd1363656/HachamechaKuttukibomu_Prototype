@@ -11,6 +11,8 @@
 #include "../../Scene/SceneManager.h"
 #include "../../Scene/BaseScene/BaseScene.h"
 
+#include "../InputManager/RawInputManager.h"
+
 void ImGuiManager::Init()
 {
 	GenereateGameObjectNameFilter<CameraBase>();
@@ -20,10 +22,91 @@ void ImGuiManager::Init()
 void ImGuiManager::Update()
 {
 	//ImGui::ShowDemoWindow();
+	DrawProjectPanel();
 
-	DrawWorldSettingPanel ();
-	DrawFactoryPanel      ();
-	DrawTransformInspector();
+	DrawWorldSettingPanel();
+
+	DrawUserInputInfoPanel();
+
+	DrawFactoryPanel     ();
+	DrawInspector        ();
+
+	DrawPopups();
+}
+
+void ImGuiManager::DrawProjectPanel()
+{
+	auto& scene_ = SceneManager::GetInstance();
+
+	if (!scene_.GetGameObjectFileIO())return;
+
+	if (ImGui::Begin("Project" , nullptr , ImGuiWindowFlags_MenuBar))
+	{
+		if (ImGui::BeginMenuBar())
+		{
+			if (ImGui::BeginMenu("File"))
+			{
+				if(ImGui::MenuItem("Save"))
+				{
+					scene_.GetGameObjectFileIO()->SaveSceneData();
+
+					// セーブ完了モーダルポップアップの描画
+					m_isShowSavePopUp = true;
+					
+				}
+				if(ImGui::MenuItem("Load"))
+				{
+					// TODO
+				}
+
+				ImGui::EndMenu();
+			}
+
+			ImGui::EndMenuBar();
+		}
+	}
+
+	ImGui::End();
+}
+
+void ImGuiManager::DrawUserInputInfoPanel()
+{
+	auto& input_ = RawInputManager::GetInstance();
+
+	if(ImGui::Begin("UserInputInfoPanel"))
+	{
+		ImGui::Separator();
+		if(ImGui::TreeNode("KeyInfo"))
+		{
+			if(ImGui::BeginChild(ImGui::GetID((void*)0) , ImVec2(260.0f , 100.0f) , ImGuiWindowFlags_NoTitleBar))
+			{
+				for(auto& [key_ , value_] : input_.GetKeyStateList())
+				{
+					ImGui::Text("Virtual Key Codes %d : State %s",  key_ , JudgeInputStatus(value_));
+				}
+			}
+			ImGui::EndChild();
+
+			ImGui::TreePop();
+		}
+
+		ImGui::Separator();
+		if(ImGui::TreeNode("MouseInfo"))
+		{
+			Mouse::Data mouseData_ = input_.GetMouseData();
+			
+			ImGui::Separator();
+			ImGui::Text("Mouse LocationX           : %.2f" , mouseData_.location.x);
+			ImGui::Text("Mouse LocationY           : %.2f" , mouseData_.location.y);
+			ImGui::Separator();
+			ImGui::Text("Mouse Click Middle Status : %s"   , JudgeInputStatus(mouseData_.isClickMiddle));
+			ImGui::Text("Mouse Click Left   Status : %s"   , JudgeInputStatus(mouseData_.isClickLeft  ));
+			ImGui::Text("Mouse Click Right  Status : %s"   , JudgeInputStatus(mouseData_.isClickRight ));
+
+			ImGui::TreePop();
+		}
+	}
+	ImGui::End();
 }
 
 void ImGuiManager::DrawWorldSettingPanel()
@@ -45,7 +128,9 @@ void ImGuiManager::DrawFactoryPanel()
 	if (ImGui::Begin("FactoryPanel"))
 	{
 		DrawFactoryPanel(GameObjectID::GetTypeID<ActorBase >() , "Add Actor" );
+		ImGui::Separator();
 		DrawFactoryPanel(GameObjectID::GetTypeID<CameraBase>() , "Add Camera");
+		ImGui::Separator();
 	}
 	ImGui::End();
 }
@@ -113,7 +198,7 @@ void ImGuiManager::DrawCreateButton(const char* WidgetLabel)
 	if (auto scene_ = sceneManager_.GetCurrentScene().lock())
 	{
 		// ウィジェットの位置を改行せずに離す形で配置する
-		ImGui::SameLine(350.0f);
+		ImGui::SameLine(260.0f);
 
 		if (ImGui::Button(WidgetLabel))
 		{
@@ -126,6 +211,7 @@ void ImGuiManager::DrawCreateButton(const char* WidgetLabel)
 
 				std::string log_ = "Add ";
 				log_ += instance_->GetTypeName().data();
+				log_ += "\n";
 
 				KdDebugGUI::Instance().AddLog(log_.data());
 
@@ -135,29 +221,95 @@ void ImGuiManager::DrawCreateButton(const char* WidgetLabel)
 	}
 }
 
-void ImGuiManager::DrawTransformInspector()
+void ImGuiManager::DrawInspector()
 {
 	auto scene_ = SceneManager::GetInstance().GetCurrentScene().lock();
 
 	if (!scene_)return;
 
-	if (ImGui::Begin("TransformInspector"))
+	if (ImGui::Begin("Inspector"))
 	{
-		for (auto cache_ : scene_->GetCacheObjectList<ActorBase>())
-		{
-			if (auto wp_ = cache_.lock())
-			{
-				std::string className_ = wp_->GetTypeName().data();
-				// ウィジェットの"TreeNode"が個別に識別できるようにポインターを刷り込ませる
-				className_ += "##" + std::to_string(reinterpret_cast<uintptr_t>(wp_.get()));
-
-				if(ImGui::TreeNode(className_.data()))
-				{
-					wp_->ImGuiInspector();
-					ImGui::TreePop();
-				}
-			}
-		}
+		DrawInspector(GameObjectID::GetTypeID<CameraBase>());
+		ImGui::Separator();
+		DrawInspector(GameObjectID::GetTypeID<ActorBase> ());
+		ImGui::Separator();
 	}
 	ImGui::End();
+}
+
+void ImGuiManager::DrawInspector(uint32_t BaseTypeID)
+{
+	// この関数を使っている大本の関数でヌルチェックを行っているがもしかしたら別の関数で使う可能性があるので
+	// ここでもヌルチェックを行う
+	auto scene_ = SceneManager::GetInstance().GetCurrentScene().lock();
+
+	if (!scene_)return;
+
+	auto itr_ = m_gameObjectNameFilter.find(BaseTypeID);
+
+	if (itr_ != m_gameObjectNameFilter.end())
+	{
+		std::string baseTypeName = itr_->second;
+
+		if (ImGui::TreeNode(baseTypeName.data()))
+		{
+			for (auto obj_ : scene_->GetObjectList())
+			{
+				if (obj_->GetFinalBaseTypeID() == BaseTypeID)
+				{
+
+					std::string className_ = obj_->GetTypeName().data();
+					// ウィジェットの"TreeNode"が個別に識別できるようにポインターを刷り込ませる
+					className_ += "##" + std::to_string(reinterpret_cast<uintptr_t>(obj_.get()));
+
+					if (ImGui::TreeNode(className_.data()))
+					{
+						ImGui::SameLine(200.0, 0.0f);
+
+						// ボタンが押されたら対象のオブジェクトを削除
+						if (ImGui::SmallButton("Delete"))
+						{
+							obj_->SetIsExpired(true);
+						}
+
+						DrawSeparate();
+						ImGui::Text("Transform");
+						obj_->ImGuiTransformInspector();
+						DrawSeparate();
+						ImGui::Text("Material");
+						obj_->ImGuiMaterialInspector();
+
+						ImGui::TreePop();
+					}
+				}
+			}
+			ImGui::TreePop();
+		}
+	}
+}
+
+void ImGuiManager::DrawSeparate()
+{
+	ImGui::Spacing  ();
+	ImGui::Separator();
+	ImGui::Spacing  ();
+}
+
+void ImGuiManager::DrawPopups()
+{
+	if (m_isShowSavePopUp)
+	{
+		ImGui::OpenPopup("Save Completed");
+		m_isShowSavePopUp = false;
+	}
+
+	// セーブ完了モーダルポップアップの描画
+	if (ImGui::BeginPopupModal("Save Completed", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+		if (ImGui::Button("/=========Ok==========/"))
+		{
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
+	}
 }

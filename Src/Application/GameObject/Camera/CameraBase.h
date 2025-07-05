@@ -9,7 +9,13 @@ public:
 	virtual uint32_t GetFinalBaseTypeID()const override { return GameObjectID::GetTypeID<CameraBase>(); }
 
 	void Init()				override;
+	void Update()			override;
 	void PreDraw()			override;
+
+	virtual void ImGuiTransformInspector()override;
+
+	void           LoadJsonData(const nlohmann::json Json) override;
+	nlohmann::json SaveJsonData()						   override;
 
 	void SetTarget(const std::shared_ptr<KdGameObject>& target);
 
@@ -28,15 +34,15 @@ public:
 	const Math::Matrix GetRotationMatrix()const
 	{
 		return Math::Matrix::CreateFromYawPitchRoll(
-		       DirectX::XMConvertToRadians(m_DegAng.y),
-		       DirectX::XMConvertToRadians(m_DegAng.x),
-		       DirectX::XMConvertToRadians(m_DegAng.z));
+		       DirectX::XMConvertToRadians(m_degAng.y),
+		       DirectX::XMConvertToRadians(m_degAng.x),
+		       DirectX::XMConvertToRadians(m_degAng.z));
 	}
 
 	const Math::Matrix GetRotationYMatrix() const
 	{
 		return Math::Matrix::CreateRotationY(
-			   DirectX::XMConvertToRadians(m_DegAng.y));
+			   DirectX::XMConvertToRadians(m_degAng.y));
 	}
 
 	void RegistHitObject(const std::shared_ptr<KdGameObject>& object)
@@ -45,9 +51,8 @@ public:
 	}
 
 protected:
-	// カメラ回転用角度
-	Math::Vector3								m_DegAng		= Math::Vector3::Zero;
-
+	
+	void ToggleIsMouseFree  ();
 	void UpdateRotateByMouse();
 
 	std::shared_ptr<KdCamera>					m_spCamera		= nullptr;
@@ -57,6 +62,14 @@ protected:
 	Math::Matrix								m_mLocalPos		= Math::Matrix::Identity;
 	Math::Matrix								m_mRotation		= Math::Matrix::Identity;
 
+	// カメラ回転用角度
+	Math::Vector3								m_degAng   = Math::Vector3::Zero;
+	Math::Vector3							    m_location = Math::Vector3::Zero;
+	
 	// カメラ回転用マウス座標の差分
 	POINT										m_FixMousePos{};
+
+	// TODO
+	bool									    m_isDebugMouseFree      = false;
+	bool									    m_isPressDebugMouseFree = false;
 };

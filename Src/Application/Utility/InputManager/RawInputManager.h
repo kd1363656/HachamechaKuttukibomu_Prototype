@@ -9,7 +9,7 @@ namespace Mouse
 {
 	struct Data
 	{
-		Math::Vector2 pos;
+		Math::Vector2 location;
 		int  wheelDelta;
 		bool isClickMiddle;
 		bool isReleaseMiddle;
@@ -17,7 +17,7 @@ namespace Mouse
 		bool isClickLeft;
 
 		Mouse::Data() :
-			pos			   (Math::Vector2::Zero) , 
+			location	   (Math::Vector2::Zero) , 
 			wheelDelta	   (0)					 ,
 			isClickMiddle  (false)				 ,
 			isReleaseMiddle(false)				 ,
@@ -35,7 +35,18 @@ public:
 	RawInputManager () = default;
 	~RawInputManager() = default;
 
+	void ResetKeyStates();
+
 	void SetHWnd(HWND Set) { m_hWnd = Set; }
+
+	const std::unordered_map<int, bool>& GetKeyStateList()const { return m_keyStateList; }
+
+	// キー入力状態を取得する
+	bool GetKeyState(int VKey)
+	{
+		auto itr_ = m_keyStateList.find(VKey);
+		return (itr_ != m_keyStateList.end() && itr_->second);
+	}
 
 	// キーボードのコールバック設定関数
 	void SetKeyboardCallback(std::function<void(int Key , bool Pressed)> callback)
@@ -61,13 +72,6 @@ public:
 		m_gamepadStickCallback = callback;
 	}
 
-	// キー入力状態を取得する
-	bool GetKeyState(int VKey)
-	{
-		auto itr_ = m_keyStateList.find(VKey);
-		return (itr_ != m_keyStateList.end() && itr_->second);
-	}
-
 	Mouse::Data GetMouseData() { return m_mouseData; }
 
 	void RegisterDevice();
@@ -77,6 +81,10 @@ public:
 private:
 
 	HWND m_hWnd = NULL;
+
+	// マルチスレッド対応用
+	// すべての入力で共通の"mutex"
+	std::mutex m_inputMutex;
 
 	// キーの入力状態を毎フレーム格納するリスト
 	std::unordered_map<int, bool> m_keyStateList;

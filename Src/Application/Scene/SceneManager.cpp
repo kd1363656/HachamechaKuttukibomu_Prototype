@@ -4,6 +4,19 @@
 #include "GameScene/GameScene.h"
 #include "TitleScene/TitleScene.h"
 
+void SceneManager::Init()
+{
+	// 開始シーンに切り替え
+	ChangeScene(m_currentSceneType);
+
+	// TODO
+	if (!m_gameObjectFileIO)
+	{
+		m_gameObjectFileIO = std::make_unique<GameObjectFileIO>();
+		m_gameObjectFileIO->Init();
+	}
+}
+
 void SceneManager::PreUpdate()
 {
 	// シーン切替
@@ -60,11 +73,11 @@ void SceneManager::ChangeScene(SceneType _sceneType)
 	// 次のシーンを作成し、現在のシーンにする
 	switch (_sceneType)
 	{
-	case SceneType::Title:
-		m_currentScene = std::make_shared<TitleScene>();
+		case SceneType::Title:
+			m_currentScene = std::make_shared<TitleScene>();
 		break;
-	case SceneType::Game:
-		m_currentScene = std::make_shared<GameScene>();
+		case SceneType::Game:
+			m_currentScene = std::make_shared<GameScene>();
 		break;
 	}
 

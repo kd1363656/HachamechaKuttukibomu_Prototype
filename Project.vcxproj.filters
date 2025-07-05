@@ -109,6 +109,15 @@
     <Filter Include="Src\Application\Utility\InputManager">
       <UniqueIdentifier>{26fa6ce6-2e29-441a-85fc-c7ac97e93b43}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\FileIO">
+      <UniqueIdentifier>{768cf0fd-8373-4abf-a419-92b6eb249f01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\FileIO\GameObject">
+      <UniqueIdentifier>{e92ed711-6a5c-4810-ad18-d82b29ac8443}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Camera\DebugCamera">
+      <UniqueIdentifier>{7dbe08a4-abb0-46bd-9978-aaad057ef809}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -321,6 +330,15 @@
     <ClInclude Include="Src\Application\Utility\StringUtility.h">
       <Filter>Src\Application\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\FileIO\FileIOBase.h">
+      <Filter>Src\Application\FileIO</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\FileIO\GameObject\GameObjectFileIO.h">
+      <Filter>Src\Application\FileIO\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Camera\DebugCamera\DebugCamera.h">
+      <Filter>Src\Application\GameObject\Camera\DebugCamera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -490,6 +508,15 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Utility\InputManager\RawInputManager.cpp">
       <Filter>Src\Application\Utility\InputManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\FileIO\GameObject\GameObjectFileIO.cpp">
+      <Filter>Src\Application\FileIO\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Utility\JsonUtility.cpp">
+      <Filter>Src\Application\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Camera\DebugCamera\DebugCamera.cpp">
+      <Filter>Src\Application\GameObject\Camera\DebugCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

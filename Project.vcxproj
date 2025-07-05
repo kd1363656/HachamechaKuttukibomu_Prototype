@@ -274,9 +274,12 @@
     <ClInclude Include="..\Library\tinygltf\stb_image_write.h" />
     <ClInclude Include="..\Library\tinygltf\tiny_gltf.h" />
     <ClInclude Include="Src\Application\Factory\Factory.h" />
+    <ClInclude Include="Src\Application\FileIO\FileIOBase.h" />
+    <ClInclude Include="Src\Application\FileIO\GameObject\GameObjectFileIO.h" />
     <ClInclude Include="Src\Application\GameObject\Actor\ActorBase.h" />
     <ClInclude Include="Src\Application\GameObject\Actor\Player\Player.h" />
     <ClInclude Include="Src\Application\GameObject\Camera\CameraBase.h" />
+    <ClInclude Include="Src\Application\GameObject\Camera\DebugCamera\DebugCamera.h" />
     <ClInclude Include="Src\Application\GameObject\Camera\FPSCamera\FPSCamera.h" />
     <ClInclude Include="Src\Application\GameObject\Camera\TPSCamera\TPSCamera.h" />
     <ClInclude Include="Src\Application\main.h" />
@@ -339,9 +342,11 @@
     <ClCompile Include="..\Library\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\Library\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Src\Application\Factory\Factory.cpp" />
+    <ClCompile Include="Src\Application\FileIO\GameObject\GameObjectFileIO.cpp" />
     <ClCompile Include="Src\Application\GameObject\Actor\ActorBase.cpp" />
     <ClCompile Include="Src\Application\GameObject\Actor\Player\Player.cpp" />
     <ClCompile Include="Src\Application\GameObject\Camera\CameraBase.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Camera\DebugCamera\DebugCamera.cpp" />
     <ClCompile Include="Src\Application\GameObject\Camera\FPSCamera\FPSCamera.cpp" />
     <ClCompile Include="Src\Application\GameObject\Camera\TPSCamera\TPSCamera.cpp" />
     <ClCompile Include="Src\Application\main.cpp" />
@@ -352,6 +357,7 @@
     <ClCompile Include="Src\Application\Utility\DebugKey\DebugKey.cpp" />
     <ClCompile Include="Src\Application\Utility\ImGui\ImGuiManager.cpp" />
     <ClCompile Include="Src\Application\Utility\InputManager\RawInputManager.cpp" />
+    <ClCompile Include="Src\Application\Utility\JsonUtility.cpp" />
     <ClCompile Include="Src\Framework\Direct3D\KdMaterial.cpp">
       <SubType>
       </SubType>

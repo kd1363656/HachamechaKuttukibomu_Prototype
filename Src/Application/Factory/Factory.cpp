@@ -2,6 +2,7 @@
 
 #include "../GameObject/Camera/FPSCamera/FPSCamera.h"
 #include "../GameObject/Camera/TPSCamera/TPSCamera.h"
+#include "../GameObject/Camera/DebugCamera/DebugCamera.h"
 
 #include "../GameObject/Actor/Player/Player.h"
 
@@ -16,9 +17,10 @@ void Factory::RegisterGameObjectFactoryMethod()
 	KdDebugGUI::Instance().AddLog("============ Start register gameObject factory ============\n\n");
 #endif // _DEBUG
 
-	RegisterGameObjectFuctoryMethod<FPSCamera>();
-	RegisterGameObjectFuctoryMethod<TPSCamera>();
-
+	RegisterGameObjectFuctoryMethod<FPSCamera>  ();
+	RegisterGameObjectFuctoryMethod<TPSCamera>  ();
+	RegisterGameObjectFuctoryMethod<DebugCamera>();
+	
 	RegisterGameObjectFuctoryMethod<Player>();
 
 #ifdef _DEBUG

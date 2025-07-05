@@ -33,7 +33,10 @@ public:
 
 private:
 
-	void DrawWorldSettingPanel();
+	void DrawProjectPanel();
+
+	void DrawUserInputInfoPanel();
+	void DrawWorldSettingPanel ();
 
 	void DrawFactoryPanel();
 	void DrawFactoryPanel(uint32_t BaseTypeID , const char* WidgetLabel);
@@ -41,11 +44,25 @@ private:
 	void DrawClassSelectorDropdown(uint32_t BaseTypeID);
 	void DrawCreateButton         (const char* WidgetLabel);
 
-	void DrawTransformInspector();
-	
+	void DrawInspector();
+	void DrawInspector(uint32_t BaseTypeID);
+
+	void DrawSeparate();
+
+	void DrawPopups();
+
+	const char* JudgeInputStatus(bool Status)
+	{
+		const char* keyStatus_ = "UnKnown";
+
+		return keyStatus_ = Status ? "true" : "false";
+	}
+
 	// 対応するファクトリーごとに名前を変えていたら霧がないので一つだけ使用
 	// これだけでも十分成り立つ
 	std::string m_createObjectName = "Player";
 
 	std::unordered_map<uint32_t , std::string> m_gameObjectNameFilter;
+
+	bool m_isShowSavePopUp;
 };

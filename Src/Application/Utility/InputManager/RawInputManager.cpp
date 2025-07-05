@@ -4,6 +4,15 @@
 
 #include "../Src/Application/main.h"
 
+void RawInputManager::ResetKeyStates()
+{
+	std::lock_guard<std::mutex> lock_(m_inputMutex);
+	for(auto& key_ : m_keyStateList)
+	{
+		key_.second = false;
+	}
+}
+
 void RawInputManager::RegisterDevice()
 {
 	// m_hWndがしっかりセットされていれば実行
@@ -15,19 +24,19 @@ void RawInputManager::RegisterDevice()
 	// キーボード
 	rid_[0].usUsagePage = 0x01;		//標準デバイス
 	rid_[0].usUsage		= 0x06;		//キーボード
-	rid_[0].dwFlags		= 0;	
+	rid_[0].dwFlags		= RIDEV_INPUTSINK;	
 	rid_[0].hwndTarget  = m_hWnd;		
 
 	// マウス
 	rid_[1].usUsagePage = 0x01;
 	rid_[1].usUsage		= 0x02;
-	rid_[1].dwFlags     = 0;
+	rid_[1].dwFlags     =RIDEV_INPUTSINK;
 	rid_[1].hwndTarget  = m_hWnd;
 
 	// ゲームパッド
 	rid_[2].usUsagePage = 0x01;
 	rid_[2].usUsage		= 0x05;
-	rid_[2].dwFlags		= 0;
+	rid_[2].dwFlags		= RIDEV_INPUTSINK;
 	rid_[2].hwndTarget  = m_hWnd;
 
 	if(!RegisterRawInputDevices(rid_ , 3 , sizeof(RAWINPUTDEVICE)))
@@ -46,93 +55,101 @@ void RawInputManager::ProcessInput(LPARAM LParam)
 	if (dwSize_ == 0             )return;	//何もデータがないときはスキップ
 	if (dwSize_ > sizeof(buffer_))return;
 
-	if(GetRawInputData((HRAWINPUT)LParam , RID_INPUT , buffer_ , &dwSize_ , sizeof(RAWINPUTHEADER)) == dwSize_)
+	if (GetRawInputData((HRAWINPUT)LParam, RID_INPUT, buffer_, &dwSize_, sizeof(RAWINPUTHEADER)) != dwSize_) { return; }
+	
+	RAWINPUT* raw_ = reinterpret_cast<RAWINPUT*>(buffer_);
+
+	// キーボード
+	if(raw_->header.dwType == RIM_TYPEKEYBOARD)
 	{
-		RAWINPUT* raw_ = reinterpret_cast<RAWINPUT*>(buffer_);
+		int  key_     = raw_->data.keyboard.VKey;
+		bool pressed_ = !(raw_->data.keyboard.Flags & RI_KEY_BREAK);
 
-		std::mutex inputMutex_;
+		// キーの入力状態を格納
+		// "insert_or_assign"はキーがなければキーと値を格納
+		// 存在すればそのキーに対応する値を格納
+		m_keyStateList.insert_or_assign(key_ , pressed_);
 
-		// キーボード
-		if(raw_->header.dwType == RIM_TYPEKEYBOARD)
-		{
-			int  key_     = raw_->data.keyboard.VKey;
-			bool pressed_ = !(raw_->data.keyboard.Flags & RI_KEY_BREAK);
-
-			// キーの入力状態を格納
-			m_keyStateList[key_] = pressed_;
-
-			if(m_keyboardCallback)
-			{	
-				std::lock_guard<std::mutex>lock_(inputMutex_);
-				m_keyboardCallback(key_ , pressed_);
-			}
+		if(m_keyboardCallback)
+		{	
+			std::lock_guard<std::mutex>lock_(m_inputMutex);
+			m_keyboardCallback(key_ , pressed_);
 		}
-		// マウス
-		if(raw_->header.dwType == RIM_TYPEMOUSE)
+	}
+	// マウス
+	if(raw_->header.dwType == RIM_TYPEMOUSE)
+	{
+		POINT mousePos_;
+
+		// マウスの座標(デスクトップ全体を対象)を取得
+		if(GetCursorPos(&mousePos_))
 		{
-			POINT mousePos_;
-
-			// マウスの座標(デスクトップ全体を対象)を取得
-			if(GetCursorPos(&mousePos_))
-			{
-				// ScreenToClientでマウス座標(デスクトップ全体を対象)を
-				// 今のゲームウィンドウ用に変換
-				// 左上のを基準に座標を取るので調整する
-				ScreenToClient(m_hWnd , &mousePos_);
-				m_mouseData.pos.x = static_cast<float>(mousePos_.x)  - 640.0f;
-				m_mouseData.pos.y = (static_cast<float>(mousePos_.y) - 360.0f) * -1.0f;
-			}
-
-			m_mouseData.isClickMiddle   = (raw_->data.mouse.usButtonFlags & RI_MOUSE_MIDDLE_BUTTON_DOWN) != 0;
-			m_mouseData.isReleaseMiddle = (raw_->data.mouse.usButtonFlags & RI_MOUSE_MIDDLE_BUTTON_UP  ) != 0;
-			m_mouseData.isClickLeft     = (raw_->data.mouse.usButtonFlags & RI_MOUSE_LEFT_BUTTON_DOWN  ) ;
-			m_mouseData.isClickRight    = (raw_->data.mouse.usButtonFlags & RI_MOUSE_RIGHT_BUTTON_DOWN ) ;
-			
-			if(raw_->data.mouse.usButtonFlags & RI_MOUSE_WHEEL)
-			{
-				m_mouseData.wheelDelta = static_cast<SHORT>(raw_->data.mouse.usButtonData) / WHEEL_DELTA;
-			}
-			else
-			{
-				// 回転がない場合は0
-				m_mouseData.wheelDelta = 0;
-			}
-
-			if(m_mouseCallback)
-			{
-				std::lock_guard<std::mutex> lock_(inputMutex_);
-				m_mouseCallback(m_mouseData);
-			}
+			// ScreenToClientでマウス座標(デスクトップ全体を対象)を
+			// 今のゲームウィンドウ用に変換
+			// 左上のを基準に座標を取るので調整する
+			ScreenToClient(m_hWnd , &mousePos_);
+			m_mouseData.location.x =  static_cast<float>(mousePos_.x) - 640.0f;
+			m_mouseData.location.y = (static_cast<float>(mousePos_.y) - 360.0f) * -1.0f;
 		}
 
-		// ゲームパッド
-		if(raw_->header.dwType == RIM_TYPEHID)
+		WORD flags_ = raw_->data.mouse.usButtonFlags;
+
+		// ボタンの状態を明示的に管理（押下/解放で変更）
+		// "RawInput"の仕様上効かない時があるから
+		if      (flags_ & RI_MOUSE_MIDDLE_BUTTON_DOWN) m_mouseData.isClickMiddle = true;
+		else if (flags_ & RI_MOUSE_MIDDLE_BUTTON_UP  ) m_mouseData.isClickMiddle = false;
+
+		if      (flags_ & RI_MOUSE_LEFT_BUTTON_DOWN) m_mouseData.isClickLeft = true;
+		else if (flags_ & RI_MOUSE_LEFT_BUTTON_UP  ) m_mouseData.isClickLeft = false;
+
+		if      (flags_ & RI_MOUSE_RIGHT_BUTTON_DOWN) m_mouseData.isClickRight = true;
+		else if (flags_ & RI_MOUSE_RIGHT_BUTTON_UP  ) m_mouseData.isClickRight = false;
+
+		// ホイール
+		if(flags_ & RI_MOUSE_WHEEL)
 		{
-			if(raw_->data.hid.dwSizeHid > 0)
+			m_mouseData.wheelDelta = static_cast<SHORT>(raw_->data.mouse.usButtonData) / WHEEL_DELTA;
+		}
+		else
+		{
+			// 回転がない場合は0
+			m_mouseData.wheelDelta = 0;
+		}
+
+		if(m_mouseCallback)
+		{
+			std::lock_guard<std::mutex> lock_(m_inputMutex);
+			m_mouseCallback(m_mouseData);
+		}
+	}
+
+	// ゲームパッド
+	if(raw_->header.dwType == RIM_TYPEHID)
+	{
+		if(raw_->data.hid.dwSizeHid > 0)
+		{
+			BYTE* data_ = raw_->data.hid.bRawData;
+
+			// ここでゲームパッドのボタン情報を読み取る
+			bool buttonA_ = (data_[0] & 0x10) != 0;	//Aボタン仮判定
+
+			if(m_gamepadCallback)
 			{
-				BYTE* data_ = raw_->data.hid.bRawData;
+				std::lock_guard<std::mutex> lock_(m_inputMutex);
+				m_gamepadCallback(1, buttonA_);	//ボタンA(仮)
 
-				// ここでゲームパッドのボタン情報を読み取る
-				bool buttonA_ = (data_[0] & 0x10) != 0;	//Aボタン仮判定
+				// スティックX軸
+				float x_ = (data_[1] - 128.0f) / 128.0f;	// -1.0f~1.0fに変換
+				float y_ = (data_[2] - 128.0f) / 128.0f;	// スティックY軸
 
-				if(m_gamepadCallback)
-				{
-					std::lock_guard<std::mutex> lock_(inputMutex_);
-					m_gamepadCallback(1, buttonA_);	//ボタンA(仮)
+				// デッドゾーン(小さな揺れを無視する)
+				const float deadZone_ = 0.1f;
 
-					// スティックX軸
-					float x_ = (data_[1] - 128.0f) / 128.0f;	// -1.0f~1.0fに変換
-					float y_ = (data_[2] - 128.0f) / 128.0f;	// スティックY軸
+				if (fabs(x_) < deadZone_) x_ = 0.0f;
+				if (fabs(y_) < deadZone_) y_ = 0.0f;
 
-					// デッドゾーン(小さな揺れを無視する)
-					const float deadZone_ = 0.1f;
-
-					if (fabs(x_) < deadZone_) x_ = 0.0f;
-					if (fabs(y_) < deadZone_) y_ = 0.0f;
-
-					if(m_gamepadStickCallback) m_gamepadStickCallback(x_ , y_);
-					
-				}
+				if(m_gamepadStickCallback) m_gamepadStickCallback(x_ , y_);
+				
 			}
 		}
 	}

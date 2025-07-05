@@ -42,7 +42,11 @@ public:
 	virtual void DrawDebug				  ();
 
 	// "ImGuiManager"で管理するよりこちらで管理したほうが柔軟性、拡張性が高いからここに書く
-	virtual void ImGuiInspector() { /* まだ実装されていません、派生クラスで実装してください */ }
+	virtual void ImGuiTransformInspector() { /* まだ実装されていません、派生クラスで実装してください */ }
+	virtual void ImGuiMaterialInspector () { /* まだ実装されていません、派生クラスで実装してください */ }
+
+	virtual void           LoadJsonData(const nlohmann::json Json) {/* まだ実装されていません、派生クラスで実装してください */ }
+	virtual nlohmann::json SaveJsonData()						   { return nlohmann::json(); }
 
 	virtual void LoadAsset(const std::string&) {/* まだ実装されていません、派生クラスで実装してください */ }
 
@@ -80,6 +84,8 @@ public:
 	void         SetScale(float scalar);
 	virtual void SetScale(const Math::Vector3& scale);
 	
+	void SetIsExpired(bool Set) { m_isExpired = Set; }
+
 protected:
 
 	void Release() { /* まだ実装されていません、派生クラスで実装してください */ }

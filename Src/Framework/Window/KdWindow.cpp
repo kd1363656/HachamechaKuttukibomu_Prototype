@@ -154,11 +154,21 @@ LRESULT KdWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 	//メッセージによって処理を選択
 	//===================================
 	switch (message) {
+	case WM_SETFOCUS:
+		case WM_ACTIVATE:
+			{
+				// ゲーム実行中にキーを押したまま別アプリにフォーカスが移ると、
+				// キーを離した情報が取得できず、押しっぱなしと誤認される。
+				// この関数は、ウィンドウにフォーカスが戻った際に全キー状態をリセットし、
+				// 誤った入力状態を防ぐための対策。
+				RawInputManager::GetInstance().ResetKeyStates();
+			}
+		break;
 	case WM_INPUT:
 		{
 			RawInputManager::GetInstance().ProcessInput(lParam);
 		}
-
+		break;
 	// ホイールスクロール時
 	case WM_MOUSEWHEEL:
 		{

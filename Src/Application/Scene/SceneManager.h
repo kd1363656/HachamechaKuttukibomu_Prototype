@@ -1,13 +1,15 @@
 ﻿#pragma once
 #include "../Utility/SingletonBase.h"
 
+#include "../FileIO/GameObject/GameObjectFileIO.h"
+
 class BaseScene;
 
 class SceneManager : public SingletonBase<SceneManager>
 {
 public :
 
-	SceneManager () { Init(); }
+	SceneManager () {}
 	~SceneManager() {}
 
 	// シーン情報
@@ -16,6 +18,10 @@ public :
 		Title ,
 		Game  ,
 	};
+
+	// マネージャーの初期化
+	// インスタンス生成(アプリ起動)時にコンストラクタで自動実行
+	void Init();
 
 	void PreUpdate ();
 	void Update    ();
@@ -39,15 +45,9 @@ public :
 	const std::list<std::shared_ptr<KdGameObject>>& GetObjList();
 	std::weak_ptr<BaseScene> GetCurrentScene() { return m_currentScene; }
 
-private :
+	const std::unique_ptr<GameObjectFileIO>& GetGameObjectFileIO()const { return m_gameObjectFileIO; }
 
-	// マネージャーの初期化
-	// インスタンス生成(アプリ起動)時にコンストラクタで自動実行
-	void Init()
-	{
-		// 開始シーンに切り替え
-		ChangeScene(m_currentSceneType);
-	}
+private :
 
 	// シーン切り替え関数
 	void ChangeScene(SceneType _sceneType);
@@ -60,4 +60,6 @@ private :
 	
 	// 次のシーンの種類を保持している変数
 	SceneType m_nextSceneType = m_currentSceneType;
+
+	std::unique_ptr<GameObjectFileIO> m_gameObjectFileIO = nullptr;
 };

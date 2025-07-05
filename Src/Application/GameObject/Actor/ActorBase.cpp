@@ -2,6 +2,10 @@
 
 #include "../../Factory/Factory.h"
 
+#include "../../Utility/JsonUtility.h"
+
+#include "../../main.h"
+
 void ActorBase::Init()
 {
 	KdGameObject::Init();
@@ -14,7 +18,7 @@ void ActorBase::DrawLit()
 {
 	if (!m_materialInfo.modelWork)return;
 
-	KdShaderManager::Instance().m_StandardShader.DrawModel(*m_materialInfo.modelWork , m_mWorld);
+	KdShaderManager::Instance().m_StandardShader.DrawModel(*m_materialInfo.modelWork , m_mWorld , m_materialInfo.color);
 }
 
 void ActorBase::Update()
@@ -22,11 +26,59 @@ void ActorBase::Update()
 	FixMatrix();
 }
 
-void ActorBase::ImGuiInspector()
+void ActorBase::ImGuiMaterialInspector()
+{
+	if (ImGui::Button(("TextureFilePath : %s", m_materialInfo.assetFilePath.c_str())))
+	{
+		std::string defPath_ = COMMON_ASSET_FILE_PATH;
+		if (Application::Instance().GetWindow().OpenFileDialog(defPath_))
+		{
+			// 変更したファイルパスを取得して変数に代入し、画像をロードしなおす
+			m_materialInfo.assetFilePath = defPath_;
+
+			if (m_materialInfo.modelWork)
+			{
+				m_materialInfo.modelWork->SetModelData(defPath_);
+			}
+		}
+	}
+
+	ImGui::ColorEdit4("Color", &m_materialInfo.color.x);
+}
+void ActorBase::ImGuiTransformInspector()
 {
 	ImGui::DragFloat3("Location" , &m_transform.location.x , 0.1f);
 	ImGui::DragFloat3("Rotation" , &m_transform.rotation.x , 1.0f);
 	ImGui::DragFloat3("Scale"    , &m_transform.scale.x    , 0.1f);
+}
+
+void ActorBase::LoadJsonData(const nlohmann::json Json)
+{
+	// Jsonで設定した値を代入
+	m_typeName = Json.value("TypeName" , "");
+
+	m_materialInfo.assetFilePath = Json.value("AssetFilePath" , "");
+	m_materialInfo.color         = JsonUtility::JsonToVec4(Json["Color"]);
+
+	m_transform.scale    = JsonUtility::JsonToVec3(Json["Scale"]);
+	m_transform.rotation = JsonUtility::JsonToVec3(Json["Rotation"]);
+	m_transform.location = JsonUtility::JsonToVec3(Json["Location"]);
+}
+
+nlohmann::json ActorBase::SaveJsonData()
+{
+	nlohmann::json json_;
+
+	json_["TypeName"] = m_typeName;
+
+	json_["AssetFilePath"] = m_materialInfo.assetFilePath;
+	json_["Color"]         = JsonUtility::Vec4ToJson(m_materialInfo.color);
+
+	json_["Scale"]    = JsonUtility::Vec3ToJson(m_transform.scale);
+	json_["Rotation"] = JsonUtility::Vec3ToJson(m_transform.rotation);
+	json_["Location"] = JsonUtility::Vec3ToJson(m_transform.location);
+
+	return json_;
 }
 
 void ActorBase::FixMatrix()

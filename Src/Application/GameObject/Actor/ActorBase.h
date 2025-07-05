@@ -14,7 +14,15 @@ public:
 	virtual void DrawLit () override;
 	virtual void Update  () override;
 
-	virtual void ImGuiInspector()override;
+	virtual void ImGuiMaterialInspector ()override;
+	virtual void ImGuiTransformInspector()override;
+
+	void           LoadJsonData(const nlohmann::json Json) override;
+	nlohmann::json SaveJsonData()						   override;
+
+private:
+
+	const std::string COMMON_ASSET_FILE_PATH = "Asset/";
 
 protected:
 
