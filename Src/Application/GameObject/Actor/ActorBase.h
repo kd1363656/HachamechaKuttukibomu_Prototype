@@ -23,11 +23,9 @@ public:
 	void           LoadJsonData(const nlohmann::json Json) override;
 	nlohmann::json SaveJsonData()						   override;
 
-	Math::Vector3& GetMoveDirection() { return m_moveDirection; }
-	Math::Vector3& GetMovement     () { return m_movement;      }
+	Math::Vector3& GetMovement() { return m_movement; }
 
-	void SetMoveDirection(Math::Vector3 Set) { m_moveDirection = Set; }
-	void SetMovement     (Math::Vector3 Set) { m_movement      = Set; }
+	void SetMovement(Math::Vector3 Set) { m_movement = Set; }
 
 private:
 
@@ -40,8 +38,8 @@ protected:
 	Tag::MaterialInfo m_materialInfo = {};
 	Tag::Transform3D  m_transform    = {};
 
-	Math::Vector3 m_moveDirection = Math::Vector3::Zero;
 	Math::Vector3 m_movement      = Math::Vector3::Zero;
+	Math::Vector3 m_moveDirection = Math::Vector3::Zero;
 
 	float m_maxMoveSpeed  = 0.0f;
 };

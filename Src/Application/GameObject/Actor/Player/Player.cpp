@@ -56,6 +56,8 @@ void Player::Update()
 	m_movement      = Math::Vector3::Zero;
 
 	m_stateMachine.Update();
+
+	AdjustFacingDirectionToCamera();
 }
 
 void Player::Move()
@@ -68,25 +70,92 @@ void Player::Move()
 	const float deltaTime_ = Application::Instance().GetScaledDeltaTime();
 
 	// キー入力を確認してベクトルを計算
-	AddMoveDirectionIfKeyPressed(VK_RIGHT ,  Math::Vector3::UnitX);
-	AddMoveDirectionIfKeyPressed(VK_LEFT  , -Math::Vector3::UnitX);
-	AddMoveDirectionIfKeyPressed(VK_UP	  ,  Math::Vector3::UnitZ);
-	AddMoveDirectionIfKeyPressed(VK_DOWN	  , -Math::Vector3::UnitZ);
+	AddMoveDirectionIfKeyPressed('D' , m_moveDirection ,  Math::Vector3::UnitX);
+	AddMoveDirectionIfKeyPressed('A' , m_moveDirection , -Math::Vector3::UnitX);
+	AddMoveDirectionIfKeyPressed('W' , m_moveDirection ,  Math::Vector3::UnitZ);
+	AddMoveDirectionIfKeyPressed('S' , m_moveDirection , -Math::Vector3::UnitZ);
 
-	m_moveDirection.Normalize();
+	Math::Vector3 moveDirection_ = m_moveDirection;
 
+	moveDirection_.Normalize();
+	
 	Math::Matrix  cameraRotationMat_  = Math::Matrix::Identity;
 	Math::Vector3 finalMoveDirection_ = Math::Vector3::Zero;
 
 	if(auto wp_ = m_camera.lock())
 	{
-		cameraRotationMat_ = wp_->GetRotationMatrix();
+		cameraRotationMat_ = wp_->GetRotationYMatrix();
 	}
 
-	finalMoveDirection_ = Math::Vector3::Transform(m_moveDirection , cameraRotationMat_);
+	// カメラの向いている向きからどの方向に動くかを決める
+	finalMoveDirection_ = Math::Vector3::Transform(moveDirection_ , cameraRotationMat_);
 	
 	m_movement +=  m_maxMoveSpeed * finalMoveDirection_ * deltaTime_;
 	m_movement.y = 0.0f;
+}
+
+void Player::AdjustFacingDirectionToCamera()
+{
+	if (m_moveDirection.LengthSquared() < 0.0001f) 
+	{
+		return;
+	}
+
+	Math::Vector3 targetDirection_ = Math::Vector3::Zero;
+
+	if(auto wp_ = m_camera.lock())
+	{
+		// カメラを基準軸としたプレイヤーの"Y"軸を算出
+		targetDirection_.TransformNormal(m_moveDirection , wp_->GetRotationYMatrix());
+	}
+
+	// 現在の角度を行列変換する
+	Math::Matrix nowRotationMatY_ = Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(m_transform.rotation.y));
+
+	// よくわからんので復習
+	// プレイヤーのモデルが"Rotation.y"が"0.0f"の時に向いている方向をもとに考える
+	Math::Vector3 nowDirection_ = Math::Vector3::TransformNormal(Math::Vector3::UnitZ , nowRotationMatY_);
+
+	// 双方、内積を求めるために正規化
+	targetDirection_.Normalize();
+	nowDirection_.Normalize   ();
+
+	// 内積を算出
+	float dot_ = nowDirection_.Dot(targetDirection_);
+
+	// 算出したなす角をアークコサイン化すると角度になる
+	float angleY_ = DirectX::XMConvertToDegrees(acos(dot_));
+
+	// TODO
+	if(angleY_ >= 0.1f)
+	{
+		if(angleY_ > 5.0f)
+		{
+			angleY_ = 5.0f;
+		}
+	}
+
+	// 外積で回転軸を求める
+	Math::Vector3 cross_ = nowDirection_.Cross(targetDirection_);
+
+	if(cross_.y >= 0.0f)
+	{
+		m_transform.rotation.y += angleY_;
+		
+		if(m_transform.rotation.y > 360.0f)
+		{
+			m_transform.rotation.y -= 360.0f;
+		}
+	}
+	else
+	{
+		m_transform.rotation.y -= angleY_;
+
+		if (m_transform.rotation.y < 0.0f)
+		{
+			m_transform.rotation.y += 360.0f;
+		}
+	}
 }
 
 // 進行方向と反対のキーが同時に押されていたら移動方向がなくなるので実行しない
@@ -94,8 +163,8 @@ bool Player::IsInvalidMoveKeyPressed()
 {
 	auto& input_ = RawInputManager::GetInstance();
 
-	bool isPressRightLeftKey_ = input_.GetKeyState(VK_RIGHT) && input_.GetKeyState(VK_LEFT);
-	bool isPressUpDownKey_    = input_.GetKeyState(VK_UP   ) && input_.GetKeyState(VK_DOWN);
+	bool isPressRightLeftKey_ = input_.GetKeyState('D') && input_.GetKeyState('A');
+	bool isPressUpDownKey_    = input_.GetKeyState('W') && input_.GetKeyState('S');
 
 	if(isPressRightLeftKey_ ||
 	   isPressUpDownKey_)
@@ -115,8 +184,8 @@ bool Player::IsMoveKeyPressed()
 		return false; 
 	}
 
-	bool isPressRightOrLeftKey_ = input_.GetKeyState(VK_RIGHT) || input_.GetKeyState(VK_LEFT);
-	bool isPressUpOrDownKey_    = input_.GetKeyState(VK_UP   ) || input_.GetKeyState(VK_DOWN);
+	bool isPressRightOrLeftKey_ = input_.GetKeyState('D') || input_.GetKeyState('A');
+	bool isPressUpOrDownKey_    = input_.GetKeyState('W') || input_.GetKeyState('S');
 
 	if(isPressRightOrLeftKey_ || isPressUpOrDownKey_)
 	{
@@ -125,19 +194,18 @@ bool Player::IsMoveKeyPressed()
 	return false;
 }
 
-
-void Player::AddMoveDirectionIfKeyPressed(int VirtualKeyCode, Math::Vector3 MoveDirection)
+void Player::AddMoveDirectionIfKeyPressed(int VirtualKeyCode, Math::Vector3& MoveDirection, const Math::Vector3& WantAddDirection)
 {
 	auto& input_ = RawInputManager::GetInstance();
 
-	if (IsInvalidMoveKeyPressed()) 
-	{ 
+	if (IsInvalidMoveKeyPressed())
+	{
 		return;
 	}
 
-	if (input_.GetKeyState(VirtualKeyCode)) 
-	{ 
-		m_moveDirection += MoveDirection;
+	if (input_.GetKeyState(VirtualKeyCode))
+	{
+		MoveDirection += WantAddDirection;
 	}
 }
 

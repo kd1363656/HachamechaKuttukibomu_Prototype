@@ -21,6 +21,8 @@ public:
 
 	void Move();
 
+	void AdjustFacingDirectionToCamera();
+
 	bool IsInvalidMoveKeyPressed();
 	bool IsMoveKeyPressed       ();
 
@@ -30,7 +32,7 @@ private:
 
 	std::weak_ptr<CameraBase> m_camera;
 
-	void AddMoveDirectionIfKeyPressed(int VirtualKeyCode , Math::Vector3 MoveDirection);
+	void AddMoveDirectionIfKeyPressed(int VirtualKeyCode , Math::Vector3& MoveDirection , const Math::Vector3& WantAddDirection);
 
 protected:
 

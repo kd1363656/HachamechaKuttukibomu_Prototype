@@ -110,7 +110,7 @@ protected:
 // ゲームオブジェクトを識別するためのIDを割り振るクラス
 // シングルトンにしたくもなくインスタンス化してほしくもない
 // 必要に応じて"ID"を取得するためだけのクラス
-// マルチスレッドにも対応
+// マルチスレッドにも対応(するかもしれないから)
 class GameObjectID
 {
 public:
@@ -131,6 +131,6 @@ private:
 		return id_++;
 	}
 
-	GameObjectID () = delete;
-	~GameObjectID() = delete;
+	GameObjectID () = default;
+	~GameObjectID() = default;
 };

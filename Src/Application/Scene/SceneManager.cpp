@@ -58,16 +58,6 @@ void SceneManager::DrawDebug()
 	m_currentScene->DrawDebug();
 }
 
-const std::list<std::shared_ptr<KdGameObject>>& SceneManager::GetObjList()
-{
-	return m_currentScene->GetObjectList();
-}
-
-void SceneManager::AddObject(const std::shared_ptr<KdGameObject>& _obj)
-{
-	m_currentScene->AddObject(_obj);
-}
-
 void SceneManager::ChangeScene(SceneType _sceneType)
 {
 	// 次のシーンを作成し、現在のシーンにする

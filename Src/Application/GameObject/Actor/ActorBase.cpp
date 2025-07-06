@@ -13,8 +13,8 @@ void ActorBase::Init()
 	m_materialInfo = {};
 	m_transform    = {};
 
-	m_moveDirection = Math::Vector3::Zero;
 	m_movement      = Math::Vector3::Zero;
+	m_moveDirection = Math::Vector3::Zero;
 }
 
 void ActorBase::DrawUnLit()
@@ -97,9 +97,16 @@ nlohmann::json ActorBase::SaveJsonData()
 
 void ActorBase::FixMatrix()
 {
-	const Math::Matrix transMat_    = Math::Matrix::CreateTranslation     (m_transform.location);
-	const Math::Matrix rotationMat_ = Math::Matrix::CreateFromYawPitchRoll(m_transform.rotation);
-	const Math::Matrix scaleMat_    = Math::Matrix::CreateScale           (m_transform.scale   );
+	m_transform.location += m_movement;
 
-	m_mWorld = transMat_ * rotationMat_ * scaleMat_;
+	const Math::Matrix transMat_    = Math::Matrix::CreateTranslation(m_transform.location);
+	const Math::Matrix rotationMat_ = Math::Matrix::CreateFromYawPitchRoll
+	(
+		DirectX::XMConvertToRadians(m_transform.rotation.y) , 
+		DirectX::XMConvertToRadians(m_transform.rotation.x) , 
+		DirectX::XMConvertToRadians(m_transform.rotation.z) 
+	);
+	const Math::Matrix scaleMat_ = Math::Matrix::CreateScale(m_transform.scale);
+
+	m_mWorld = scaleMat_ * rotationMat_* transMat_;
 }

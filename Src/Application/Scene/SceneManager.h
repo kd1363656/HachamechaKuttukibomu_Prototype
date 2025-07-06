@@ -32,17 +32,13 @@ public :
 	void DrawSprite();
 	void DrawDebug ();
 
-	// 現在のシーンにオブジェクトを追加
-	void AddObject(const std::shared_ptr<KdGameObject>& _obj);
-
 	// 次のシーンをセット (次のフレームから切り替わる)
 	void SetNextScene(SceneType _nextScene)
 	{
 		m_nextSceneType = _nextScene;
 	}
 
-	// 現在のシーンのオブジェクトリストを取得
-	const std::list<std::shared_ptr<KdGameObject>>& GetObjList();
+
 	std::weak_ptr<BaseScene> GetCurrentScene() { return m_currentScene; }
 
 	const std::unique_ptr<GameObjectFileIO>& GetGameObjectFileIO()const { return m_gameObjectFileIO; }
