@@ -10,20 +10,11 @@ namespace Mouse
 	struct Data
 	{
 		Math::Vector2 location;
-		int  wheelDelta;
-		bool isClickMiddle;
-		bool isReleaseMiddle;
-		bool isClickRight;
-		bool isClickLeft;
-
-		Mouse::Data() :
-			location	   (Math::Vector2::Zero) , 
-			wheelDelta	   (0)					 ,
-			isClickMiddle  (false)				 ,
-			isReleaseMiddle(false)				 ,
-			isClickRight   (false)				 ,
-			isClickLeft    (false)				
-		{}
+		int           wheelDelta;
+		bool          isClickMiddle;
+		bool          isReleaseMiddle;
+		bool          isClickRight;
+		bool          isClickLeft;
 	};
 }
 
@@ -38,6 +29,8 @@ public:
 	void ResetKeyStates();
 
 	void SetHWnd(HWND Set) { m_hWnd = Set; }
+
+	void SetMouseLocation(Math::Vector2 Set) { m_mouseData.location = Set; }
 
 	const std::unordered_map<int, bool>& GetKeyStateList()const { return m_keyStateList; }
 

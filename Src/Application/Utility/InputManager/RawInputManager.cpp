@@ -82,12 +82,12 @@ void RawInputManager::ProcessInput(LPARAM LParam)
 		POINT mousePos_;
 
 		// マウスの座標(デスクトップ全体を対象)を取得
-		if(GetCursorPos(&mousePos_))
+		if (GetCursorPos(&mousePos_))
 		{
 			// ScreenToClientでマウス座標(デスクトップ全体を対象)を
 			// 今のゲームウィンドウ用に変換
 			// 左上のを基準に座標を取るので調整する
-			ScreenToClient(m_hWnd , &mousePos_);
+			ScreenToClient(m_hWnd, &mousePos_);
 			m_mouseData.location.x =  static_cast<float>(mousePos_.x) - 640.0f;
 			m_mouseData.location.y = (static_cast<float>(mousePos_.y) - 360.0f) * -1.0f;
 		}

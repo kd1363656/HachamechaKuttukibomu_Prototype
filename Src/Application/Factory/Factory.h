@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "../Utility/SingletonBase.h"
-#include "../Utility/Struct.h"
+#include "../Utility/CommonStruct.h"
 #include "../Utility/StringUtility.h"
 
 // "class"は必ず"class Name"と書く、でなければバグがファクトリーメソッドで発生する

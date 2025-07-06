@@ -4,6 +4,8 @@
 
 #include "Src/Application/Utility/ImGui/ImGuiManager.h"
 
+#include "Src/Application//Utility/InputManager/RawInputManager.h"
+
 KdDebugGUI::KdDebugGUI()
 {}
 KdDebugGUI::~KdDebugGUI()
@@ -36,6 +38,9 @@ void KdDebugGUI::GuiInit()
 	io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\msgothic.ttc", 13.0f, &config, glyphRangesJapanese);
 	
 	m_uqLog = std::make_unique<ImGuiAppLog>();
+
+	m_canShowDebugWindow    = true;
+	m_isHeldShowDebugWindow = false;
 }
 
 void KdDebugGUI::GuiProcess()
@@ -50,13 +55,42 @@ void KdDebugGUI::GuiProcess()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
+	// ログを描画するかしないかを決める操作
+	auto& input_ = RawInputManager::GetInstance();
+
+	if (input_.GetKeyState(VK_CONTROL))
+	{
+		if (input_.GetKeyState(VK_RETURN))
+		{
+			if (!m_isHeldShowDebugWindow)
+			{
+				if (m_canShowDebugWindow)
+				{
+					m_canShowDebugWindow = false;
+				}
+				else
+				{
+					m_canShowDebugWindow = true;
+				}
+				m_isHeldShowDebugWindow = true;
+			}
+		}
+	}
+	else
+	{
+		m_isHeldShowDebugWindow = false;
+	}
+
 	//===========================================================
 	// 以下にImGui描画処理を記述
 	//===========================================================
-	ImGuiManager::GetInstance().Update();
+	if (m_canShowDebugWindow)
+	{
+		ImGuiManager::GetInstance().Update();
 
-	// ログウィンドウ
-	m_uqLog->Draw("Log Window");
+		// ログウィンドウ
+		m_uqLog->Draw("Log Window");
+	}
 
 	//=====================================================
 	// ログ出力 ・・・ AddLog("～") で追加

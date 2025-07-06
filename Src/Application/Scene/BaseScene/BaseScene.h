@@ -27,15 +27,17 @@ public :
 	{
 		m_objectList.push_back(Obj);
 
-		AddObjectByBaseTypeID(Obj);
+		AddObjectCache(Obj);
 	}
 
-	// 最終的に継承された基底クラスの"ID"でキャッシュを識別して格納
-	void AddObjectByBaseTypeID(const std::shared_ptr<KdGameObject>& Obj)
+	// 継承した基底クラスの"ID"と派生クラスの"ID"を登録
+	void AddObjectCache(const std::shared_ptr<KdGameObject>& Obj)
 	{
-		const uint32_t id_ = Obj->GetFinalBaseTypeID();
-
-		m_cachedObjectsByBaseType[id_].emplace_back(Obj);
+		const uint32_t baseID_    = Obj->GetFinalBaseTypeID();
+		const uint32_t derivedID_ = Obj->GetTypeID         ();
+		
+		m_objectCacheList[baseID_].emplace_back   (Obj);
+		m_objectCacheList[derivedID_].emplace_back(Obj);
 	}
 
 	template<class BaseType>
@@ -47,9 +49,9 @@ public :
 		const uint32_t id_ = GameObjectID::GetTypeID<BaseType>();
 
 		// IDと一致したキャッシュを格納したリストを安全にダウンキャスト
-		if(m_cachedObjectsByBaseType.contains(id_))
+		if(m_objectCacheList.contains(id_))
 		{
-			for(auto& cache_ : m_cachedObjectsByBaseType[id_])
+			for(auto& cache_ : m_objectCacheList[id_])
 			{
 				if(std::shared_ptr<KdGameObject> wp_ = cache_.lock())
 				{
@@ -76,5 +78,5 @@ protected :
 	std::list<std::shared_ptr<KdGameObject>> m_objectList;
 
 	// 最終的な派生する前の中間基底クラスの"ID"をもとに構成されたキャッシュリスト
-	std::unordered_map<uint32_t, std::list<std::weak_ptr<KdGameObject>>> m_cachedObjectsByBaseType;
+	std::unordered_map<uint32_t, std::list<std::weak_ptr<KdGameObject>>> m_objectCacheList;
 };

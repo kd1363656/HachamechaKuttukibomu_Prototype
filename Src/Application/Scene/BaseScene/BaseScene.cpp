@@ -159,7 +159,7 @@ void BaseScene::ClearExpiredGameObjectCacheList()
 {
 	// もしゲームオブジェクトが"Expired"で切れているなら"WeakPtr"からキャッシュ用の
 	// "WeakPtr"を消す
-	for (auto& [key_ , value_] : m_cachedObjectsByBaseType)
+	for (auto& [key_ , value_] : m_objectCacheList)
 	{
 		auto itr_ = value_.begin();
 	

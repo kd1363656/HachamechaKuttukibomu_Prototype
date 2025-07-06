@@ -118,6 +118,21 @@
     <Filter Include="Src\Application\GameObject\Camera\DebugCamera">
       <UniqueIdentifier>{7dbe08a4-abb0-46bd-9978-aaad057ef809}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\State">
+      <UniqueIdentifier>{f7698b51-54a4-4560-8840-012c5dc90269}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\State\Actor">
+      <UniqueIdentifier>{c7ea70bc-702b-4892-a825-b4aa58bccd75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\State\Actor\Plaeyr">
+      <UniqueIdentifier>{ef8f3d0a-20d5-4391-a11e-0872fb930f40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\State\Actor\Plaeyr\Idle">
+      <UniqueIdentifier>{1bd26e2b-c508-4dbd-af18-58ca21eab94d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\State\Actor\Plaeyr\Move">
+      <UniqueIdentifier>{c5897bb2-e089-46ae-b28b-08ff1a2f58c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -303,7 +318,7 @@
     <ClInclude Include="Src\Application\GameObject\Actor\ActorBase.h">
       <Filter>Src\Application\GameObject\Actor</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\Utility\Struct.h">
+    <ClInclude Include="Src\Application\Utility\CommonStruct.h">
       <Filter>Src\Application\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Src\Application\GameObject\Actor\Player\Player.h">
@@ -338,6 +353,18 @@
     </ClInclude>
     <ClInclude Include="Src\Application\GameObject\Camera\DebugCamera\DebugCamera.h">
       <Filter>Src\Application\GameObject\Camera\DebugCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\State\StateBase.h">
+      <Filter>Src\Application\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\State\StateMachine.h">
+      <Filter>Src\Application\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\State\Actor\Player\Idle\PlayerIdleState.h">
+      <Filter>Src\Application\State\Actor\Plaeyr\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\State\Actor\Player\Move\PlayerMoveState.h">
+      <Filter>Src\Application\State\Actor\Plaeyr\Move</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -517,6 +544,12 @@
     </ClCompile>
     <ClCompile Include="Src\Application\GameObject\Camera\DebugCamera\DebugCamera.cpp">
       <Filter>Src\Application\GameObject\Camera\DebugCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\State\Actor\Player\Idle\PlayerIdleState.cpp">
+      <Filter>Src\Application\State\Actor\Plaeyr\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\State\Actor\Player\Move\PlayerMoveState.cpp">
+      <Filter>Src\Application\State\Actor\Plaeyr\Move</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -123,6 +123,9 @@ private:
 	// ImGui
 	std::unique_ptr<ImGuiAppLog> m_uqLog = nullptr;
 
+	bool m_canShowDebugWindow    = true;
+	bool m_isHeldShowDebugWindow = false;
+
 //=====================================================
 // シングルトンパターン
 //=====================================================

@@ -21,11 +21,12 @@ public:
 	virtual ~KdGameObject() { Release(); }
 
 	// 安全にダウンキャストするために必要な"ID"とても重要
-	virtual uint32_t GetTypeID()const = 0;
+	virtual uint32_t GetTypeID() const = 0;
 	// 派生する前の最後の基底クラスのみを知りたいときに使う
-	virtual uint32_t GetFinalBaseTypeID()const = 0;
+	virtual uint32_t GetFinalBaseTypeID() const = 0;
 
-	virtual void Init();
+	virtual void Init        ();
+	virtual void PostLoadInit() {}
 
 	virtual void PreUpdate () { /* まだ実装されていません、派生クラスで実装してください */ }
 	virtual void Update    () { /* まだ実装されていません、派生クラスで実装してください */ }

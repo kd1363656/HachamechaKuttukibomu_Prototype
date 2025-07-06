@@ -64,5 +64,8 @@ private:
 
 	std::unordered_map<uint32_t , std::string> m_gameObjectNameFilter;
 
-	bool m_isShowSavePopUp;
+	bool m_canShowDebugWindow    = false;
+	bool m_isHeldShowDebugWindow = false;
+
+	bool m_isShowSavePopUp = false;
 };

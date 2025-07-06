@@ -20,7 +20,10 @@ void GameObjectFileIO::SaveSceneData()
 {
 	auto currentScene_ = SceneManager::GetInstance().GetCurrentScene().lock();
 
-	if (!currentScene_) { return; }
+	if (!currentScene_) 
+	{ 
+		return;
+	}
 
 	nlohmann::json json_ = nlohmann::json::array();
 
@@ -37,13 +40,22 @@ void GameObjectFileIO::LoadSceneData()
 {
 	auto currentScene_ = SceneManager::GetInstance().GetCurrentScene().lock();
 
-	if (!currentScene_) { return; }
+	if (!currentScene_) 
+	{ 
+		return;
+	}
 
 	nlohmann::json json_ = JsonUtility::LoadJsonFile(m_filePath);
 
 	for(auto it_ : json_)
 	{
 		LoadGameObjectData(it_.value("TypeName", ""), it_);
+	}
+
+	// "Json"を読み込んだ後にすべき処理を行う
+	for(auto& obj_ : currentScene_->GetObjectList())
+	{
+		obj_->PostLoadInit();
 	}
 }
 
@@ -52,7 +64,10 @@ void GameObjectFileIO::LoadGameObjectData(std::string&& ClassName, const nlohman
 	auto& factory_      = Factory::GetInstance                              ();
 	auto  currentScene_ = SceneManager::GetInstance().GetCurrentScene().lock();
 
-	if (!currentScene_) { return; }
+	if (!currentScene_) 
+	{ 
+		return; 
+	}
 
 	auto itr_ = factory_.GetGameObjectFactoryMethodList().find(ClassName);
 

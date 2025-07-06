@@ -13,10 +13,13 @@
 
 #include "../InputManager/RawInputManager.h"
 
+// "ImGui"の表示を消したかったら"KdDebugGui"を見てください
 void ImGuiManager::Init()
 {
 	GenereateGameObjectNameFilter<CameraBase>();
 	GenereateGameObjectNameFilter<ActorBase> ();
+
+	m_isShowSavePopUp = false;
 }
 
 void ImGuiManager::Update()
@@ -96,8 +99,8 @@ void ImGuiManager::DrawUserInputInfoPanel()
 			Mouse::Data mouseData_ = input_.GetMouseData();
 			
 			ImGui::Separator();
-			ImGui::Text("Mouse LocationX           : %.2f" , mouseData_.location.x);
-			ImGui::Text("Mouse LocationY           : %.2f" , mouseData_.location.y);
+			ImGui::Text("Mouse LocationX           : %d" , mouseData_.location.x);
+			ImGui::Text("Mouse LocationY           : %d" , mouseData_.location.y);
 			ImGui::Separator();
 			ImGui::Text("Mouse Click Middle Status : %s"   , JudgeInputStatus(mouseData_.isClickMiddle));
 			ImGui::Text("Mouse Click Left   Status : %s"   , JudgeInputStatus(mouseData_.isClickLeft  ));

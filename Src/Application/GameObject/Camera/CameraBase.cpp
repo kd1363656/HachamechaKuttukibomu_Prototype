@@ -3,6 +3,11 @@
 #include "../../Utility/InputManager/RawInputManager.h"
 #include "../../Utility/JsonUtility.h"
 
+#include "../../Scene/SceneManager.h"
+#include "../../Scene/BaseScene/BaseScene.h"
+
+#include "../Actor/Player/Player.h"
+
 void CameraBase::Init()
 {
 	KdGameObject::Init();
@@ -22,6 +27,23 @@ void CameraBase::Init()
 	m_isPressDebugMouseFree = false;
 }
 
+void CameraBase::PostLoadInit()
+{
+	auto currentScene_ = SceneManager::GetInstance().GetCurrentScene().lock();
+
+	// もしシーンが存在しなければアクセスできないので"return"
+	if (!currentScene_)
+	{
+		return;
+	}
+
+	// カメラのポインタをプレイヤーの"std::weak_ptr"に格納
+	for (auto& cache_ : currentScene_->GetCacheObjectList<Player>())
+	{
+		m_player = cache_;
+	}
+}
+
 void CameraBase::Update()
 {
 	ToggleIsMouseFree();
@@ -39,6 +61,11 @@ void CameraBase::ImGuiTransformInspector()
 {
 	ImGui::DragFloat3("Location", &m_location.x, 0.1f);
 	ImGui::DragFloat3("Rotation", &m_degAng.x  , 1.0f);
+
+	if(ImGui::Button("Reset Rotation"))
+	{
+		m_degAng = {};
+	}
 }
 
 void CameraBase::LoadJsonData(const nlohmann::json Json)

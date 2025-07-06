@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+class Player;
+
 class CameraBase : public KdGameObject
 {
 public:
@@ -9,6 +11,8 @@ public:
 	virtual uint32_t GetFinalBaseTypeID()const override { return GameObjectID::GetTypeID<CameraBase>(); }
 
 	void Init()				override;
+	void PostLoadInit()     override;
+
 	void Update()			override;
 	void PreDraw()			override;
 
@@ -61,6 +65,8 @@ protected:
 
 	Math::Matrix								m_mLocalPos		= Math::Matrix::Identity;
 	Math::Matrix								m_mRotation		= Math::Matrix::Identity;
+
+	std::weak_ptr<Player>						m_player;
 
 	// カメラ回転用角度
 	Math::Vector3								m_degAng   = Math::Vector3::Zero;

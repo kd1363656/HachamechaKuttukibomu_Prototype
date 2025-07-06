@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "../Struct.h"
+#include "../CommonStruct.h"
 #include "../SingletonBase.h"
 
 // 発表会、瞬発的なデバッグで使うのでシングルトンで管理

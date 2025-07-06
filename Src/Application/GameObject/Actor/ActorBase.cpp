@@ -10,18 +10,28 @@ void ActorBase::Init()
 {
 	KdGameObject::Init();
 	
-	m_transform    = {};
 	m_materialInfo = {};
+	m_transform    = {};
+
+	m_moveDirection = Math::Vector3::Zero;
+	m_movement      = Math::Vector3::Zero;
 }
 
-void ActorBase::DrawLit()
+void ActorBase::DrawUnLit()
 {
-	if (!m_materialInfo.modelWork)return;
+	if (!m_materialInfo.modelWork) { return; }
 
 	KdShaderManager::Instance().m_StandardShader.DrawModel(*m_materialInfo.modelWork , m_mWorld , m_materialInfo.color);
 }
 
-void ActorBase::Update()
+void ActorBase::GenerateDepthMapFromLight()
+{
+	if (!m_materialInfo.modelWork) { return; }
+
+	KdShaderManager::Instance().m_StandardShader.DrawModel(*m_materialInfo.modelWork, m_mWorld, m_materialInfo.color);
+}
+
+void ActorBase::PostUpdate()
 {
 	FixMatrix();
 }
@@ -63,6 +73,8 @@ void ActorBase::LoadJsonData(const nlohmann::json Json)
 	m_transform.scale    = JsonUtility::JsonToVec3(Json["Scale"]);
 	m_transform.rotation = JsonUtility::JsonToVec3(Json["Rotation"]);
 	m_transform.location = JsonUtility::JsonToVec3(Json["Location"]);
+
+	m_maxMoveSpeed = Json.value("MaxMoveSpeed" , 0.0f);
 }
 
 nlohmann::json ActorBase::SaveJsonData()
@@ -77,6 +89,8 @@ nlohmann::json ActorBase::SaveJsonData()
 	json_["Scale"]    = JsonUtility::Vec3ToJson(m_transform.scale);
 	json_["Rotation"] = JsonUtility::Vec3ToJson(m_transform.rotation);
 	json_["Location"] = JsonUtility::Vec3ToJson(m_transform.location);
+
+	json_["MaxMoveSpeed"] = m_maxMoveSpeed;
 
 	return json_;
 }
