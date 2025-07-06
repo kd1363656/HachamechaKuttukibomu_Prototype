@@ -103,18 +103,15 @@ void Player::AdjustFacingDirectionToCamera()
 
 	Math::Vector3 targetDirection_ = Math::Vector3::Zero;
 
-	if(auto wp_ = m_camera.lock())
-	{
-		// カメラを基準軸としたプレイヤーの"Y"軸を算出
-		targetDirection_.TransformNormal(m_moveDirection , wp_->GetRotationYMatrix());
-	}
+	// 進行方向がキャラクターの目的となる向きの角度
+	targetDirection_ = m_moveDirection;
 
 	// 現在の角度を行列変換する
 	Math::Matrix nowRotationMatY_ = Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(m_transform.rotation.y));
 
 	// よくわからんので復習
 	// プレイヤーのモデルが"Rotation.y"が"0.0f"の時に向いている方向をもとに考える
-	Math::Vector3 nowDirection_ = Math::Vector3::TransformNormal(Math::Vector3::UnitZ , nowRotationMatY_);
+	Math::Vector3 nowDirection_ = Math::Vector3::TransformNormal(-Math::Vector3::UnitZ , nowRotationMatY_);
 
 	// 双方、内積を求めるために正規化
 	targetDirection_.Normalize();
@@ -205,7 +202,14 @@ void Player::AddMoveDirectionIfKeyPressed(int VirtualKeyCode, Math::Vector3& Mov
 
 	if (input_.GetKeyState(VirtualKeyCode))
 	{
-		MoveDirection += WantAddDirection;
+		Math::Matrix cameraRotateY_ = Math::Matrix::Identity;
+
+		if(auto wp_ = m_camera.lock())
+		{
+			cameraRotateY_ = wp_->GetRotationYMatrix();
+		}
+
+		MoveDirection += Math::Vector3::TransformNormal(WantAddDirection, cameraRotateY_);
 	}
 }
 
