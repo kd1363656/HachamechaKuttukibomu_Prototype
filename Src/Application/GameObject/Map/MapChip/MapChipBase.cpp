@@ -1,47 +1,35 @@
-﻿#include "ActorBase.h"
+﻿#include "MapChipBase.h"
 
-#include "../../Factory/Factory.h"
+#include "../../../Utility/JsonUtility.h"
 
-#include "../../Utility/JsonUtility.h"
+#include "../../../main.h"
 
-#include "../../main.h"
-
-void ActorBase::Init()
+void MapChipBase::Init()
 {
 	KdGameObject::Init();
 	
 	m_materialInfo = {};
 	m_transform    = {};
-
-	m_movement      = Math::Vector3::Zero;
-	m_moveDirection = Math::Vector3::Zero;
 }
 
-void ActorBase::PostLoadInit()
+void MapChipBase::PostLoadInit()
 {
 	LoadAsset();
 }
 
-void ActorBase::DrawLit()
+void MapChipBase::DrawLit()
 {
 	if (!m_materialInfo.modelWork) { return; }
 
 	KdShaderManager::Instance().m_StandardShader.DrawModel(*m_materialInfo.modelWork , m_mWorld , m_materialInfo.color);
 }
 
-void ActorBase::GenerateDepthMapFromLight()
-{
-	if (!m_materialInfo.modelWork) { return; }
-
-	KdShaderManager::Instance().m_StandardShader.DrawModel(*m_materialInfo.modelWork, m_mWorld, m_materialInfo.color);
-}
-
-void ActorBase::PostUpdate()
+void MapChipBase::PostUpdate()
 {
 	FixMatrix();
 }
 
-void ActorBase::ImGuiMaterialInspector()
+void MapChipBase::ImGuiMaterialInspector()
 {
 	if (ImGui::Button(("TextureFilePath : %s", m_materialInfo.assetFilePath.c_str())))
 	{
@@ -51,7 +39,7 @@ void ActorBase::ImGuiMaterialInspector()
 			// 変更したファイルパスを取得して変数に代入し、画像をロードしなおす
 			m_materialInfo.assetFilePath = defPath_;
 
-			if(!m_materialInfo.modelWork)
+			if (!m_materialInfo.modelWork)
 			{
 				m_materialInfo.modelWork = std::make_shared<KdModelWork>();
 			}
@@ -65,14 +53,15 @@ void ActorBase::ImGuiMaterialInspector()
 
 	ImGui::ColorEdit4("Color", &m_materialInfo.color.x);
 }
-void ActorBase::ImGuiTransformInspector()
+
+void MapChipBase::ImGuiTransformInspector()
 {
 	ImGui::DragFloat3("Location" , &m_transform.location.x , 0.1f);
 	ImGui::DragFloat3("Rotation" , &m_transform.rotation.x , 1.0f);
 	ImGui::DragFloat3("Scale"    , &m_transform.scale.x    , 0.1f);
 }
 
-void ActorBase::LoadJsonData(const nlohmann::json Json)
+void MapChipBase::LoadJsonData(const nlohmann::json Json)
 {
 	// Jsonで設定した値を代入
 	m_typeName = Json.value("TypeName" , "");
@@ -83,11 +72,9 @@ void ActorBase::LoadJsonData(const nlohmann::json Json)
 	m_transform.scale    = JsonUtility::JsonToVec3(Json["Scale"]);
 	m_transform.rotation = JsonUtility::JsonToVec3(Json["Rotation"]);
 	m_transform.location = JsonUtility::JsonToVec3(Json["Location"]);
-
-	m_maxMoveSpeed = Json.value("MaxMoveSpeed" , 0.0f);
 }
 
-nlohmann::json ActorBase::SaveJsonData()
+nlohmann::json MapChipBase::SaveJsonData()
 {
 	nlohmann::json json_;
 
@@ -100,16 +87,15 @@ nlohmann::json ActorBase::SaveJsonData()
 	json_["Rotation"] = JsonUtility::Vec3ToJson(m_transform.rotation);
 	json_["Location"] = JsonUtility::Vec3ToJson(m_transform.location);
 
-	json_["MaxMoveSpeed"] = m_maxMoveSpeed;
-
 	return json_;
 }
 
-void ActorBase::LoadAsset()
+void MapChipBase::LoadAsset()
 {
-	// "Json"ファイルからパスを読み取れなければ処理止める(ファイルパスが設定されていない状態でロードすると)
-	// "assert"が出るから
-	if (m_materialInfo.assetFilePath.empty())return;
+	if (m_materialInfo.assetFilePath.empty())
+	{
+		return;
+	}
 
 	if (!m_materialInfo.modelWork)
 	{
@@ -118,10 +104,8 @@ void ActorBase::LoadAsset()
 	}
 }
 
-void ActorBase::FixMatrix()
+void MapChipBase::FixMatrix()
 {
-	m_transform.location += m_movement;
-
 	const Math::Matrix transMat_    = Math::Matrix::CreateTranslation(m_transform.location);
 	const Math::Matrix rotationMat_ = Math::Matrix::CreateFromYawPitchRoll
 	(

@@ -1,12 +1,14 @@
 ﻿#include "TPSCamera.h"
 
+#include "../../Actor/Player/Player.h"
+
 void TPSCamera::Init()
 {
 	// 親クラスの初期化呼び出し
 	CameraBase::Init();
 
 	// 注視点
-	m_mLocalPos = Math::Matrix::CreateTranslation(0, 1.5f, -10.0f);
+	m_mLocalPos = Math::Matrix::CreateTranslation(POINT_OF_FIXATION);
 
 	SetCursorPos(m_FixMousePos.x, m_FixMousePos.y);
 }
@@ -15,7 +17,7 @@ void TPSCamera::PostUpdate()
 {
 	// ターゲットの行列(有効な場合利用する)
 	Math::Matrix								_targetMat = Math::Matrix::Identity;
-	const std::shared_ptr<const KdGameObject>	_spTarget = m_wpTarget.lock();
+	const std::shared_ptr<const KdGameObject>	_spTarget  = m_player.lock();
 	if (_spTarget)
 	{
 		_targetMat = Math::Matrix::CreateTranslation(_spTarget->GetPos());

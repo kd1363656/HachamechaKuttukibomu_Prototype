@@ -133,6 +133,12 @@
     <Filter Include="Src\Application\State\Actor\Plaeyr\Move">
       <UniqueIdentifier>{c5897bb2-e089-46ae-b28b-08ff1a2f58c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\GameObject\Map\MapChip">
+      <UniqueIdentifier>{a59d19f5-1445-466b-b3f2-abced27eaa03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Map\MapChip\ShapeBox">
+      <UniqueIdentifier>{65d61514-c630-4657-9fb5-f0a2dd611ede}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -366,6 +372,15 @@
     <ClInclude Include="Src\Application\State\Actor\Player\Move\PlayerMoveState.h">
       <Filter>Src\Application\State\Actor\Plaeyr\Move</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\Utility\CommonConstant.h">
+      <Filter>Src\Application\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Map\MapChip\MapChipBase.h">
+      <Filter>Src\Application\GameObject\Map\MapChip</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Map\MapChip\ShapeBox\MapChipShapeBox.h">
+      <Filter>Src\Application\GameObject\Map\MapChip\ShapeBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -550,6 +565,12 @@
     </ClCompile>
     <ClCompile Include="Src\Application\State\Actor\Player\Move\PlayerMoveState.cpp">
       <Filter>Src\Application\State\Actor\Plaeyr\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Map\MapChip\MapChipBase.cpp">
+      <Filter>Src\Application\GameObject\Map\MapChip</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Map\MapChip\ShapeBox\MapChipShapeBox.cpp">
+      <Filter>Src\Application\GameObject\Map\MapChip\ShapeBox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

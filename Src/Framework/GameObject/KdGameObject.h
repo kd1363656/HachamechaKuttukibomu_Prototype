@@ -49,7 +49,7 @@ public:
 	virtual void           LoadJsonData(const nlohmann::json Json) {/* まだ実装されていません、派生クラスで実装してください */ }
 	virtual nlohmann::json SaveJsonData()						   { return nlohmann::json(); }
 
-	virtual void LoadAsset(const std::string&) {/* まだ実装されていません、派生クラスで実装してください */ }
+	virtual void LoadAsset() {/* まだ実装されていません、派生クラスで実装してください */ }
 
 	// カメラからの距離を計算
 	virtual void CalcDistSqrFromCamera(const Math::Vector3& camPos);

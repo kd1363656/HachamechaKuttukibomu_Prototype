@@ -282,6 +282,8 @@
     <ClInclude Include="Src\Application\GameObject\Camera\DebugCamera\DebugCamera.h" />
     <ClInclude Include="Src\Application\GameObject\Camera\FPSCamera\FPSCamera.h" />
     <ClInclude Include="Src\Application\GameObject\Camera\TPSCamera\TPSCamera.h" />
+    <ClInclude Include="Src\Application\GameObject\Map\MapChip\MapChipBase.h" />
+    <ClInclude Include="Src\Application\GameObject\Map\MapChip\ShapeBox\MapChipShapeBox.h" />
     <ClInclude Include="Src\Application\main.h" />
     <ClInclude Include="Src\Application\Scene\BaseScene\BaseScene.h" />
     <ClInclude Include="Src\Application\Scene\GameScene\GameScene.h" />
@@ -291,6 +293,7 @@
     <ClInclude Include="Src\Application\State\Actor\Player\Move\PlayerMoveState.h" />
     <ClInclude Include="Src\Application\State\StateBase.h" />
     <ClInclude Include="Src\Application\State\StateMachine.h" />
+    <ClInclude Include="Src\Application\Utility\CommonConstant.h" />
     <ClInclude Include="Src\Application\Utility\DebugKey\DebugKey.h" />
     <ClInclude Include="Src\Application\Utility\ImGui\ImGuiManager.h" />
     <ClInclude Include="Src\Application\Utility\InputManager\RawInputManager.h" />
@@ -353,6 +356,8 @@
     <ClCompile Include="Src\Application\GameObject\Camera\DebugCamera\DebugCamera.cpp" />
     <ClCompile Include="Src\Application\GameObject\Camera\FPSCamera\FPSCamera.cpp" />
     <ClCompile Include="Src\Application\GameObject\Camera\TPSCamera\TPSCamera.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Map\MapChip\MapChipBase.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Map\MapChip\ShapeBox\MapChipShapeBox.cpp" />
     <ClCompile Include="Src\Application\main.cpp" />
     <ClCompile Include="Src\Application\Scene\BaseScene\BaseScene.cpp" />
     <ClCompile Include="Src\Application\Scene\GameScene\GameScene.cpp" />

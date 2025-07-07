@@ -11,23 +11,14 @@
 
 #include "../../Camera/CameraBase.h"
 
+#include "../../../Utility/CommonConstant.h"
+
 void Player::Init()
 {
 	ActorBase::Init();
 
-	m_materialInfo.assetFilePath = "Asset/Models/Player/MF_IDLE/MF_IDLE.gltf";
-
-	if(!m_materialInfo.modelWork) 
-	{ 
-		m_materialInfo.modelWork = std::make_shared<KdModelWork>();			  
-	}
-	if (m_materialInfo.modelWork) 
-	{
-		m_materialInfo.modelWork->SetModelData(m_materialInfo.assetFilePath);
-	}
-
 	// TODO
-	m_transform.scale = { 1.0f , 1.0f , 1.0f };
+	m_transform.scale = CommonConstant::STANDARD_SCALE;
 
 	m_stateMachine.Start(this);
 	m_stateMachine.ChangeState<PlayerIdleState>();
@@ -35,19 +26,9 @@ void Player::Init()
 
 void Player::PostLoadInit()
 {
-	auto currentScene_ = SceneManager::GetInstance().GetCurrentScene().lock();
+	ActorBase::PostLoadInit();
 
-	// もしシーンが存在しなければアクセスできないので"return"
-	if(!currentScene_)
-	{
-		return;
-	}
-
-	// カメラのポインタをプレイヤーの"std::weak_ptr"に格納
-	for(auto& cache_ : currentScene_->GetCacheObjectList<CameraBase>())
-	{
-		m_camera = cache_.lock();
-	}
+	AssignCameraFromScene();
 }
 
 void Player::Update()
@@ -96,7 +77,7 @@ void Player::Move()
 
 void Player::AdjustFacingDirectionToCamera()
 {
-	if (m_moveDirection.LengthSquared() < 0.0001f) 
+	if (m_moveDirection.LengthSquared() < CommonConstant::MOVE_DIRECTION_EPSILON) 
 	{
 		return;
 	}
@@ -120,10 +101,12 @@ void Player::AdjustFacingDirectionToCamera()
 	// 内積を算出
 	float dot_ = nowDirection_.Dot(targetDirection_);
 
+	dot_ = std::clamp(dot_, CommonConstant::DOT_PRODUCT_MIN , CommonConstant::DOT_PRODUCT_MAX);
 	// 算出したなす角をアークコサイン化すると角度になる
 	float angleY_ = DirectX::XMConvertToDegrees(acos(dot_));
 
 	// TODO
+	// 加減速があった方がエネルギッシュ
 	if(angleY_ >= 0.1f)
 	{
 		if(angleY_ > 5.0f)
@@ -139,9 +122,9 @@ void Player::AdjustFacingDirectionToCamera()
 	{
 		m_transform.rotation.y += angleY_;
 		
-		if(m_transform.rotation.y > 360.0f)
+		if(m_transform.rotation.y > CommonConstant::ALL_DEGREE)
 		{
-			m_transform.rotation.y -= 360.0f;
+			m_transform.rotation.y -= CommonConstant::ALL_DEGREE;
 		}
 	}
 	else
@@ -150,7 +133,7 @@ void Player::AdjustFacingDirectionToCamera()
 
 		if (m_transform.rotation.y < 0.0f)
 		{
-			m_transform.rotation.y += 360.0f;
+			m_transform.rotation.y += CommonConstant::ALL_DEGREE;
 		}
 	}
 }
@@ -210,6 +193,23 @@ void Player::AddMoveDirectionIfKeyPressed(int VirtualKeyCode, Math::Vector3& Mov
 		}
 
 		MoveDirection += Math::Vector3::TransformNormal(WantAddDirection, cameraRotateY_);
+	}
+}
+
+void Player::AssignCameraFromScene()
+{
+	auto currentScene_ = SceneManager::GetInstance().GetCurrentScene().lock();
+
+	// もしシーンが存在しなければアクセスできないので"return"
+	if (!currentScene_)
+	{
+		return;
+	}
+
+	// カメラのポインタをプレイヤーの"std::weak_ptr"に格納
+	for (auto& cache_ : currentScene_->GetCacheObjectList<CameraBase>())
+	{
+		m_camera = cache_;
 	}
 }
 

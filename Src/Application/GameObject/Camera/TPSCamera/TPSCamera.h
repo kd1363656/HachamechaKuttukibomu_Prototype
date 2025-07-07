@@ -11,4 +11,8 @@ public:
 	
 	void Init()				override;
 	void PostUpdate()		override;
+
+private:
+
+	Math::Vector3 POINT_OF_FIXATION = { 0.0f , 1.5f , -3.0f };
 };

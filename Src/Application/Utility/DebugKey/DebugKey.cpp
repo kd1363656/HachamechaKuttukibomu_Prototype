@@ -19,7 +19,7 @@ void DebugKey::Update()
 	}
 }
 
-const Tag::KeyToggleInfo& DebugKey::GetKeyToggle(std::string KeyName) const
+const CommonStruct::KeyToggleInfo& DebugKey::GetKeyToggle(std::string KeyName) const
 {
 	auto itr_ = m_keyState.find(KeyName);
 
@@ -29,12 +29,12 @@ const Tag::KeyToggleInfo& DebugKey::GetKeyToggle(std::string KeyName) const
 	}
 	
 	assert(false && "デバックキーが登録されていません");
-	static Tag::KeyToggleInfo dummy_;	//フォールバック用
+	static CommonStruct::KeyToggleInfo dummy_;	//フォールバック用
 	return dummy_;
 
 }
 
-Tag::KeyToggleInfo& DebugKey::GetKeyToggle(std::string KeyName)
+CommonStruct::KeyToggleInfo& DebugKey::GetKeyToggle(std::string KeyName)
 {
 	auto itr_ = m_keyState.find(KeyName);
 
@@ -44,7 +44,7 @@ Tag::KeyToggleInfo& DebugKey::GetKeyToggle(std::string KeyName)
 	}
 	
 	assert(false && "デバックキーが登録されていません");
-	static Tag::KeyToggleInfo dummy_;	//フォールバック用
+	static CommonStruct::KeyToggleInfo dummy_;	//フォールバック用
 	return dummy_;
 
 }
@@ -55,7 +55,7 @@ void DebugKey::AddKeyToggle(std::string KeyName, int KeyCode)
 
 	if (itr_ == m_keyState.end())
 	{
-		m_keyState.emplace(KeyName , Tag::KeyToggleInfo(KeyCode) );
+		m_keyState.emplace(KeyName , CommonStruct::KeyToggleInfo(KeyCode) );
 	}
 	else
 	{
@@ -63,7 +63,7 @@ void DebugKey::AddKeyToggle(std::string KeyName, int KeyCode)
 	}
 }
 
-void DebugKey::HandleDebugToggleKey(Tag::KeyToggleInfo& Toggle)
+void DebugKey::HandleDebugToggleKey(CommonStruct::KeyToggleInfo& Toggle)
 {
 	auto& input_ = RawInputManager::GetInstance();
 

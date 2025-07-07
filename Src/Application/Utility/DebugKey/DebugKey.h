@@ -13,8 +13,8 @@ public:
 	void Init  ();
 	void Update();
 
-	const Tag::KeyToggleInfo& GetKeyToggle(std::string KeyName)const;
-	Tag::KeyToggleInfo& GetKeyToggle(std::string KeyName);
+	const CommonStruct::KeyToggleInfo& GetKeyToggle(std::string KeyName)const;
+	CommonStruct::KeyToggleInfo&       GetKeyToggle(std::string KeyName);
 
 	void SetIsActive(std::string KeyName , bool Set)
 	{
@@ -26,9 +26,9 @@ private:
 	
 	void AddKeyToggle(std::string KeyName , int KeyCode);
 	
-	void HandleDebugToggleKey(Tag::KeyToggleInfo& Toggle);
+	void HandleDebugToggleKey(CommonStruct::KeyToggleInfo& Toggle);
 
 	bool IsDebugKeyActivated();
 
-	std::unordered_map<std::string , Tag::KeyToggleInfo> m_keyState;
+	std::unordered_map<std::string , CommonStruct::KeyToggleInfo> m_keyState;
 };

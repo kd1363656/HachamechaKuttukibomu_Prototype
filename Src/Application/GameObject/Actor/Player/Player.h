@@ -34,6 +34,8 @@ private:
 
 	void AddMoveDirectionIfKeyPressed(int VirtualKeyCode , Math::Vector3& MoveDirection , const Math::Vector3& WantAddDirection);
 
+	void AssignCameraFromScene();
+
 protected:
 
 	void FixMatrix();

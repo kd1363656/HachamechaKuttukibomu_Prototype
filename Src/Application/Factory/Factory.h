@@ -39,7 +39,7 @@ public:
 		
 		uint32_t baseID_ = instance_->GetFinalBaseTypeID();
 
-		Tag::GameObjectFactoryInfo factory_(lambda_, baseID_);
+		CommonStruct::GameObjectFactoryInfo factory_(lambda_, baseID_);
 
 		// クラス名に応じたファクトリーメソッドを提供
 		m_gameObjectFactoryMethodList.emplace(className_, factory_);
@@ -50,11 +50,11 @@ public:
 #endif
 	}
 
-	const std::unordered_map<std::string, Tag::GameObjectFactoryInfo>& GetGameObjectFactoryMethodList() const { return m_gameObjectFactoryMethodList; }
+	const std::unordered_map<std::string, CommonStruct::GameObjectFactoryInfo>& GetGameObjectFactoryMethodList() const { return m_gameObjectFactoryMethodList; }
 
 private:
 
 	void RegisterGameObjectFactoryMethod();
 
-	std::unordered_map<std::string, Tag::GameObjectFactoryInfo> m_gameObjectFactoryMethodList;
+	std::unordered_map<std::string, CommonStruct::GameObjectFactoryInfo> m_gameObjectFactoryMethodList;
 };

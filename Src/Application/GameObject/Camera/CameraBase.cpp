@@ -88,13 +88,6 @@ nlohmann::json CameraBase::SaveJsonData()
 	return json_;
 }
 
-void CameraBase::SetTarget(const std::shared_ptr<KdGameObject>& target)
-{
-	if (!target) { return; }
-
-	m_wpTarget = target;
-}
-
 void CameraBase::ToggleIsMouseFree()
 {
 	// TODO

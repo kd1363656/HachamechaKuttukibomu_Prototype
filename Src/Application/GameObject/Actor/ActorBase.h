@@ -10,9 +10,10 @@ public:
 
 	virtual uint32_t GetFinalBaseTypeID()const { return GameObjectID::GetTypeID<ActorBase>(); }
 
-	virtual void Init() override;
+	virtual void Init        () override;
+	virtual void PostLoadInit()override;
 	
-	virtual void DrawUnLit                () override;
+	virtual void DrawLit                  () override;
 	virtual void GenerateDepthMapFromLight() override;
 
 	virtual void PostUpdate() override;
@@ -22,6 +23,8 @@ public:
 
 	void           LoadJsonData(const nlohmann::json Json) override;
 	nlohmann::json SaveJsonData()						   override;
+
+	void LoadAsset() final override;
 
 	Math::Vector3& GetMovement() { return m_movement; }
 
@@ -35,8 +38,8 @@ protected:
 
 	virtual void FixMatrix();
 
-	Tag::MaterialInfo m_materialInfo = {};
-	Tag::Transform3D  m_transform    = {};
+	CommonStruct::MaterialInfo m_materialInfo = {};
+	CommonStruct::Transform3D  m_transform    = {};
 
 	Math::Vector3 m_movement      = Math::Vector3::Zero;
 	Math::Vector3 m_moveDirection = Math::Vector3::Zero;
