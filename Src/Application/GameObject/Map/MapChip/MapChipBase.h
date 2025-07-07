@@ -17,11 +17,9 @@ public:
 
 	virtual void PostUpdate() override;
 
-	bool CheckInScreen(const DirectX::BoundingFrustum& Frustum) const final override;
-
-	virtual void DrawImGuiInspectors        ()override;
-	void		 DrawImGuiMaterialInspector ();
+	virtual void DrawImGuiInspectors        () override;
 	void		 DrawImGuiTransformInspector();
+	void		 DrawImGuiMaterialInspector ();
 	void		 DrawImGuiCollisionInspector();
 
 	void           LoadJsonData(const nlohmann::json Json) override;
@@ -31,21 +29,16 @@ public:
 
 private:
 
-	// "ImGui"で使うだけのもの
-	struct CollisionTypeList
-	{
-		const char* Label;
-		uint32_t    Type;
-	};
-
 	const std::string COMMON_ASSET_FILE_PATH = "Asset/";
 
 protected:
 
 	virtual void FixMatrix();
 
-	CommonStruct::MaterialInfo m_materialInfo = {};
-	CommonStruct::Transform3D  m_transform    = {};
+	std::shared_ptr<KdModelWork> m_mesh = nullptr;
+
+	CommonStruct::MeshInfo     m_meshInfo  = {};
+	CommonStruct::Transform3D  m_transform = {};
 
 	uint32_t m_collisionType = 0u;
 };

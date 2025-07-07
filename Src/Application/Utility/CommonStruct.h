@@ -29,10 +29,16 @@ namespace CommonStruct
 		Math::Vector3 location = Math::Vector3::Zero;
 	};
 
-	struct MaterialInfo
+	struct MeshInfo
 	{
-		std::shared_ptr<KdModelWork> modelWork     = nullptr;
-		std::string					 assetFilePath = "";
-		Math::Color				     color         = {};
+		std::string	assetFilePath = "";
+		Math::Color	color         = {};
+	};
+
+	// "ImGui"で使うだけのもの
+	struct CollisionTypeList
+	{
+		const char* Label;
+		uint32_t    Type;
 	};
 }

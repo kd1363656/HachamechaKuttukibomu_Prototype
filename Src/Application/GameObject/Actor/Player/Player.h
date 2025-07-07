@@ -38,5 +38,5 @@ private:
 
 protected:
 
-	void FixMatrix();
+	void FixMatrix() override;
 };

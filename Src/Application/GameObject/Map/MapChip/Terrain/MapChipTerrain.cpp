@@ -16,7 +16,7 @@ void MapChipTerrain::PostLoadInit()
 		m_pCollider->RegisterCollisionShape
 		(
 			{ "MapChipTerrain"         } ,
-			{ m_materialInfo.modelWork } ,
+			{ m_mesh                   } ,
 			{ m_collisionType          }
 		);
 	}

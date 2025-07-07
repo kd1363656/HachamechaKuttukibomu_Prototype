@@ -2,6 +2,7 @@
 
 #include "../../../Utility/JsonUtility.h"
 #include "../../../Utility/ImGui/ImGuiManager.h"
+#include "../../../Utility/CommonStruct.h"
 
 #include "../../../main.h"
 
@@ -9,10 +10,10 @@ void MapChipBase::Init()
 {
 	KdGameObject::Init();
 	
-	m_materialInfo = {};
-	m_transform    = {};
+	m_meshInfo  = {};
+	m_transform = {};
 
-	m_materialInfo.assetFilePath = COMMON_ASSET_FILE_PATH;
+	m_meshInfo.assetFilePath = COMMON_ASSET_FILE_PATH;
 }
 
 void MapChipBase::PostLoadInit()
@@ -23,9 +24,9 @@ void MapChipBase::PostLoadInit()
 
 void MapChipBase::DrawLit()
 {
-	if (!m_materialInfo.modelWork) { return; }
+	if (!m_mesh) { return; }
 
-	KdShaderManager::Instance().m_StandardShader.DrawModel(*m_materialInfo.modelWork , m_mWorld , m_materialInfo.color);
+	KdShaderManager::Instance().m_StandardShader.DrawModel(*m_mesh , m_mWorld , m_meshInfo.color);
 }
 
 void MapChipBase::PostUpdate()
@@ -49,41 +50,40 @@ void MapChipBase::DrawImGuiInspectors()
 	ImGui::Text("Collision");
 	DrawImGuiCollisionInspector();
 }
-void MapChipBase::DrawImGuiMaterialInspector()
-{
-	if (ImGui::Button(("TextureFilePath : %s", m_materialInfo.assetFilePath.c_str())))
-	{
-		std::string defPath_ = COMMON_ASSET_FILE_PATH;
-		if (Application::Instance().GetWindow().OpenFileDialog(defPath_))
-		{
-			// 変更したファイルパスを取得して変数に代入し、画像をロードしなおす
-			m_materialInfo.assetFilePath = defPath_;
-
-			if (!m_materialInfo.modelWork)
-			{
-				m_materialInfo.modelWork = std::make_shared<KdModelWork>();
-			}
-
-			if (m_materialInfo.modelWork)
-			{
-				m_materialInfo.modelWork->SetModelData(defPath_);
-			}
-		}
-	}
-
-	ImGui::ColorEdit4("Color", &m_materialInfo.color.x);
-}
 void MapChipBase::DrawImGuiTransformInspector()
 {
 	ImGui::DragFloat3("Location" , &m_transform.location.x , 0.1f);
 	ImGui::DragFloat3("Rotation" , &m_transform.rotation.x , 1.0f);
 	ImGui::DragFloat3("Scale"    , &m_transform.scale.x    , 0.1f);
 }
+void MapChipBase::DrawImGuiMaterialInspector()
+{
+	if (ImGui::Button(("TextureFilePath : %s", m_meshInfo.assetFilePath.c_str())))
+	{
+		std::string defPath_ = COMMON_ASSET_FILE_PATH;
+		if (Application::Instance().GetWindow().OpenFileDialog(defPath_))
+		{
+			// 変更したファイルパスを取得して変数に代入し、画像をロードしなおす
+			m_meshInfo.assetFilePath = defPath_;
+
+			if (!m_mesh)
+			{
+				m_mesh = std::make_shared<KdModelWork>();
+			}
+
+			if (m_mesh)
+			{
+				m_mesh->SetModelData(defPath_);
+			}
+		}
+	}
+
+	ImGui::ColorEdit4("Color", &m_meshInfo.color.x);
+}
 void MapChipBase::DrawImGuiCollisionInspector()
 {
 	// TODO
-	// オーバーヘッド気になるなら"static"にする
-	CollisionTypeList list_[] =
+	CommonStruct::CollisionTypeList list_[] =
 	{
 		{ "TypeGround"     , KdCollider::TypeGround     } ,
 		{ "TypeBump"       , KdCollider::TypeBump       } ,
@@ -129,8 +129,8 @@ void MapChipBase::LoadJsonData(const nlohmann::json Json)
 	// Jsonで設定した値を代入
 	m_typeName = Json.value("TypeName" , "");
 
-	m_materialInfo.assetFilePath = Json.value("AssetFilePath" , "");
-	m_materialInfo.color         = JsonUtility::JsonToVec4(Json["Color"]);
+	m_meshInfo.assetFilePath = Json.value("AssetFilePath" , "");
+	m_meshInfo.color         = JsonUtility::JsonToVec4(Json["Color"]);
 
 	m_transform.scale    = JsonUtility::JsonToVec3(Json["Scale"]);
 	m_transform.rotation = JsonUtility::JsonToVec3(Json["Rotation"]);
@@ -145,8 +145,8 @@ nlohmann::json MapChipBase::SaveJsonData()
 
 	json_["TypeName"] = m_typeName;
 
-	json_["AssetFilePath"] = m_materialInfo.assetFilePath;
-	json_["Color"]         = JsonUtility::Vec4ToJson(m_materialInfo.color);
+	json_["AssetFilePath"] = m_meshInfo.assetFilePath;
+	json_["Color"]         = JsonUtility::Vec4ToJson(m_meshInfo.color);
 
 	json_["Scale"]    = JsonUtility::Vec3ToJson(m_transform.scale);
 	json_["Rotation"] = JsonUtility::Vec3ToJson(m_transform.rotation);
@@ -159,15 +159,15 @@ nlohmann::json MapChipBase::SaveJsonData()
 
 void MapChipBase::LoadAsset()
 {
-	if (m_materialInfo.assetFilePath.empty())
+	if (m_meshInfo.assetFilePath.empty())
 	{
 		return;
 	}
 
-	if (!m_materialInfo.modelWork)
+	if (!m_mesh)
 	{
-		m_materialInfo.modelWork = std::make_shared<KdModelWork>();
-		m_materialInfo.modelWork->SetModelData(m_materialInfo.assetFilePath);
+		m_mesh = std::make_shared<KdModelWork>();
+		m_mesh->SetModelData(m_meshInfo.assetFilePath);
 	}
 }
 

@@ -19,13 +19,16 @@ public:
 	virtual void PostUpdate() override;
 
 	virtual void DrawImGuiInspectors        ()override;
-	void		 DrawImGuiMaterialInspector ();
 	void		 DrawImGuiTransformInspector();
-	
+	void		 DrawImGuiMaterialInspector ();
+	void		 DrawImGuiCollisionInspector();
+
 	void           LoadJsonData(const nlohmann::json Json) override;
 	nlohmann::json SaveJsonData()						   override;
 
 	void LoadAsset() final override;
+
+	void MapCollision();
 
 	Math::Vector3& GetMovement() { return m_movement; }
 
@@ -38,9 +41,15 @@ private:
 protected:
 
 	virtual void FixMatrix();
+	
+	std::shared_ptr<KdModelWork> m_skeletonMesh;
 
-	CommonStruct::MaterialInfo m_materialInfo = {};
-	CommonStruct::Transform3D  m_transform    = {};
+	CommonStruct::MeshInfo    m_meshInfo  = {};
+	CommonStruct::Transform3D m_transform = {};
+
+	// "ImGuiなどで動的に当たり判定を変えたいからメンバ変数として持つ"
+	KdCollider::RayInfo    m_mapCollisonRayInfo    = {};
+	KdCollider::SphereInfo m_mapCollisonSphereInfo = {};
 
 	Math::Vector3 m_movement      = Math::Vector3::Zero;
 	Math::Vector3 m_moveDirection = Math::Vector3::Zero;
