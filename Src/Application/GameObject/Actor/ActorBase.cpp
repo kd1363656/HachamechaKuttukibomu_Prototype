@@ -201,9 +201,9 @@ void ActorBase::MapCollision()
 	// 球判定
 	{
 		m_mapCollisonSphereInfo.m_sphere.Center    = m_transform.location;
-		m_mapCollisonSphereInfo.m_sphere.Center.y += 0.60f;
+		m_mapCollisonSphereInfo.m_sphere.Center.y += 0.53f;
 
-		m_mapCollisonSphereInfo.m_sphere.Radius = 0.60f;
+		m_mapCollisonSphereInfo.m_sphere.Radius = 0.55f;
 		m_mapCollisonSphereInfo.m_type          = KdCollider::TypeGround;
 
 		m_pDebugWire->AddDebugSphere(m_mapCollisonSphereInfo.m_sphere.Center , m_mapCollisonSphereInfo.m_sphere.Radius);
