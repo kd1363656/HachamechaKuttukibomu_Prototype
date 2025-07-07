@@ -136,8 +136,11 @@
     <Filter Include="Src\Application\GameObject\Map\MapChip">
       <UniqueIdentifier>{a59d19f5-1445-466b-b3f2-abced27eaa03}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\GameObject\Map\MapChip\ShapeBox">
-      <UniqueIdentifier>{65d61514-c630-4657-9fb5-f0a2dd611ede}</UniqueIdentifier>
+    <Filter Include="Src\Application\GameObject\Map\MapChip\Gimmick">
+      <UniqueIdentifier>{fdb39402-e570-4466-afa0-d66b1d56117b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Map\MapChip\Terrain">
+      <UniqueIdentifier>{0d058f91-7b11-47ef-a0e3-eb1f477f371c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -378,8 +381,8 @@
     <ClInclude Include="Src\Application\GameObject\Map\MapChip\MapChipBase.h">
       <Filter>Src\Application\GameObject\Map\MapChip</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\GameObject\Map\MapChip\ShapeBox\MapChipShapeBox.h">
-      <Filter>Src\Application\GameObject\Map\MapChip\ShapeBox</Filter>
+    <ClInclude Include="Src\Application\GameObject\Map\MapChip\Terrain\MapChipTerrain.h">
+      <Filter>Src\Application\GameObject\Map\MapChip\Terrain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -569,8 +572,8 @@
     <ClCompile Include="Src\Application\GameObject\Map\MapChip\MapChipBase.cpp">
       <Filter>Src\Application\GameObject\Map\MapChip</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\GameObject\Map\MapChip\ShapeBox\MapChipShapeBox.cpp">
-      <Filter>Src\Application\GameObject\Map\MapChip\ShapeBox</Filter>
+    <ClCompile Include="Src\Application\GameObject\Map\MapChip\Terrain\MapChipTerrain.cpp">
+      <Filter>Src\Application\GameObject\Map\MapChip\Terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

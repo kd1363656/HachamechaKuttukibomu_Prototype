@@ -12,6 +12,8 @@ public:
 	void Init  ();
 	void Update();
 
+	void DrawSeparate();
+
 	// テンプレートの特殊化で生成した一意な"ID"とそのクラスの基底クラスの名前を結びつける
 	template <class ObjectType>
 	void GenereateGameObjectNameFilter()
@@ -46,8 +48,6 @@ private:
 
 	void DrawInspector();
 	void DrawInspector(uint32_t BaseTypeID);
-
-	void DrawSeparate();
 
 	void DrawPopups();
 

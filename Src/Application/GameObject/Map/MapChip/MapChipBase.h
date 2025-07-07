@@ -6,7 +6,7 @@ class MapChipBase : public KdGameObject
 public:
 
 	MapChipBase         () = default;
-	virtual ~MapChipBase()= default;
+	virtual ~MapChipBase() = default;
 
 	virtual uint32_t GetFinalBaseTypeID()const { return GameObjectID::GetTypeID<MapChipBase>(); }
 
@@ -17,8 +17,12 @@ public:
 
 	virtual void PostUpdate() override;
 
-	virtual void ImGuiMaterialInspector () override;
-	virtual void ImGuiTransformInspector() override;
+	bool CheckInScreen(const DirectX::BoundingFrustum& Frustum) const final override;
+
+	virtual void DrawImGuiInspectors        ()override;
+	void		 DrawImGuiMaterialInspector ();
+	void		 DrawImGuiTransformInspector();
+	void		 DrawImGuiCollisionInspector();
 
 	void           LoadJsonData(const nlohmann::json Json) override;
 	nlohmann::json SaveJsonData()						   override;
@@ -26,6 +30,13 @@ public:
 	void LoadAsset() final override;
 
 private:
+
+	// "ImGui"で使うだけのもの
+	struct CollisionTypeList
+	{
+		const char* Label;
+		uint32_t    Type;
+	};
 
 	const std::string COMMON_ASSET_FILE_PATH = "Asset/";
 
@@ -35,4 +46,6 @@ protected:
 
 	CommonStruct::MaterialInfo m_materialInfo = {};
 	CommonStruct::Transform3D  m_transform    = {};
+
+	uint32_t m_collisionType = 0u;
 };

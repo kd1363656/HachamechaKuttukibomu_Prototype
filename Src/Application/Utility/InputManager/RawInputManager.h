@@ -9,12 +9,12 @@ namespace Mouse
 {
 	struct Data
 	{
-		Math::Vector2 location;
-		int           wheelDelta;
-		bool          isClickMiddle;
-		bool          isReleaseMiddle;
-		bool          isClickRight;
-		bool          isClickLeft;
+		Math::Vector2 location        = Math::Vector2::Zero;
+		int           wheelDelta      = 0;
+		bool          isClickMiddle   = false;
+		bool          isReleaseMiddle = false;
+		bool          isClickRight    = false;	
+		bool          isClickLeft     = false;
 	};
 }
 

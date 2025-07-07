@@ -16,7 +16,8 @@ public:
 	void Update()			override;
 	void PreDraw()			override;
 
-	virtual void ImGuiTransformInspector()override;
+	virtual void DrawImGuiInspectors        ()override;
+	void		 DrawImGuiTransformInspector();
 
 	void           LoadJsonData(const nlohmann::json Json) override;
 	nlohmann::json SaveJsonData()						   override;

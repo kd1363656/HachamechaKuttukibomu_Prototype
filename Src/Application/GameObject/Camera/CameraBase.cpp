@@ -2,6 +2,7 @@
 
 #include "../../Utility/InputManager/RawInputManager.h"
 #include "../../Utility/JsonUtility.h"
+#include "../../Utility/ImGui/ImGuiManager.h"
 
 #include "../../Scene/SceneManager.h"
 #include "../../Scene/BaseScene/BaseScene.h"
@@ -57,12 +58,20 @@ void CameraBase::PreDraw()
 	m_spCamera->SetToShader();
 }
 
-void CameraBase::ImGuiTransformInspector()
+void CameraBase::DrawImGuiInspectors()
+{
+	auto& imGui_ = ImGuiManager::GetInstance();
+
+	imGui_.DrawSeparate();
+	ImGui::Text("Transform");
+	DrawImGuiTransformInspector();
+}
+void CameraBase::DrawImGuiTransformInspector()
 {
 	ImGui::DragFloat3("Location", &m_location.x, 0.1f);
-	ImGui::DragFloat3("Rotation", &m_degAng.x  , 1.0f);
+	ImGui::DragFloat3("Rotation", &m_degAng.x, 1.0f);
 
-	if(ImGui::Button("Reset Rotation"))
+	if (ImGui::Button("Reset Rotation"))
 	{
 		m_degAng = {};
 	}

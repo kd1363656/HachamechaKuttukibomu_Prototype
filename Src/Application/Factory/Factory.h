@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "../Utility/SingletonBase.h"
-#include "../Utility/CommonStruct.h"
 #include "../Utility/StringUtility.h"
+#include "../Utility/CommonStruct.h"
 
 // "class"は必ず"class Name"と書く、でなければバグがファクトリーメソッドで発生する
 class Factory : public SingletonBase<Factory>
@@ -15,7 +15,7 @@ public:
 
 	// "KdGameObject"の派生クラスの名前をキーとしてインスタンスを生成する
 	template <class ObjectType>
-	void RegisterGameObjectFuctoryMethod()
+	void RegisterGameObjectFactoryMethod()
 	{
 		static_assert(std::is_base_of_v<KdGameObject, ObjectType> && "登録しようとしているクラスはKdGameObjectの派生クラスではありません");
 

@@ -3,8 +3,8 @@
 #include "../../main.h"
 
 #include "../../GameObject/Camera/CameraBase.h"
-
 #include "../../GameObject/Actor/ActorBase.h"
+#include "../../GameObject/Map/MapChip/MapChipBase.h"
 
 #include "../../Factory/Factory.h"
 
@@ -16,8 +16,9 @@
 // "ImGui"の表示を消したかったら"KdDebugGui"を見てください
 void ImGuiManager::Init()
 {
-	GenereateGameObjectNameFilter<CameraBase>();
-	GenereateGameObjectNameFilter<ActorBase> ();
+	GenereateGameObjectNameFilter<CameraBase> ();
+	GenereateGameObjectNameFilter<ActorBase>  ();
+	GenereateGameObjectNameFilter<MapChipBase>();
 
 	m_isShowSavePopUp = false;
 }
@@ -35,6 +36,13 @@ void ImGuiManager::Update()
 	DrawInspector        ();
 
 	DrawPopups();
+}
+
+void ImGuiManager::DrawSeparate()
+{
+	ImGui::Spacing  ();
+	ImGui::Separator();
+	ImGui::Spacing  ();
 }
 
 void ImGuiManager::DrawProjectPanel()
@@ -134,6 +142,8 @@ void ImGuiManager::DrawFactoryPanel()
 		ImGui::Separator();
 		DrawFactoryPanel(GameObjectID::GetTypeID<CameraBase>() , "Add Camera");
 		ImGui::Separator();
+		DrawFactoryPanel(GameObjectID::GetTypeID<MapChipBase>(), "Add Camera");
+		ImGui::Separator();
 	}
 	ImGui::End();
 }
@@ -164,7 +174,7 @@ void ImGuiManager::DrawClassSelectorDropdown(uint32_t BaseTypeID)
 	auto& factory_ = Factory::GetInstance();
 
 	// "ImGui::BeginCombo"は第一引数に何か文字列を入れないとしっかり動作してくれないことが分かった
-	if (ImGui::BeginCombo("## Hidden", m_createObjectName.c_str()))
+	if (ImGui::BeginCombo("##Hidden", m_createObjectName.c_str()))
 	{
 		for(const auto& [key_ , value_] : factory_.GetGameObjectFactoryMethodList())
 		{
@@ -236,6 +246,8 @@ void ImGuiManager::DrawInspector()
 		ImGui::Separator();
 		DrawInspector(GameObjectID::GetTypeID<ActorBase> ());
 		ImGui::Separator();
+		DrawInspector(GameObjectID::GetTypeID<MapChipBase>());
+		ImGui::Separator();
 	}
 	ImGui::End();
 }
@@ -260,7 +272,6 @@ void ImGuiManager::DrawInspector(uint32_t BaseTypeID)
 			{
 				if (obj_->GetFinalBaseTypeID() == BaseTypeID)
 				{
-
 					std::string className_ = obj_->GetTypeName().data();
 					// ウィジェットの"TreeNode"が個別に識別できるようにポインターを刷り込ませる
 					className_ += "##" + std::to_string(reinterpret_cast<uintptr_t>(obj_.get()));
@@ -275,12 +286,7 @@ void ImGuiManager::DrawInspector(uint32_t BaseTypeID)
 							obj_->SetIsExpired(true);
 						}
 
-						DrawSeparate();
-						ImGui::Text("Transform");
-						obj_->ImGuiTransformInspector();
-						DrawSeparate();
-						ImGui::Text("Material");
-						obj_->ImGuiMaterialInspector();
+						obj_->DrawImGuiInspectors();
 
 						ImGui::TreePop();
 					}
@@ -289,13 +295,6 @@ void ImGuiManager::DrawInspector(uint32_t BaseTypeID)
 			ImGui::TreePop();
 		}
 	}
-}
-
-void ImGuiManager::DrawSeparate()
-{
-	ImGui::Spacing  ();
-	ImGui::Separator();
-	ImGui::Spacing  ();
 }
 
 void ImGuiManager::DrawPopups()

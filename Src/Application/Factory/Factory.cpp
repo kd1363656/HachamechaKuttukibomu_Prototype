@@ -6,6 +6,8 @@
 
 #include "../GameObject/Actor/Player/Player.h"
 
+#include "../GameObject/Map/MapChip/Terrain/MapChipTerrain.h"
+
 void Factory::Init()
 {
 	RegisterGameObjectFactoryMethod();
@@ -17,11 +19,13 @@ void Factory::RegisterGameObjectFactoryMethod()
 	KdDebugGUI::Instance().AddLog("============ Start register gameObject factory ============\n\n");
 #endif // _DEBUG
 
-	RegisterGameObjectFuctoryMethod<FPSCamera>  ();
-	RegisterGameObjectFuctoryMethod<TPSCamera>  ();
-	RegisterGameObjectFuctoryMethod<DebugCamera>();
+	RegisterGameObjectFactoryMethod<FPSCamera>  ();
+	RegisterGameObjectFactoryMethod<TPSCamera>  ();
+	RegisterGameObjectFactoryMethod<DebugCamera>();
 	
-	RegisterGameObjectFuctoryMethod<Player>();
+	RegisterGameObjectFactoryMethod<Player>();
+
+	RegisterGameObjectFactoryMethod<MapChipTerrain>();
 
 #ifdef _DEBUG
 	KdDebugGUI::Instance().AddLog("\n============ End register gameObject factory ==============\n\n\n\n");

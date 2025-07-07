@@ -2,6 +2,8 @@
 
 #include "../Src/Application/Utility/StringUtility.h"
 
+#include "../Src/Application/Utility/ImGui/ImGuiManager.h"
+
 void KdGameObject::Init()
 {
 	m_mWorld = Math::Matrix::Identity;
@@ -14,13 +16,19 @@ void KdGameObject::Init()
 
 	m_isExpired = false;
 
-	if (!m_pDebugWire) { m_pDebugWire = std::make_unique<KdDebugWireFrame>(); }
+	if (!m_pDebugWire) 
+	{ 
+		m_pDebugWire = std::make_unique<KdDebugWireFrame>(); 
+	}
 }
 
 void KdGameObject::DrawDebug()
 {
 	// 早期リターン
-	if (!m_pDebugWire)return;
+	if (!m_pDebugWire) 
+	{
+		return;
+	}
 
 	m_pDebugWire->Draw();
 }
@@ -32,19 +40,28 @@ void KdGameObject::CalcDistSqrFromCamera(const Math::Vector3& camPos)
 
 bool KdGameObject::Intersects(const KdCollider::SphereInfo& targetShape, std::list<KdCollider::CollisionResult>* pResults) const
 {
-	if (!m_pCollider) { return false; }
+	if (!m_pCollider) 
+	{
+		return false; 
+	}
 
 	return m_pCollider->Intersects(targetShape, m_mWorld, pResults);
 }
 bool KdGameObject::Intersects(const KdCollider::BoxInfo& targetBox, std::list<KdCollider::CollisionResult>* pResults) const
 {
-	if (!m_pCollider) { return false; }
+	if (!m_pCollider) 
+	{
+		return false; 
+	}
 
 	return m_pCollider->Intersects(targetBox, m_mWorld, pResults);
 }
 bool KdGameObject::Intersects(const KdCollider::RayInfo& targetShape, std::list<KdCollider::CollisionResult>* pResults) const
 {
-	if (!m_pCollider) { return false; }
+	if (!m_pCollider) 
+	{
+		return false; 
+	}
 
 	return m_pCollider->Intersects(targetShape, m_mWorld, pResults);
 }

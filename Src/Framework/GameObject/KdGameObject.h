@@ -43,9 +43,8 @@ public:
 	virtual void DrawDebug				  ();
 
 	// "ImGuiManager"で管理するよりこちらで管理したほうが柔軟性、拡張性が高いからここに書く
-	virtual void ImGuiTransformInspector() { /* まだ実装されていません、派生クラスで実装してください */ }
-	virtual void ImGuiMaterialInspector () { /* まだ実装されていません、派生クラスで実装してください */ }
-
+	virtual void DrawImGuiInspectors() { /* まだ実装されていません、派生クラスで実装してください */ }
+	
 	virtual void           LoadJsonData(const nlohmann::json Json) {/* まだ実装されていません、派生クラスで実装してください */ }
 	virtual nlohmann::json SaveJsonData()						   { return nlohmann::json(); }
 

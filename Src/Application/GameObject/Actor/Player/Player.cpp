@@ -17,7 +17,6 @@ void Player::Init()
 {
 	ActorBase::Init();
 
-	// TODO
 	m_transform.scale = CommonConstant::STANDARD_SCALE;
 
 	m_stateMachine.Start(this);
@@ -84,8 +83,15 @@ void Player::AdjustFacingDirectionToCamera()
 
 	Math::Vector3 targetDirection_ = Math::Vector3::Zero;
 
+	Math::Matrix cameraRotateY_ = Math::Matrix::Identity;
+
+	if (auto wp_ = m_camera.lock())
+	{
+		cameraRotateY_ = wp_->GetRotationYMatrix();
+	}
+
 	// 進行方向がキャラクターの目的となる向きの角度
-	targetDirection_ = m_moveDirection;
+	targetDirection_ = m_moveDirection.TransformNormal(m_moveDirection , cameraRotateY_);
 
 	// 現在の角度を行列変換する
 	Math::Matrix nowRotationMatY_ = Math::Matrix::CreateRotationY(DirectX::XMConvertToRadians(m_transform.rotation.y));
@@ -185,14 +191,7 @@ void Player::AddMoveDirectionIfKeyPressed(int VirtualKeyCode, Math::Vector3& Mov
 
 	if (input_.GetKeyState(VirtualKeyCode))
 	{
-		Math::Matrix cameraRotateY_ = Math::Matrix::Identity;
-
-		if(auto wp_ = m_camera.lock())
-		{
-			cameraRotateY_ = wp_->GetRotationYMatrix();
-		}
-
-		MoveDirection += Math::Vector3::TransformNormal(WantAddDirection, cameraRotateY_);
+		MoveDirection += WantAddDirection;
 	}
 }
 

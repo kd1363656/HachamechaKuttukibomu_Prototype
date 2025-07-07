@@ -3,6 +3,7 @@
 #include "../../Factory/Factory.h"
 
 #include "../../Utility/JsonUtility.h"
+#include "../../Utility/ImGui/ImGuiManager.h"
 
 #include "../../main.h"
 
@@ -15,6 +16,8 @@ void ActorBase::Init()
 
 	m_movement      = Math::Vector3::Zero;
 	m_moveDirection = Math::Vector3::Zero;
+
+	m_materialInfo.assetFilePath = COMMON_ASSET_FILE_PATH;
 }
 
 void ActorBase::PostLoadInit()
@@ -41,7 +44,19 @@ void ActorBase::PostUpdate()
 	FixMatrix();
 }
 
-void ActorBase::ImGuiMaterialInspector()
+void ActorBase::DrawImGuiInspectors()
+{
+	auto& imGui_ = ImGuiManager::GetInstance();
+
+	imGui_.DrawSeparate();
+	ImGui::Text("Transform");
+	DrawImGuiTransformInspector();
+
+	imGui_.DrawSeparate();
+	ImGui::Text("Material");
+	DrawImGuiMaterialInspector ();
+}
+void ActorBase::DrawImGuiMaterialInspector()
 {
 	if (ImGui::Button(("TextureFilePath : %s", m_materialInfo.assetFilePath.c_str())))
 	{
@@ -65,7 +80,7 @@ void ActorBase::ImGuiMaterialInspector()
 
 	ImGui::ColorEdit4("Color", &m_materialInfo.color.x);
 }
-void ActorBase::ImGuiTransformInspector()
+void ActorBase::DrawImGuiTransformInspector()
 {
 	ImGui::DragFloat3("Location" , &m_transform.location.x , 0.1f);
 	ImGui::DragFloat3("Rotation" , &m_transform.rotation.x , 1.0f);
