@@ -20,10 +20,7 @@ void GameObjectFileIO::SaveSceneData()
 {
 	auto currentScene_ = SceneManager::GetInstance().GetCurrentScene().lock();
 
-	if (!currentScene_) 
-	{ 
-		return;
-	}
+	if (!currentScene_) { return; }
 
 	nlohmann::json json_ = nlohmann::json::array();
 
@@ -40,10 +37,7 @@ void GameObjectFileIO::LoadSceneData()
 {
 	auto currentScene_ = SceneManager::GetInstance().GetCurrentScene().lock();
 
-	if (!currentScene_) 
-	{ 
-		return;
-	}
+	if (!currentScene_) { return; }
 
 	nlohmann::json json_ = JsonUtility::LoadJsonFile(m_filePath);
 
@@ -64,10 +58,7 @@ void GameObjectFileIO::LoadGameObjectData(std::string&& ClassName, const nlohman
 	auto& factory_      = Factory::GetInstance                              ();
 	auto  currentScene_ = SceneManager::GetInstance().GetCurrentScene().lock();
 
-	if (!currentScene_) 
-	{ 
-		return; 
-	}
+	if (!currentScene_) { return; }
 
 	auto itr_ = factory_.GetGameObjectFactoryMethodList().find(ClassName);
 
@@ -79,7 +70,10 @@ void GameObjectFileIO::LoadGameObjectData(std::string&& ClassName, const nlohman
 
 		// "Json"データの"Null"チェック
 		// 必要ならクラス名チェックも入れておいた方がいい
-		if (!Json.is_null()) { instance_->LoadJsonData(Json); }
+		if (!Json.is_null()) 
+		{
+			instance_->LoadJsonData(Json); 
+		}
 
 		currentScene_->AddObject(instance_);
 	}

@@ -28,7 +28,8 @@ public:
 
 	void LoadAsset() final override;
 
-	void MapCollision();
+	void UpdateGravity();
+	void MapCollision ();
 
 	Math::Vector3& GetMovement() { return m_movement; }
 
@@ -42,10 +43,11 @@ protected:
 
 	virtual void FixMatrix();
 	
-	std::shared_ptr<KdModelWork> m_skeletonMesh;
+	std::shared_ptr<KdModelWork> m_mesh;
 
-	CommonStruct::MeshInfo    m_meshInfo  = {};
-	CommonStruct::Transform3D m_transform = {};
+	CommonStruct::Transform3D m_transform   = {};
+	CommonStruct::MeshInfo    m_meshInfo    = {};
+	CommonStruct::GravityInfo m_gravityInfo = {};
 
 	// "ImGuiなどで動的に当たり判定を変えたいからメンバ変数として持つ"
 	KdCollider::RayInfo    m_mapCollisonRayInfo    = {};
@@ -55,4 +57,5 @@ protected:
 	Math::Vector3 m_moveDirection = Math::Vector3::Zero;
 
 	float m_maxMoveSpeed  = 0.0f;
+
 };

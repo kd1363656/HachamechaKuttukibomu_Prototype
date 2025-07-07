@@ -38,7 +38,14 @@ namespace CommonStruct
 	// "ImGui"で使うだけのもの
 	struct CollisionTypeList
 	{
-		const char* Label;
-		uint32_t    Type;
+		const char* label;
+		uint32_t    type;
+	};
+
+	struct GravityInfo
+	{
+		float currentGravity;
+		float accumulatedGravity;
+		float maxGravity;
 	};
 }

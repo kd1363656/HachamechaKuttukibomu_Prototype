@@ -18,6 +18,10 @@ namespace JsonUtility
 	inline Math::Color    JsonToColor(const nlohmann::json& Json ) { return Math::Color    { Json.value("X"   , 0.0f) , Json.value("Y" , 0.0f) , Json.value("Z"  , 0.0f) , Json.value("W" , 0.0f) }; }
 	inline nlohmann::json ColorToJson(const Math::Color&    Color) { return nlohmann::json { { "X" , Color.x }        , {"Y" , Color.y}        , {"Z" , Color.z} , {"W" , Color.w  }              }; }
 
+	// 自作構造体用ヘルパー関数
+	inline CommonStruct::GravityInfo JsonToGravityInfo(const nlohmann::json&            Json       ) { return CommonStruct::GravityInfo{ Json.value("CurrentGravity", 0.0f)               , Json.value("AccumulatedGravity" , 0.0f)      , Json.value("MaxGravity" , 0.0f)          }; }
+	inline nlohmann::json            GravityInfoToJson(const CommonStruct::GravityInfo& GravityInfo) { return nlohmann::json{ { "CurrentGravity", GravityInfo.currentGravity } , {"AccumulatedGravity" , GravityInfo.accumulatedGravity} , {"MaxGravity" , GravityInfo.maxGravity } }; }
+
 	CommonStruct::Transform3D JsonToTransform3D(const nlohmann::json&           Json     );
 	nlohmann::json            Transform3DToJson(const CommonStruct::Transform3D Transform);
 

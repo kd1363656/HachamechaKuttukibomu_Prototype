@@ -33,10 +33,7 @@ void CameraBase::PostLoadInit()
 	auto currentScene_ = SceneManager::GetInstance().GetCurrentScene().lock();
 
 	// もしシーンが存在しなければアクセスできないので"return"
-	if (!currentScene_)
-	{
-		return;
-	}
+	if (!currentScene_) { return; }
 
 	// カメラのポインタをプレイヤーの"std::weak_ptr"に格納
 	for (auto& cache_ : currentScene_->GetCacheObjectList<Player>())

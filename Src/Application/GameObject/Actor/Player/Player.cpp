@@ -35,6 +35,8 @@ void Player::Update()
 	m_moveDirection = Math::Vector3::Zero;
 	m_movement      = Math::Vector3::Zero;
 
+	UpdateGravity();
+
 	m_stateMachine.Update();
 
 	AdjustFacingDirectionToCamera();
@@ -42,10 +44,7 @@ void Player::Update()
 
 void Player::Move()
 {
-	if (IsInvalidMoveKeyPressed())
-	{
-		return;
-	}
+	if (IsInvalidMoveKeyPressed()) { return; }
 
 	const float deltaTime_ = Application::Instance().GetScaledDeltaTime();
 
@@ -76,10 +75,7 @@ void Player::Move()
 
 void Player::AdjustFacingDirectionToCamera()
 {
-	if (m_moveDirection.LengthSquared() < CommonConstant::MOVE_DIRECTION_EPSILON) 
-	{
-		return;
-	}
+	if (m_moveDirection.LengthSquared() < CommonConstant::MOVE_DIRECTION_EPSILON) { return; }
 
 	Math::Vector3 targetDirection_ = Math::Vector3::Zero;
 
@@ -184,10 +180,7 @@ void Player::AddMoveDirectionIfKeyPressed(int VirtualKeyCode, Math::Vector3& Mov
 {
 	auto& input_ = RawInputManager::GetInstance();
 
-	if (IsInvalidMoveKeyPressed())
-	{
-		return;
-	}
+	if (IsInvalidMoveKeyPressed()) { return; }
 
 	if (input_.GetKeyState(VirtualKeyCode))
 	{
@@ -200,10 +193,7 @@ void Player::AssignCameraFromScene()
 	auto currentScene_ = SceneManager::GetInstance().GetCurrentScene().lock();
 
 	// もしシーンが存在しなければアクセスできないので"return"
-	if (!currentScene_)
-	{
-		return;
-	}
+	if (!currentScene_) { return; }
 
 	// カメラのポインタをプレイヤーの"std::weak_ptr"に格納
 	for (auto& cache_ : currentScene_->GetCacheObjectList<CameraBase>())

@@ -97,29 +97,29 @@ void MapChipBase::DrawImGuiCollisionInspector()
 	{
 		// 特定の"bit"が立っていれば"true"
 		// チェックボックスがついているかどうかを示すことができる("ImGui"上の表示に反映される)
-		bool selected_ = (m_collisionType & item_.Type) != 0u;
+		bool selected_ = (m_collisionType & item_.type) != 0u;
 
 		// 第二引数の"bool"型はユーザーがクリックしたときのチェックボックスに
 		// チェックがついているかどうかの状態のフラグを返す
-		if (ImGui::Checkbox(item_.Label , &selected_))
+		if (ImGui::Checkbox(item_.label , &selected_))
 		{
 			if (selected_)
 			{
-				m_collisionType |= item_.Type;
+				m_collisionType |= item_.type;
 			}
 			else
 			{
-				m_collisionType &= ~item_.Type;
+				m_collisionType &= ~item_.type;
 			}
 		}
 	}
 
-	ImGui::Text("Registerd Collision");
+	ImGui::Text("Registered Collision");
 	for (auto& item_ : list_)
 	{
-		if (m_collisionType & item_.Type)
+		if (m_collisionType & item_.type)
 		{
-			ImGui::Text(item_.Label);
+			ImGui::Text(item_.label);
 		}
 	}
 }
@@ -129,12 +129,8 @@ void MapChipBase::LoadJsonData(const nlohmann::json Json)
 	// Jsonで設定した値を代入
 	m_typeName = Json.value("TypeName" , "");
 
-	m_meshInfo.assetFilePath = Json.value("AssetFilePath" , "");
-	m_meshInfo.color         = JsonUtility::JsonToVec4(Json["Color"]);
-
-	m_transform.scale    = JsonUtility::JsonToVec3(Json["Scale"]);
-	m_transform.rotation = JsonUtility::JsonToVec3(Json["Rotation"]);
-	m_transform.location = JsonUtility::JsonToVec3(Json["Location"]);
+	if (Json.contains("Transform")) { m_transform = JsonUtility::JsonToTransform3D(Json["Transform"]); }
+	if (Json.contains("MeshInfo" )) { m_meshInfo  = JsonUtility::JsonToMeshInfo   (Json["MeshInfo" ]); }
 
 	m_collisionType = Json.value("CollisionType" , 0u);
 }
@@ -145,12 +141,8 @@ nlohmann::json MapChipBase::SaveJsonData()
 
 	json_["TypeName"] = m_typeName;
 
-	json_["AssetFilePath"] = m_meshInfo.assetFilePath;
-	json_["Color"]         = JsonUtility::Vec4ToJson(m_meshInfo.color);
-
-	json_["Scale"]    = JsonUtility::Vec3ToJson(m_transform.scale);
-	json_["Rotation"] = JsonUtility::Vec3ToJson(m_transform.rotation);
-	json_["Location"] = JsonUtility::Vec3ToJson(m_transform.location);
+	json_["Transform"] = JsonUtility::Transform3DToJson(m_transform);
+	json_["MeshInfo" ] = JsonUtility::MeshInfoToJson   (m_meshInfo );
 
 	json_["CollisionType"] = m_collisionType;
 
@@ -159,10 +151,7 @@ nlohmann::json MapChipBase::SaveJsonData()
 
 void MapChipBase::LoadAsset()
 {
-	if (m_meshInfo.assetFilePath.empty())
-	{
-		return;
-	}
+	if (m_meshInfo.assetFilePath.empty()) { return; }
 
 	if (!m_mesh)
 	{
