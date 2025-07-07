@@ -49,10 +49,10 @@ void Player::Move()
 	const float deltaTime_ = Application::Instance().GetScaledDeltaTime();
 
 	// キー入力を確認してベクトルを計算
-	AddMoveDirectionIfKeyPressed('D' , m_moveDirection ,  Math::Vector3::UnitX);
-	AddMoveDirectionIfKeyPressed('A' , m_moveDirection , -Math::Vector3::UnitX);
-	AddMoveDirectionIfKeyPressed('W' , m_moveDirection ,  Math::Vector3::UnitZ);
-	AddMoveDirectionIfKeyPressed('S' , m_moveDirection , -Math::Vector3::UnitZ);
+	AddMoveDirectionIfKeyPressed('D' , m_moveDirection , Math::Vector3::Right   );
+	AddMoveDirectionIfKeyPressed('A' , m_moveDirection , Math::Vector3::Left    );
+	AddMoveDirectionIfKeyPressed('W' , m_moveDirection , Math::Vector3::Backward);
+	AddMoveDirectionIfKeyPressed('S' , m_moveDirection , Math::Vector3::Forward );
 
 	Math::Vector3 moveDirection_ = m_moveDirection;
 

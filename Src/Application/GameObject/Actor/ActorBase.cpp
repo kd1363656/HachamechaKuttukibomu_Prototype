@@ -27,6 +27,9 @@ void ActorBase::Init()
 void ActorBase::PostLoadInit()
 {
 	LoadAsset();
+
+	FixMatrix ();
+	PostUpdate();
 }
 
 void ActorBase::DrawLit()
@@ -65,7 +68,7 @@ void ActorBase::DrawImGuiTransformInspector()
 {
 	ImGui::DragFloat3("Location", &m_transform.location.x, 0.1f);
 	ImGui::DragFloat3("Rotation", &m_transform.rotation.x, 1.0f);
-	ImGui::DragFloat3("Scale", &m_transform.scale.x, 0.1f);
+	ImGui::DragFloat3("Scale"   , &m_transform.scale.x   , 0.1f);
 }
 void ActorBase::DrawImGuiMaterialInspector()
 {
@@ -150,14 +153,15 @@ void ActorBase::MapCollision()
 
 	if (!scene_) { return; }
 
+	// レイ判定
 	{
 		// レイのパラメータを設定
 		// TODO
-		m_mapCollisonRayInfo.m_pos = m_transform.location;
-		m_mapCollisonRayInfo.m_pos.y += 0.13f;
-		m_mapCollisonRayInfo.m_dir = -Math::Vector3::UnitY;
-		m_mapCollisonRayInfo.m_range = 0.20f + m_gravityInfo.currentGravity;
-		m_mapCollisonRayInfo.m_type = KdCollider::TypeGround;
+		m_mapCollisonRayInfo.m_pos   = m_transform.location;
+		m_mapCollisonRayInfo.m_pos.y += 0.40f;
+		m_mapCollisonRayInfo.m_dir   = Math::Vector3::Down;
+		m_mapCollisonRayInfo.m_range = 0.30f + m_gravityInfo.currentGravity;
+		m_mapCollisonRayInfo.m_type  = KdCollider::TypeGround;
 
 		if (m_pDebugWire)
 		{
@@ -173,23 +177,64 @@ void ActorBase::MapCollision()
 
 		// レイに当たったリザルトリストから一番レイとオブジェクトの重なった量が
 		// 大きいオブジェクトを探す
-		Math::Vector3 hitLocation_ = Math::Vector3::Zero;
-		float maxOverLapWidth      = 0.0f;
-		bool  hit_                 = false;
+		Math::Vector3 hitLocation_     = Math::Vector3::Zero;
+		float         maxOverLapWidth_ = 0.0f;
+		bool          hit_             = false;
 
 		for(auto& result_ : resultList_)
 		{
-			if(maxOverLapWidth < result_.m_overlapDistance)
+			if(maxOverLapWidth_ < result_.m_overlapDistance)
 			{
-				maxOverLapWidth = result_.m_overlapDistance;
-				hitLocation_    = result_.m_hitPos;
-				hit_            = true;
+				maxOverLapWidth_ = result_.m_overlapDistance;
+				hitLocation_     = result_.m_hitPos;
+				hit_             = true;
 			}
 		}
 
 		if(hit_)
 		{
-			m_transform.location.y       = hitLocation_.y + m_mapCollisonRayInfo.m_range;
+			m_transform.location.y       = hitLocation_.y;
+			m_gravityInfo.currentGravity = 0.0f;
+		}
+	}
+
+	// 球判定
+	{
+		m_mapCollisonSphereInfo.m_sphere.Center    = m_transform.location;
+		m_mapCollisonSphereInfo.m_sphere.Center.y += 0.60f;
+
+		m_mapCollisonSphereInfo.m_sphere.Radius = 0.60f;
+		m_mapCollisonSphereInfo.m_type          = KdCollider::TypeGround;
+
+		m_pDebugWire->AddDebugSphere(m_mapCollisonSphereInfo.m_sphere.Center , m_mapCollisonSphereInfo.m_sphere.Radius);
+
+		std::list<KdCollider::CollisionResult> resultList_;
+
+		for(auto& obj_ : scene_->GetObjectList())
+		{
+			obj_->Intersects(m_mapCollisonSphereInfo , &resultList_);
+		}
+
+		Math::Vector3 hitDirection_    = Math::Vector3::Zero;
+		float         maxOverLapWidth_ = 0.0f;
+		bool          hit_             = false;
+
+		for(auto& result_ : resultList_)
+		{
+			if(maxOverLapWidth_ < result_.m_overlapDistance)
+			{
+				maxOverLapWidth_ = result_.m_overlapDistance;
+				hitDirection_    = result_.m_hitDir;
+				hit_             = true;
+			}
+		}
+
+		if(hit_)
+		{
+			hitDirection_.Normalize();
+
+			m_transform.location += hitDirection_ * maxOverLapWidth_;
+			
 			m_gravityInfo.currentGravity = 0.0f;
 		}
 	}
