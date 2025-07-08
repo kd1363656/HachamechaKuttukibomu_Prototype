@@ -20,11 +20,14 @@ public:
 	void Update()override;
 
 	void Move();
+	void PrepareStickyBombThrow();
 
 	void AdjustFacingDirectionToCamera();
 
 	bool IsInvalidMoveKeyPressed();
-	bool IsMoveKeyPressed       ();
+
+	bool IsMoveKeyPressed();
+	bool IsStickyBombThrowKeyPressed();
 
 private:
 

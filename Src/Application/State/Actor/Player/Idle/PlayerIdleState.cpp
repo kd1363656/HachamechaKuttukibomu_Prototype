@@ -11,15 +11,11 @@ void PlayerIdleState::Enter(Player* Owner)
 
 void PlayerIdleState::Update(Player* Owner)
 {
-	bool isMove_ = Owner->IsMoveKeyPressed();
+	bool isMove_                   = Owner->IsMoveKeyPressed();
+	bool isPrepareStickyBombThrow_ = Owner->IsStickyBombThrowKeyPressed();
 
 	if(isMove_) 
 	{ 
 		m_stateMachine->ChangeState<PlayerMoveState>(); 
 	}
-}
-
-void PlayerIdleState::Exit(Player* Owner)
-{
-
 }

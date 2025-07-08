@@ -22,6 +22,8 @@ void ActorBase::Init()
 	m_moveDirection = Math::Vector3::Zero;
 
 	m_meshInfo.assetFilePath = COMMON_ASSET_FILE_PATH;
+
+	m_isInAir = false;
 }
 
 void ActorBase::PostLoadInit()
@@ -48,30 +50,34 @@ void ActorBase::GenerateDepthMapFromLight()
 
 void ActorBase::PostUpdate()
 {
-	FixMatrix   ();
 	MapCollision();
+	FixMatrix   ();
 }
 
 void ActorBase::DrawImGuiInspectors()
+{
+	DrawImGuiTransformInspector();
+	DrawImGuiMaterialInspector ();
+	DrawImGuiCollisionInspector();
+}
+void ActorBase::DrawImGuiTransformInspector()
 {
 	auto& imGui_ = ImGuiManager::GetInstance();
 
 	imGui_.DrawSeparate();
 	ImGui::Text("Transform");
-	DrawImGuiTransformInspector();
 
-	imGui_.DrawSeparate();
-	ImGui::Text("Material");
-	DrawImGuiMaterialInspector ();
-}
-void ActorBase::DrawImGuiTransformInspector()
-{
 	ImGui::DragFloat3("Location", &m_transform.location.x, 0.1f);
 	ImGui::DragFloat3("Rotation", &m_transform.rotation.x, 1.0f);
 	ImGui::DragFloat3("Scale"   , &m_transform.scale.x   , 0.1f);
 }
 void ActorBase::DrawImGuiMaterialInspector()
 {
+	auto& imGui_ = ImGuiManager::GetInstance();
+
+	imGui_.DrawSeparate();
+	ImGui::Text("Material");
+
 	if (ImGui::Button(("TextureFilePath : %s", m_meshInfo.assetFilePath.c_str())))
 	{
 		std::string defPath_ = COMMON_ASSET_FILE_PATH;
@@ -89,7 +95,13 @@ void ActorBase::DrawImGuiMaterialInspector()
 }
 void ActorBase::DrawImGuiCollisionInspector()
 {
+	auto& imGui_ = ImGuiManager::GetInstance();
 
+	imGui_.DrawSeparate();
+	ImGui::Text("Collision");
+
+	
+	ImGui::Text("m_isInAir : %d" , m_isInAir);
 }
 
 void ActorBase::LoadJsonData(const nlohmann::json Json)
@@ -153,14 +165,14 @@ void ActorBase::MapCollision()
 
 	if (!scene_) { return; }
 
-	// レイ判定
+		// レイ判定
 	{
 		// レイのパラメータを設定
 		// TODO
-		m_mapCollisonRayInfo.m_pos   = m_transform.location;
+		m_mapCollisonRayInfo.m_pos   = m_transform.location + m_movement;
 		m_mapCollisonRayInfo.m_pos.y += 0.40f;
 		m_mapCollisonRayInfo.m_dir   = Math::Vector3::Down;
-		m_mapCollisonRayInfo.m_range = 0.30f + m_gravityInfo.currentGravity;
+		m_mapCollisonRayInfo.m_range = 0.41f + m_gravityInfo.currentGravity;
 		m_mapCollisonRayInfo.m_type  = KdCollider::TypeGround;
 
 		if (m_pDebugWire)
@@ -195,13 +207,18 @@ void ActorBase::MapCollision()
 		{
 			m_transform.location.y       = hitLocation_.y;
 			m_gravityInfo.currentGravity = 0.0f;
+			m_isInAir					 = false;
+		}
+		else
+		{
+			m_isInAir = true;
 		}
 	}
 
 	// 球判定
 	{
-		m_mapCollisonSphereInfo.m_sphere.Center    = m_transform.location;
-		m_mapCollisonSphereInfo.m_sphere.Center.y += 0.53f;
+		m_mapCollisonSphereInfo.m_sphere.Center    = m_transform.location + m_movement;
+		m_mapCollisonSphereInfo.m_sphere.Center.y += 0.56f;
 
 		m_mapCollisonSphereInfo.m_sphere.Radius = 0.55f;
 		m_mapCollisonSphereInfo.m_type          = KdCollider::TypeGround;
@@ -233,8 +250,7 @@ void ActorBase::MapCollision()
 		{
 			hitDirection_.Normalize();
 
-			m_transform.location += hitDirection_ * maxOverLapWidth_;
-			
+			m_transform.location        += hitDirection_ * maxOverLapWidth_;
 			m_gravityInfo.currentGravity = 0.0f;
 		}
 	}

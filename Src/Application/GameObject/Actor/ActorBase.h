@@ -58,4 +58,5 @@ protected:
 
 	float m_maxMoveSpeed  = 0.0f;
 
+	bool m_isInAir;
 };

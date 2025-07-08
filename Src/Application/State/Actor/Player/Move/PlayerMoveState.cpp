@@ -18,7 +18,3 @@ void PlayerMoveState::Update(Player* Owner)
 		m_stateMachine->ChangeState<PlayerIdleState>();
 	}
 }
-
-void PlayerMoveState::Exit(Player* Owner)
-{
-}

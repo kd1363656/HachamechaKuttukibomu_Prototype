@@ -73,6 +73,11 @@ void Player::Move()
 	m_movement.y = 0.0f;
 }
 
+void Player::PrepareStickyBombThrow()
+{
+
+}
+
 void Player::AdjustFacingDirectionToCamera()
 {
 	if (m_moveDirection.LengthSquared() < CommonConstant::MOVE_DIRECTION_EPSILON) { return; }
@@ -173,6 +178,18 @@ bool Player::IsMoveKeyPressed()
 	{
 		return true;
 	}
+	return false;
+}
+
+bool Player::IsStickyBombThrowKeyPressed()
+{
+	auto& input_ = RawInputManager::GetInstance();
+
+	if(input_.GetKeyState(VK_LBUTTON))
+	{
+		return true;
+	}
+
 	return false;
 }
 

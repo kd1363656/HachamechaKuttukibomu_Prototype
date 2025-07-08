@@ -12,5 +12,4 @@ public:
 
 	void Enter (Player* Owner)override;
 	void Update(Player* Owner)override;
-	void Exit  (Player* Owner)override;
 };

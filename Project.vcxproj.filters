@@ -142,6 +142,9 @@
     <Filter Include="Src\Application\GameObject\Map\MapChip\Terrain">
       <UniqueIdentifier>{0d058f91-7b11-47ef-a0e3-eb1f477f371c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\State\Actor\Plaeyr\PrepareStickyBombThrow">
+      <UniqueIdentifier>{6d8d76fa-4b6c-4093-988c-03f1e40d5475}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -384,6 +387,9 @@
     <ClInclude Include="Src\Application\GameObject\Map\MapChip\Terrain\MapChipTerrain.h">
       <Filter>Src\Application\GameObject\Map\MapChip\Terrain</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\State\Actor\Player\PrepareStickyBombThrow\PlayerPrepareStickyBombThrowState.h">
+      <Filter>Src\Application\State\Actor\Plaeyr\PrepareStickyBombThrow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -574,6 +580,9 @@
     </ClCompile>
     <ClCompile Include="Src\Application\GameObject\Map\MapChip\Terrain\MapChipTerrain.cpp">
       <Filter>Src\Application\GameObject\Map\MapChip\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\State\Actor\Player\PrepareStickyBombThrow\PlayerPrepareStickyBombThrowState.cpp">
+      <Filter>Src\Application\State\Actor\Plaeyr\PrepareStickyBombThrow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
