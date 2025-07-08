@@ -15,7 +15,8 @@ void PlayerPrepareStickyBombThrowState::Update(Player* Owner)
 
 	Owner->PrepareStickyBombThrow();
 
-	if(isPrepareStickyBombThrow_)
+	// TODO
+	if(isPrepareStickyBombThrow_ && !ImGui::GetIO().WantCaptureMouse)
 	{
 		if (m_isThrowStickyBombKeyReleased)
 		{

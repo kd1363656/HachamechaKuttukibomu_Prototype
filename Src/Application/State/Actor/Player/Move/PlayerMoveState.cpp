@@ -16,7 +16,8 @@ void PlayerMoveState::Update(Player* Owner)
 
 	Owner->Move();
 
-	if(isPrepareStickyBombThrow_)
+	// TODO
+	if(isPrepareStickyBombThrow_ && !ImGui::GetIO().WantCaptureMouse)
 	{
 		m_stateMachine->ChangeState<PlayerPrepareStickyBombThrowState>();
 	}

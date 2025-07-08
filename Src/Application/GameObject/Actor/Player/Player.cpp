@@ -75,6 +75,9 @@ void Player::Move()
 
 void Player::PrepareStickyBombThrow()
 {
+	auto camera_ = m_camera.lock();
+
+	if (!camera_) { return; }
 
 }
 

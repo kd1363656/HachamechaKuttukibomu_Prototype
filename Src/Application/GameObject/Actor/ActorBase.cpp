@@ -235,8 +235,11 @@ void ActorBase::MapCollision()
 		sphereInfo_.m_sphere.Radius = m_mapSphereColliderSetting.radius;
 		sphereInfo_.m_type          = m_mapSphereColliderSetting.collisionType;
 
-		m_pDebugWire->AddDebugSphere(sphereInfo_.m_sphere.Center , sphereInfo_.m_sphere.Radius);
-
+		if(m_pDebugWire) 
+		{ 
+			m_pDebugWire->AddDebugSphere(sphereInfo_.m_sphere.Center, sphereInfo_.m_sphere.Radius); 
+		}
+		
 		std::list<KdCollider::CollisionResult> resultList_;
 
 		for(auto& obj_ : scene_->GetObjectList())

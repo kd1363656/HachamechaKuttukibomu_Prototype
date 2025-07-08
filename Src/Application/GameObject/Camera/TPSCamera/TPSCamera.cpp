@@ -8,7 +8,8 @@ void TPSCamera::Init()
 	CameraBase::Init();
 
 	// 注視点
-	m_mLocalPos = Math::Matrix::CreateTranslation(POINT_OF_FIXATION);
+	m_location  = POINT_OF_FIXATION;
+	m_mLocalPos = Math::Matrix::CreateTranslation(m_location);
 
 	SetCursorPos(m_FixMousePos.x, m_FixMousePos.y);
 }
@@ -25,6 +26,9 @@ void TPSCamera::PostUpdate()
 
 	// カメラの回転
 	UpdateRotateByMouse();
+
+	// カメラ座標の更新
+	m_mLocalPos = Math::Matrix::CreateTranslation(m_location);
 
 	m_mRotation = GetRotationMatrix();
 	m_mWorld = m_mLocalPos * m_mRotation * _targetMat;

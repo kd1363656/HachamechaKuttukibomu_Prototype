@@ -15,7 +15,8 @@ void PlayerIdleState::Update(Player* Owner)
 	const bool isMove_                   = Owner->IsMoveKeyPressed           ();
 	const bool isPrepareStickyBombThrow_ = Owner->IsStickyBombThrowKeyPressed();
 
-	if(isPrepareStickyBombThrow_)
+	// TODO
+	if(isPrepareStickyBombThrow_ && !ImGui::GetIO().WantCaptureMouse)
 	{
 		m_stateMachine->ChangeState<PlayerPrepareStickyBombThrowState>();
 	}
