@@ -19,15 +19,15 @@
             },
             "Range": 0.4099999964237213
         },
-        "MapSphereColliderSetting": {
-            "CollisionType": 1,
-            "Offset": {
-                "X": 0.0,
-                "Y": 0.5600000023841858,
-                "Z": 0.0
-            },
-            "Radius": 0.0
-        },
+		"MapSphereColliderSetting": {
+			"CollisionType": 1,
+			"Offset": {
+				"X": 0.0,
+				"Y": 0.5600000023841858,
+				"Z": 0.0
+			},
+			"Radius": 0.55
+		},
         "MaxMoveSpeed": 3.0,
         "MeshInfo": {
             "AssetFilePath": "Asset/Models/Player/MF_IDLE/MF_IDLE.gltf",
