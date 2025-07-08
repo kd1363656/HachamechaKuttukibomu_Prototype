@@ -27,4 +27,7 @@ namespace JsonUtility
 
 	CommonStruct::MeshInfo JsonToMeshInfo(const nlohmann::json&         Json    );
 	nlohmann::json         MeshInfoToJson(const CommonStruct::MeshInfo& MeshInfo);
+
+	CommonStruct::RayDetail JsonToRayDetail(const nlohmann::json&          Json     );
+	nlohmann::json          RayDetailToJson(const CommonStruct::RayDetail& RayDetail);
 }

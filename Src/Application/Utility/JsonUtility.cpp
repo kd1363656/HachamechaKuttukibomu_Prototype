@@ -70,3 +70,27 @@ nlohmann::json JsonUtility::MeshInfoToJson(const CommonStruct::MeshInfo& MeshInf
 		{ "Color"         , ColorToJson(MeshInfo.color) }
 	};
 }
+
+CommonStruct::RayDetail JsonUtility::JsonToRayDetail(const nlohmann::json& Json)
+{
+	CommonStruct::RayDetail rayDetail = {};
+
+	if (Json.contains("Offset"   )) { rayDetail.offset    = JsonToVec3(Json["Offset"]   ); }
+	if (Json.contains("Direction")) { rayDetail.direction = JsonToVec3(Json["Direction"]); }
+	
+	rayDetail.range         = Json.value("Range"         , 0.0f);
+	rayDetail.collisionType = Json.value("CollisionType" , 0u  );
+
+	return rayDetail;
+}
+
+nlohmann::json JsonUtility::RayDetailToJson(const CommonStruct::RayDetail& RayDetail)
+{
+	return nlohmann::json
+	{
+		{ "Offset"        , Vec3ToJson(RayDetail.offset   ) } ,
+		{ "Direction"     , Vec3ToJson(RayDetail.direction) } ,
+		{ "Range"         , RayDetail.range                 } ,
+		{ "CollisionType" , RayDetail.collisionType         }
+	};
+}

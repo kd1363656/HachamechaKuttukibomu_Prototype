@@ -48,4 +48,13 @@ namespace CommonStruct
 		float accumulatedGravity;
 		float maxGravity;
 	};
+
+	// "KdCollider"に合わせた形の構造体,設定項目が多いので"Json"で保存
+	struct RayDetail
+	{
+		Math::Vector3 offset;
+		Math::Vector3 direction;
+		float         range;
+		UINT          collisionType;
+	};
 }

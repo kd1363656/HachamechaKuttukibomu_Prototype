@@ -21,6 +21,8 @@ void ActorBase::Init()
 	m_movement      = Math::Vector3::Zero;
 	m_moveDirection = Math::Vector3::Zero;
 
+	m_mapCollisionRayDetail = {};
+
 	m_meshInfo.assetFilePath = COMMON_ASSET_FILE_PATH;
 
 	m_isInAir = false;
@@ -114,6 +116,8 @@ void ActorBase::LoadJsonData(const nlohmann::json Json)
 
 	if (Json.contains("GravityInfo")) { m_gravityInfo = JsonUtility::JsonToGravityInfo(Json["GravityInfo"]); }
 
+	if (Json.contains("MapCollisionRayDetail")) { m_mapCollisionRayDetail = JsonUtility::JsonToRayDetail(Json["MapCollisionRayDetail"]); }
+
 	m_maxMoveSpeed = Json.value("MaxMoveSpeed" , 0.0f);
 }
 
@@ -129,8 +133,9 @@ nlohmann::json ActorBase::SaveJsonData()
 	json_["MeshInfo" ] = JsonUtility::MeshInfoToJson   (m_meshInfo );
 
 	json_["GravityInfo"] = JsonUtility::GravityInfoToJson(m_gravityInfo);
-
 	json_["MaxMoveSpeed"] = m_maxMoveSpeed;
+
+	json_["MapCollisionRayDetail"] = JsonUtility::RayDetailToJson(m_mapCollisionRayDetail);
 
 	return json_;
 }
@@ -169,22 +174,24 @@ void ActorBase::MapCollision()
 	{
 		// レイのパラメータを設定
 		// TODO
-		m_mapCollisonRayInfo.m_pos   = m_transform.location + m_movement;
-		m_mapCollisonRayInfo.m_pos.y += 0.40f;
-		m_mapCollisonRayInfo.m_dir   = Math::Vector3::Down;
-		m_mapCollisonRayInfo.m_range = 0.41f + m_gravityInfo.currentGravity;
-		m_mapCollisonRayInfo.m_type  = KdCollider::TypeGround;
+		KdCollider::RayInfo rayInfo_ = {};
+
+		rayInfo_.m_pos   = m_transform.location + m_movement;
+		rayInfo_.m_pos  += m_mapCollisionRayDetail.offset;
+		rayInfo_.m_dir   = m_mapCollisionRayDetail.direction;
+		rayInfo_.m_range = m_mapCollisionRayDetail.range + m_gravityInfo.currentGravity;
+		rayInfo_.m_type  = m_mapCollisionRayDetail.collisionType;
 
 		if (m_pDebugWire)
 		{
-			m_pDebugWire->AddDebugLine(m_mapCollisonRayInfo.m_pos, m_mapCollisonRayInfo.m_dir, m_mapCollisonRayInfo.m_range);
+			m_pDebugWire->AddDebugLine(rayInfo_.m_pos, rayInfo_.m_dir, rayInfo_.m_range);
 		}
 
 		std::list<KdCollider::CollisionResult> resultList_;
 
 		for(auto& obj_ : scene_->GetObjectList())
 		{
-			obj_->Intersects(m_mapCollisonRayInfo , &resultList_);
+			obj_->Intersects(rayInfo_ , &resultList_);
 		}
 
 		// レイに当たったリザルトリストから一番レイとオブジェクトの重なった量が

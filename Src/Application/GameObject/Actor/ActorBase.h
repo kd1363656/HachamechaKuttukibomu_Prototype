@@ -50,8 +50,9 @@ protected:
 	CommonStruct::GravityInfo m_gravityInfo = {};
 
 	// "ImGuiなどで動的に当たり判定を変えたいからメンバ変数として持つ"
-	KdCollider::RayInfo    m_mapCollisonRayInfo    = {};
 	KdCollider::SphereInfo m_mapCollisonSphereInfo = {};
+
+	CommonStruct::RayDetail m_mapCollisionRayDetail = {};
 
 	Math::Vector3 m_movement      = Math::Vector3::Zero;
 	Math::Vector3 m_moveDirection = Math::Vector3::Zero;

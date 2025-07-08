@@ -5,6 +5,20 @@
             "CurrentGravity": 0.0,
             "MaxGravity": 4.5
         },
+        "MapCollisionRayDetail": {
+            "CollisionType": 1,
+            "Direction": {
+                "X": 0.0,
+                "Y": -1.0,
+                "Z": 0.0
+            },
+            "Offset": {
+                "X": 0.0,
+                "Y": 0.4000000059604645,
+                "Z": 0.0
+            },
+            "Range": 0.4099999964237213
+        },
         "MaxMoveSpeed": 3.0,
         "MeshInfo": {
             "AssetFilePath": "Asset/Models/Player/MF_IDLE/MF_IDLE.gltf",
