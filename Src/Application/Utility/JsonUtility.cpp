@@ -71,9 +71,9 @@ nlohmann::json JsonUtility::MeshInfoToJson(const CommonStruct::MeshInfo& MeshInf
 	};
 }
 
-CommonStruct::RayDetail JsonUtility::JsonToRayDetail(const nlohmann::json& Json)
+CommonStruct::RayColliderSetting JsonUtility::JsonToRayColliderSetting(const nlohmann::json& Json)
 {
-	CommonStruct::RayDetail rayDetail = {};
+	CommonStruct::RayColliderSetting rayDetail = {};
 
 	if (Json.contains("Offset"   )) { rayDetail.offset    = JsonToVec3(Json["Offset"]   ); }
 	if (Json.contains("Direction")) { rayDetail.direction = JsonToVec3(Json["Direction"]); }
@@ -84,13 +84,35 @@ CommonStruct::RayDetail JsonUtility::JsonToRayDetail(const nlohmann::json& Json)
 	return rayDetail;
 }
 
-nlohmann::json JsonUtility::RayDetailToJson(const CommonStruct::RayDetail& RayDetail)
+nlohmann::json JsonUtility::RayColliderSettingToJson(const CommonStruct::RayColliderSetting& RayColliderSetting)
 {
 	return nlohmann::json
 	{
-		{ "Offset"        , Vec3ToJson(RayDetail.offset   ) } ,
-		{ "Direction"     , Vec3ToJson(RayDetail.direction) } ,
-		{ "Range"         , RayDetail.range                 } ,
-		{ "CollisionType" , RayDetail.collisionType         }
+		{ "Offset"        , Vec3ToJson(RayColliderSetting.offset   ) } ,
+		{ "Direction"     , Vec3ToJson(RayColliderSetting.direction) } ,
+		{ "Range"         , RayColliderSetting.range                 } ,
+		{ "CollisionType" , RayColliderSetting.collisionType         }
+	};
+}
+
+CommonStruct::SphereColliderSetting JsonUtility::JsonToSphereColliderSetting(const nlohmann::json& Json)
+{
+	CommonStruct::SphereColliderSetting sphereColliderSetting_ = {};
+
+	if (Json.contains("Offset")) { sphereColliderSetting_.offset = JsonToVec3(Json["Offset"]); }
+
+	sphereColliderSetting_.radius        = Json.value("Radius"        , 0.0f);
+	sphereColliderSetting_.collisionType = Json.value("CollisionType" , 0u  );
+
+	return sphereColliderSetting_;
+}
+
+nlohmann::json JsonUtility::SphereColliderSettingToJson(const CommonStruct::SphereColliderSetting& SphereColliderSetting)
+{
+	return nlohmann::json
+	{
+		{ "Offset"        , Vec3ToJson(SphereColliderSetting.offset) } , 
+		{ "Radius"        , 0.0f                                     } ,
+		{ "CollisionType" , 0u                                       }
 	};
 }

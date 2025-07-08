@@ -5,7 +5,7 @@
             "CurrentGravity": 0.0,
             "MaxGravity": 4.5
         },
-        "MapCollisionRayDetail": {
+        "MapRayColliderSetting": {
             "CollisionType": 1,
             "Direction": {
                 "X": 0.0,
@@ -18,6 +18,15 @@
                 "Z": 0.0
             },
             "Range": 0.4099999964237213
+        },
+        "MapSphereColliderSetting": {
+            "CollisionType": 0,
+            "Offset": {
+                "X": 0.0,
+                "Y": 0.5600000023841858,
+                "Z": 0.0
+            },
+            "Radius": 0.0
         },
         "MaxMoveSpeed": 3.0,
         "MeshInfo": {
@@ -80,8 +89,8 @@
     },
     {
         "DegAng": {
-            "X": 14.0999755859375,
-            "Y": 313.6499938964844,
+            "X": 6.599976062774658,
+            "Y": 319.1999816894531,
             "Z": 0.0
         },
         "Location": {

@@ -21,7 +21,7 @@ void ActorBase::Init()
 	m_movement      = Math::Vector3::Zero;
 	m_moveDirection = Math::Vector3::Zero;
 
-	m_mapCollisionRayDetail = {};
+	m_mapRayColliderSetting = {};
 
 	m_meshInfo.assetFilePath = COMMON_ASSET_FILE_PATH;
 
@@ -102,7 +102,6 @@ void ActorBase::DrawImGuiCollisionInspector()
 	imGui_.DrawSeparate();
 	ImGui::Text("Collision");
 
-	
 	ImGui::Text("m_isInAir : %d" , m_isInAir);
 }
 
@@ -116,7 +115,8 @@ void ActorBase::LoadJsonData(const nlohmann::json Json)
 
 	if (Json.contains("GravityInfo")) { m_gravityInfo = JsonUtility::JsonToGravityInfo(Json["GravityInfo"]); }
 
-	if (Json.contains("MapCollisionRayDetail")) { m_mapCollisionRayDetail = JsonUtility::JsonToRayDetail(Json["MapCollisionRayDetail"]); }
+	if (Json.contains("MapRayColliderSetting"   )) { m_mapRayColliderSetting    = JsonUtility::JsonToRayColliderSetting   (Json["MapRayColliderSetting"   ]); }
+	if (Json.contains("MapSphereColliderSetting")) { m_mapSphereColliderSetting = JsonUtility::JsonToSphereColliderSetting(Json["MapSphereColliderSetting"]); }
 
 	m_maxMoveSpeed = Json.value("MaxMoveSpeed" , 0.0f);
 }
@@ -135,7 +135,8 @@ nlohmann::json ActorBase::SaveJsonData()
 	json_["GravityInfo"] = JsonUtility::GravityInfoToJson(m_gravityInfo);
 	json_["MaxMoveSpeed"] = m_maxMoveSpeed;
 
-	json_["MapCollisionRayDetail"] = JsonUtility::RayDetailToJson(m_mapCollisionRayDetail);
+	json_["MapRayColliderSetting"   ] = JsonUtility::RayColliderSettingToJson   (m_mapRayColliderSetting   );
+	json_["MapSphereColliderSetting"] = JsonUtility::SphereColliderSettingToJson(m_mapSphereColliderSetting);
 
 	return json_;
 }
@@ -177,10 +178,10 @@ void ActorBase::MapCollision()
 		KdCollider::RayInfo rayInfo_ = {};
 
 		rayInfo_.m_pos   = m_transform.location + m_movement;
-		rayInfo_.m_pos  += m_mapCollisionRayDetail.offset;
-		rayInfo_.m_dir   = m_mapCollisionRayDetail.direction;
-		rayInfo_.m_range = m_mapCollisionRayDetail.range + m_gravityInfo.currentGravity;
-		rayInfo_.m_type  = m_mapCollisionRayDetail.collisionType;
+		rayInfo_.m_pos  += m_mapRayColliderSetting.offset;
+		rayInfo_.m_dir   = m_mapRayColliderSetting.direction;
+		rayInfo_.m_range = m_mapRayColliderSetting.range + m_gravityInfo.currentGravity;
+		rayInfo_.m_type  = m_mapRayColliderSetting.collisionType;
 
 		if (m_pDebugWire)
 		{
@@ -224,19 +225,21 @@ void ActorBase::MapCollision()
 
 	// 球判定
 	{
-		m_mapCollisonSphereInfo.m_sphere.Center    = m_transform.location + m_movement;
-		m_mapCollisonSphereInfo.m_sphere.Center.y += 0.56f;
+		KdCollider::SphereInfo sphereInfo_ = {};
 
-		m_mapCollisonSphereInfo.m_sphere.Radius = 0.55f;
-		m_mapCollisonSphereInfo.m_type          = KdCollider::TypeGround;
+		sphereInfo_.m_sphere.Center    = m_transform.location + m_movement;
+		sphereInfo_.m_sphere.Center.y += m_mapSphereColliderSetting.offset.y;
 
-		m_pDebugWire->AddDebugSphere(m_mapCollisonSphereInfo.m_sphere.Center , m_mapCollisonSphereInfo.m_sphere.Radius);
+		sphereInfo_.m_sphere.Radius = m_mapSphereColliderSetting.radius;
+		sphereInfo_.m_type          = m_mapSphereColliderSetting.collisionType;
+
+		m_pDebugWire->AddDebugSphere(sphereInfo_.m_sphere.Center , sphereInfo_.m_sphere.Radius);
 
 		std::list<KdCollider::CollisionResult> resultList_;
 
 		for(auto& obj_ : scene_->GetObjectList())
 		{
-			obj_->Intersects(m_mapCollisonSphereInfo , &resultList_);
+			obj_->Intersects(sphereInfo_, &resultList_);
 		}
 
 		Math::Vector3 hitDirection_    = Math::Vector3::Zero;

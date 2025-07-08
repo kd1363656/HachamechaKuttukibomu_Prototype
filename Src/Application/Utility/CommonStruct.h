@@ -50,11 +50,18 @@ namespace CommonStruct
 	};
 
 	// "KdCollider"に合わせた形の構造体,設定項目が多いので"Json"で保存
-	struct RayDetail
+	struct RayColliderSetting
 	{
 		Math::Vector3 offset;
 		Math::Vector3 direction;
 		float         range;
 		UINT          collisionType;
+	};
+
+	struct SphereColliderSetting
+	{
+		Math::Vector3 offset;
+		float radius;
+		UINT  collisionType;
 	};
 }
