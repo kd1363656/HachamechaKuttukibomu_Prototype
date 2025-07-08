@@ -113,6 +113,7 @@ void ActorBase::LoadJsonData(const nlohmann::json Json)
 	if (Json.contains("Transform")) { m_transform   = JsonUtility::JsonToTransform3D(Json["Transform"]); }
 	if (Json.contains("MeshInfo" )) { m_meshInfo    = JsonUtility::JsonToMeshInfo   (Json["MeshInfo" ]); }
 
+	// TODO
 	if (Json.contains("GravityInfo")) { m_gravityInfo = JsonUtility::JsonToGravityInfo(Json["GravityInfo"]); }
 
 	if (Json.contains("MapRayColliderSetting"   )) { m_mapRayColliderSetting    = JsonUtility::JsonToRayColliderSetting   (Json["MapRayColliderSetting"   ]); }
@@ -132,6 +133,7 @@ nlohmann::json ActorBase::SaveJsonData()
 	json_["Transform"] = JsonUtility::Transform3DToJson(m_transform);
 	json_["MeshInfo" ] = JsonUtility::MeshInfoToJson   (m_meshInfo );
 
+	// TODO
 	json_["GravityInfo"] = JsonUtility::GravityInfoToJson(m_gravityInfo);
 	json_["MaxMoveSpeed"] = m_maxMoveSpeed;
 

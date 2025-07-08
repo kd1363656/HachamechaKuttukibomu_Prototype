@@ -142,8 +142,8 @@
     <Filter Include="Src\Application\GameObject\Map\MapChip\Terrain">
       <UniqueIdentifier>{0d058f91-7b11-47ef-a0e3-eb1f477f371c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\State\Actor\Plaeyr\PrepareStickyBombThrow">
-      <UniqueIdentifier>{6d8d76fa-4b6c-4093-988c-03f1e40d5475}</UniqueIdentifier>
+    <Filter Include="Src\Application\State\Actor\Plaeyr\StickyBombThrow">
+      <UniqueIdentifier>{4400338b-7b04-4705-9030-f2ae426cba03}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -387,8 +387,11 @@
     <ClInclude Include="Src\Application\GameObject\Map\MapChip\Terrain\MapChipTerrain.h">
       <Filter>Src\Application\GameObject\Map\MapChip\Terrain</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\State\Actor\Player\PrepareStickyBombThrow\PlayerPrepareStickyBombThrowState.h">
-      <Filter>Src\Application\State\Actor\Plaeyr\PrepareStickyBombThrow</Filter>
+    <ClInclude Include="Src\Application\State\Actor\Player\StickyBombThrow\PlayerPrepareStickyBombThrowState.h">
+      <Filter>Src\Application\State\Actor\Plaeyr\StickyBombThrow</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\State\Actor\Player\StickyBombThrow\PlayerStickyBombThrowState.h">
+      <Filter>Src\Application\State\Actor\Plaeyr\StickyBombThrow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -581,8 +584,11 @@
     <ClCompile Include="Src\Application\GameObject\Map\MapChip\Terrain\MapChipTerrain.cpp">
       <Filter>Src\Application\GameObject\Map\MapChip\Terrain</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\State\Actor\Player\PrepareStickyBombThrow\PlayerPrepareStickyBombThrowState.cpp">
-      <Filter>Src\Application\State\Actor\Plaeyr\PrepareStickyBombThrow</Filter>
+    <ClCompile Include="Src\Application\State\Actor\Player\StickyBombThrow\PlayerPrepareStickyBombThrowState.cpp">
+      <Filter>Src\Application\State\Actor\Plaeyr\StickyBombThrow</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\State\Actor\Player\StickyBombThrow\PlayerStickyBombThrowState.cpp">
+      <Filter>Src\Application\State\Actor\Plaeyr\StickyBombThrow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

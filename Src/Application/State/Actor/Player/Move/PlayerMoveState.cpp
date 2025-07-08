@@ -3,6 +3,7 @@
 #include "../../../../GameObject/Actor/Player/Player.h"
 
 #include "../Idle/PlayerIdleState.h"
+#include "../StickyBombThrow/PlayerPrepareStickyBombThrowState.h"
 
 void PlayerMoveState::Enter(Player* Owner)
 {
@@ -11,8 +12,14 @@ void PlayerMoveState::Enter(Player* Owner)
 
 void PlayerMoveState::Update(Player* Owner)
 {
+	const bool isPrepareStickyBombThrow_ = Owner->IsStickyBombThrowKeyPressed();
+
 	Owner->Move();
 
+	if(isPrepareStickyBombThrow_)
+	{
+		m_stateMachine->ChangeState<PlayerPrepareStickyBombThrowState>();
+	}
 	if(Owner->GetMovement() == Math::Vector3::Zero)
 	{
 		m_stateMachine->ChangeState<PlayerIdleState>();

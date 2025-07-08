@@ -185,7 +185,7 @@ bool Player::IsStickyBombThrowKeyPressed()
 {
 	auto& input_ = RawInputManager::GetInstance();
 
-	if(input_.GetKeyState(VK_LBUTTON))
+	if(input_.GetMouseData().isClickLeft)
 	{
 		return true;
 	}

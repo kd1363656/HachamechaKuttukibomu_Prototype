@@ -291,7 +291,8 @@
     <ClInclude Include="Src\Application\Scene\TitleScene\TitleScene.h" />
     <ClInclude Include="Src\Application\State\Actor\Player\Idle\PlayerIdleState.h" />
     <ClInclude Include="Src\Application\State\Actor\Player\Move\PlayerMoveState.h" />
-    <ClInclude Include="Src\Application\State\Actor\Player\PrepareStickyBombThrow\PlayerPrepareStickyBombThrowState.h" />
+    <ClInclude Include="Src\Application\State\Actor\Player\StickyBombThrow\PlayerPrepareStickyBombThrowState.h" />
+    <ClInclude Include="Src\Application\State\Actor\Player\StickyBombThrow\PlayerStickyBombThrowState.h" />
     <ClInclude Include="Src\Application\State\StateBase.h" />
     <ClInclude Include="Src\Application\State\StateMachine.h" />
     <ClInclude Include="Src\Application\Utility\CommonConstant.h" />
@@ -366,7 +367,8 @@
     <ClCompile Include="Src\Application\Scene\TitleScene\TitleScene.cpp" />
     <ClCompile Include="Src\Application\State\Actor\Player\Idle\PlayerIdleState.cpp" />
     <ClCompile Include="Src\Application\State\Actor\Player\Move\PlayerMoveState.cpp" />
-    <ClCompile Include="Src\Application\State\Actor\Player\PrepareStickyBombThrow\PlayerPrepareStickyBombThrowState.cpp" />
+    <ClCompile Include="Src\Application\State\Actor\Player\StickyBombThrow\PlayerPrepareStickyBombThrowState.cpp" />
+    <ClCompile Include="Src\Application\State\Actor\Player\StickyBombThrow\PlayerStickyBombThrowState.cpp" />
     <ClCompile Include="Src\Application\Utility\DebugKey\DebugKey.cpp" />
     <ClCompile Include="Src\Application\Utility\ImGui\ImGuiManager.cpp" />
     <ClCompile Include="Src\Application\Utility\InputManager\RawInputManager.cpp" />
