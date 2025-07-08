@@ -39,7 +39,7 @@ void KdDebugGUI::GuiInit()
 	
 	m_uqLog = std::make_unique<ImGuiAppLog>();
 
-	m_canShowDebugWindow    = false;
+	m_canShowDebugWindow    = true;
 	m_isHeldShowDebugWindow = false;
 }
 

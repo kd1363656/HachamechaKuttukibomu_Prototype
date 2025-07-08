@@ -30,15 +30,52 @@ public:
 
 	void SetHWnd(HWND Set) { m_hWnd = Set; }
 
-	void SetMouseLocation(Math::Vector2 Set) { m_mouseData.location = Set; }
+	void SetNowMouseLocation(Math::Vector2 Set) { m_nowMouseData.location = Set; }
 
-	const std::unordered_map<int, bool>& GetKeyStateList()const { return m_keyStateList; }
+	const std::unordered_map<int , bool>& GetNowKeyStateList()const { return m_nowKeyStateList; }
+	const std::unordered_map<int , bool>& GetOldKeyStateList()const { return m_oldKeyStateList; }
 
 	// キー入力状態を取得する
-	bool GetKeyState(int VKey)
+	bool GetKeyState(int VKey) const
 	{
-		auto itr_ = m_keyStateList.find(VKey);
-		return (itr_ != m_keyStateList.end() && itr_->second);
+		auto itr_ = m_nowKeyStateList.find(VKey);
+		if (itr_ != m_nowKeyStateList.end()) 
+		{
+			return itr_->second;
+		};
+
+		return false;
+	}
+
+	// 一回だけ押されたか確認する関数
+	bool IsKeyPressedOnce(int VKey) const
+	{
+		auto nowItr_ = m_nowKeyStateList.find(VKey);
+		auto oldItr_ = m_oldKeyStateList.find(VKey);
+
+		// もしキーが存在しなければ"false"
+		if(nowItr_ == m_nowKeyStateList.end() ||
+		   oldItr_ == m_oldKeyStateList.end()) 
+		{
+			return false;
+		}
+
+		return nowItr_->second && !oldItr_->second;
+	}
+
+	bool IsMouseClickedLeftOnce() const
+	{
+		return m_nowMouseData.isClickLeft && !m_oldMouseData.isClickLeft;
+	}
+
+	bool IsMouseClickedRightOnce() const
+	{
+		return m_nowMouseData.isClickRight && !m_oldMouseData.isClickRight;
+	}
+
+	bool IsMouseClickedMiddleOnce() const
+	{
+		return m_nowMouseData.isClickMiddle && !m_oldMouseData.isClickMiddle;
 	}
 
 	// キーボードのコールバック設定関数
@@ -65,11 +102,13 @@ public:
 		m_gamepadStickCallback = callback;
 	}
 
-	Mouse::Data GetMouseData() { return m_mouseData; }
+	Mouse::Data GetMouseData() { return m_nowMouseData; }
 
 	void RegisterDevice();
 	void ProcessInput  (LPARAM LParam);
 	void Vibrate       (float LeftMotor , float RightMotor , int Duration);
+
+	void BackUpInputState();
 
 private:
 
@@ -80,9 +119,12 @@ private:
 	std::mutex m_inputMutex;
 
 	// キーの入力状態を毎フレーム格納するリスト
-	std::unordered_map<int, bool> m_keyStateList;
+	std::unordered_map<int, bool> m_nowKeyStateList;
+	std::unordered_map<int, bool> m_oldKeyStateList;
+
 	// マウスの入力状態、座標を舞フレーム格納
-	Mouse::Data m_mouseData;
+	Mouse::Data m_nowMouseData;
+	Mouse::Data m_oldMouseData;
 
 	std::function<void(int   Key    , bool  Presseed )> m_keyboardCallback;		//キーボード用コールバック
 	std::function<void(Mouse::Data MouseData         )> m_mouseCallback;		//マウス用

@@ -145,6 +145,9 @@
     <Filter Include="Src\Application\State\Actor\Plaeyr\StickyBombThrow">
       <UniqueIdentifier>{4400338b-7b04-4705-9030-f2ae426cba03}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\State\Camera">
+      <UniqueIdentifier>{e9d49ff2-a067-4a85-85d6-ec8ab798f3a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">

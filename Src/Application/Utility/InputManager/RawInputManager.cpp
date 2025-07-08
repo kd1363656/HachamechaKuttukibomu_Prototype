@@ -7,7 +7,7 @@
 void RawInputManager::ResetKeyStates()
 {
 	std::lock_guard<std::mutex> lock_(m_inputMutex);
-	for(auto& key_ : m_keyStateList)
+	for(auto& key_ : m_nowKeyStateList)
 	{
 		key_.second = false;
 	}
@@ -68,7 +68,7 @@ void RawInputManager::ProcessInput(LPARAM LParam)
 		// キーの入力状態を格納
 		// "insert_or_assign"はキーがなければキーと値を格納
 		// 存在すればそのキーに対応する値を格納
-		m_keyStateList.insert_or_assign(key_ , pressed_);
+		m_nowKeyStateList.insert_or_assign(key_ , pressed_);		
 
 		if(m_keyboardCallback)
 		{	
@@ -88,38 +88,38 @@ void RawInputManager::ProcessInput(LPARAM LParam)
 			// 今のゲームウィンドウ用に変換
 			// 左上のを基準に座標を取るので調整する
 			ScreenToClient(m_hWnd, &mousePos_);
-			m_mouseData.location.x =  static_cast<float>(mousePos_.x) - 640.0f;
-			m_mouseData.location.y = (static_cast<float>(mousePos_.y) - 360.0f) * -1.0f;
+			m_nowMouseData.location.x =  static_cast<float>(mousePos_.x) - 640.0f;
+			m_nowMouseData.location.y = (static_cast<float>(mousePos_.y) - 360.0f) * -1.0f;
 		}
 
 		WORD flags_ = raw_->data.mouse.usButtonFlags;
 
 		// ボタンの状態を明示的に管理（押下/解放で変更）
 		// "RawInput"の仕様上効かない時があるから
-		if      (flags_ & RI_MOUSE_MIDDLE_BUTTON_DOWN) m_mouseData.isClickMiddle = true;
-		else if (flags_ & RI_MOUSE_MIDDLE_BUTTON_UP  ) m_mouseData.isClickMiddle = false;
+		if      (flags_ & RI_MOUSE_MIDDLE_BUTTON_DOWN) m_nowMouseData.isClickMiddle = true;
+		else if (flags_ & RI_MOUSE_MIDDLE_BUTTON_UP  ) m_nowMouseData.isClickMiddle = false;
 
-		if      (flags_ & RI_MOUSE_LEFT_BUTTON_DOWN) m_mouseData.isClickLeft = true;
-		else if (flags_ & RI_MOUSE_LEFT_BUTTON_UP  ) m_mouseData.isClickLeft = false;
+		if      (flags_ & RI_MOUSE_LEFT_BUTTON_DOWN) m_nowMouseData.isClickLeft = true;
+		else if (flags_ & RI_MOUSE_LEFT_BUTTON_UP  ) m_nowMouseData.isClickLeft = false;
 
-		if      (flags_ & RI_MOUSE_RIGHT_BUTTON_DOWN) m_mouseData.isClickRight = true;
-		else if (flags_ & RI_MOUSE_RIGHT_BUTTON_UP  ) m_mouseData.isClickRight = false;
+		if      (flags_ & RI_MOUSE_RIGHT_BUTTON_DOWN) m_nowMouseData.isClickRight = true;
+		else if (flags_ & RI_MOUSE_RIGHT_BUTTON_UP  ) m_nowMouseData.isClickRight = false;
 
 		// ホイール
 		if(flags_ & RI_MOUSE_WHEEL)
 		{
-			m_mouseData.wheelDelta = static_cast<SHORT>(raw_->data.mouse.usButtonData) / WHEEL_DELTA;
+			m_nowMouseData.wheelDelta = static_cast<SHORT>(raw_->data.mouse.usButtonData) / WHEEL_DELTA;
 		}
 		else
 		{
 			// 回転がない場合は0
-			m_mouseData.wheelDelta = 0;
+			m_nowMouseData.wheelDelta = 0;
 		}
 
 		if(m_mouseCallback)
 		{
 			std::lock_guard<std::mutex> lock_(m_inputMutex);
-			m_mouseCallback(m_mouseData);
+			m_mouseCallback(m_nowMouseData);
 		}
 	}
 
@@ -170,4 +170,15 @@ void RawInputManager::Vibrate(float LeftMotor, float RightMotor, int Duration)
 	vibration_.wRightMotorSpeed = 0;
 
 	XInputSetState(0 , &vibration_);
+}
+
+void RawInputManager::BackUpInputState()
+{
+	// 現在のフレームでのキー情報を格納する
+	for (const auto& [key_, value_] : m_nowKeyStateList)
+	{
+		m_oldKeyStateList.insert_or_assign(key_, value_);
+	}
+
+	m_oldMouseData = m_nowMouseData;
 }

@@ -83,7 +83,7 @@ void Player::PrepareStickyBombThrow()
 
 void Player::AdjustFacingDirectionToCamera()
 {
-	if (m_moveDirection.LengthSquared() < CommonConstant::MOVE_DIRECTION_EPSILON) { return; }
+	if (m_moveDirection == Math::Vector3::Zero) { return; }
 
 	Math::Vector3 targetDirection_ = Math::Vector3::Zero;
 
@@ -188,12 +188,7 @@ bool Player::IsStickyBombThrowKeyPressed()
 {
 	auto& input_ = RawInputManager::GetInstance();
 
-	if(input_.GetMouseData().isClickLeft)
-	{
-		return true;
-	}
-
-	return false;
+	return input_.IsMouseClickedLeftOnce();
 }
 
 void Player::AddMoveDirectionIfKeyPressed(int VirtualKeyCode, Math::Vector3& MoveDirection, const Math::Vector3& WantAddDirection)

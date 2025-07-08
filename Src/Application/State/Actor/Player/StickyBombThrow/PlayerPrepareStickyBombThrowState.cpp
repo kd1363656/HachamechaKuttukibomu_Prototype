@@ -6,7 +6,6 @@
 void PlayerPrepareStickyBombThrowState::Enter(Player* Owner)
 {
 	KdDebugGUI::Instance().AddLog("Player State : PrepareStickyBombThrowState\n");
-	m_isThrowStickyBombKeyReleased = false;
 }
 
 void PlayerPrepareStickyBombThrowState::Update(Player* Owner)
@@ -18,13 +17,6 @@ void PlayerPrepareStickyBombThrowState::Update(Player* Owner)
 	// TODO
 	if(isPrepareStickyBombThrow_ && !ImGui::GetIO().WantCaptureMouse)
 	{
-		if (m_isThrowStickyBombKeyReleased)
-		{
-			m_stateMachine->ChangeState<PlayerStickyBombThrowState>();
-		}
-	}
-	else
-	{
-		m_isThrowStickyBombKeyReleased = true;
+		m_stateMachine->ChangeState<PlayerStickyBombThrowState>();
 	}
 }

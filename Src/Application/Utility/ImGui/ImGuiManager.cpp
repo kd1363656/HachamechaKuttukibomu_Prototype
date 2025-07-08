@@ -91,7 +91,7 @@ void ImGuiManager::DrawUserInputInfoPanel()
 		{
 			if(ImGui::BeginChild(ImGui::GetID((void*)0) , ImVec2(260.0f , 100.0f) , ImGuiWindowFlags_NoTitleBar))
 			{
-				for(auto& [key_ , value_] : input_.GetKeyStateList())
+				for(auto& [key_ , value_] : input_.GetNowKeyStateList())
 				{
 					ImGui::Text("Virtual Key Codes %d : State %s",  key_ , JudgeInputStatus(value_));
 				}

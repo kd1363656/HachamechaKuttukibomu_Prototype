@@ -5,6 +5,7 @@
 #include "Factory/Factory.h"
 
 #include "Utility/ImGui/ImGuiManager.h"
+#include "Utility/InputManager/RawInputManager.h"
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 // エントリーポイント
@@ -328,7 +329,14 @@ void Application::Execute()
 		//=========================================
 
 		m_fpsController.Update();
-
+		
+		//=========================================
+		//
+		// 一フレーム前の入力の確認
+		//
+		//=========================================
+		RawInputManager::GetInstance().BackUpInputState();
+		
 		// タイトル名 + Fpsの表示
 		std::string TitleBar = "Title FPS : " + std::to_string(m_fpsController.GetNowFps());
 		SetWindowTextA(m_window.GetWndHandle(), TitleBar.c_str());
