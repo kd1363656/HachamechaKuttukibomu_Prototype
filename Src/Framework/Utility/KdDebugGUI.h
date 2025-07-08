@@ -15,7 +15,7 @@ struct ImGuiAppLog
 		Clear();
 	}
 
-	void    Clear()
+	void Clear()
 	{
 		Buf.clear();
 		LineOffsets.clear();

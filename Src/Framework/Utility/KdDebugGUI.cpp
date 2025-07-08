@@ -23,6 +23,13 @@ void KdDebugGUI::GuiInit()
 	ImGui::CreateContext();
 	// Setup Dear ImGui style
 	ImGui::StyleColorsDark();
+
+	// "ImGuiDocking"
+	ImGuiIO& io = ImGui::GetIO();
+	// ここの部分でImGuiのドッキング機能を有効にする
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;      //    マルチウィンドウを有効にする
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;        //    ドッキングを有効にする
+
 	//ImGui::StyleColorsClassic();
 	// Setup Platform/Renderer bindings
 	ImGui_ImplWin32_Init(Application::Instance().GetWindowHandle());
@@ -30,7 +37,6 @@ void KdDebugGUI::GuiInit()
 		KdDirect3D::Instance().WorkDev(), KdDirect3D::Instance().WorkDevContext());
 
 #include "imgui/ja_glyph_ranges.h"
-	ImGuiIO& io = ImGui::GetIO();
 	ImFontConfig config;
 	config.MergeMode = true;
 	io.Fonts->AddFontDefault();
