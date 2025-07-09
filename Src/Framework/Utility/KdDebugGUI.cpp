@@ -55,6 +55,8 @@ void KdDebugGUI::GuiProcess()
 	// 初期化されてないなら動作させない
 	if (!m_uqLog) return;
 
+	//IdleBySleeping(m_fpsIdle);
+
 	//===========================================================
 	// ImGui開始
 	//===========================================================
@@ -143,6 +145,28 @@ void KdDebugGUI::AddLog(const char* fmt,...)
 	va_end(args);
 }
 
+void KdDebugGUI::IdleBySleeping(FpsIdling& IoIdling)
+{
+	// TODO
+	IoIdling.isIdling = false;
+	if ((IoIdling.fpsIdle > 0.0f) && IoIdling.enableIdling)
+	{
+		// スリープ前の時刻
+		std::chrono::steady_clock::time_point  beforeWait_  = std::chrono::steady_clock::now();
+		float								   waitTimeout_ = 1.0 / IoIdling.fpsIdle;
+
+		// イベント待ち＋タイムアウト
+		WaitForEventTimeout(waitTimeout_);
+
+		// スリープ後の時刻
+		std::chrono::steady_clock::time_point afterWait_        = std::chrono::steady_clock::now();
+		std::chrono::duration<float>          waitDuration_     = afterWait_ - beforeWait_;
+		float                                 waitIdleExpected_ = 1.0 / IoIdling.fpsIdle;
+
+		IoIdling.isIdling = (waitDuration_.count() > waitIdleExpected_ * 0.9);
+	}
+}
+
 void KdDebugGUI::GuiRelease()
 {
 	// 初期化されてないなら動作させない
@@ -153,4 +177,11 @@ void KdDebugGUI::GuiRelease()
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
+}
+
+void KdDebugGUI::WaitForEventTimeout(float TimeoutSeconds)
+{
+	DWORD timeoutMS_ = static_cast<DWORD>(TimeoutSeconds * 1000.0);
+	// QS_ALLINPUT: すべての入力メッセージを対象
+	MsgWaitForMultipleObjects(0, nullptr, FALSE, timeoutMS_, QS_ALLINPUT);
 }

@@ -62,10 +62,6 @@ void CameraBase::PreDraw()
 
 void CameraBase::DrawImGuiInspectors()
 {
-	auto& imGui_ = ImGuiManager::GetInstance();
-
-	imGui_.DrawSeparate();
-	ImGui::Text("Transform");
 	DrawImGuiTransformInspector();
 }
 
@@ -107,6 +103,11 @@ void CameraBase::FixMatrix()
 
 void CameraBase::DrawImGuiTransformInspector()
 {
+	auto& imGui_ = ImGuiManager::GetInstance();
+
+	imGui_.DrawSeparate();
+	ImGui::Text("Transform");
+
 	ImGui::DragFloat3("Location", &m_location.x, 0.1f);
 	ImGui::DragFloat3("Rotation", &m_degAng.x  , 1.0f);
 

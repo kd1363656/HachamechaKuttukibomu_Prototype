@@ -14,4 +14,5 @@ void TitleScene::Event()
 
 void TitleScene::Init()
 {
+
 }

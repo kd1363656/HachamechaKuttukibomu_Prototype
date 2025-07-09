@@ -35,6 +35,7 @@ public:
 
 private:
 
+	// TODO
 	void DrawProjectPanel();
 
 	void DrawUserInputInfoPanel();
@@ -61,7 +62,7 @@ private:
 	// 対応するファクトリーごとに名前を変えていたら霧がないので一つだけ使用
 	// これだけでも十分成り立つ
 	std::string m_createObjectName = "Player";
-
+	
 	std::unordered_map<uint32_t , std::string> m_gameObjectNameFilter;
 
 	bool m_canShowDebugWindow    = false;

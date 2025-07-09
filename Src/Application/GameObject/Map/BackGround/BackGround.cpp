@@ -14,6 +14,8 @@ void BackGround::Init()
 	m_transform = {};
 
 	m_meshInfo.assetFilePath = COMMON_ASSET_FILE_PATH;
+
+	EnableDrawFlag(KdGameObject::DrawType::UnLit);
 }
 
 void BackGround::PostLoadInit()
@@ -21,7 +23,7 @@ void BackGround::PostLoadInit()
 	LoadAsset();
 }
 
-void BackGround::DrawUnLit()
+void BackGround::Draw()
 {
 	if (!m_staticMesh) { return; }
 	KdShaderManager::Instance().m_StandardShader.DrawModel(*m_staticMesh, m_mWorld, m_meshInfo.color);
@@ -34,15 +36,10 @@ void BackGround::PostUpdate()
 
 void BackGround::DrawImGuiInspectors()
 {
-	auto& imGui_ = ImGuiManager::GetInstance();
-
-	imGui_.DrawSeparate();
-	ImGui::Text("Transform");
 	DrawImGuiTransformInspector();
+	DrawImGuiMaterialInspector ();
 
-	imGui_.DrawSeparate();
-	ImGui::Text("Material");
-	DrawImGuiMaterialInspector();
+	KdGameObject::DrawImGuiInspectors();
 }
 
 void BackGround::LoadJsonData(const nlohmann::json Json)
@@ -68,12 +65,22 @@ nlohmann::json BackGround::SaveJsonData()
 
 void BackGround::DrawImGuiTransformInspector()
 {
+	auto& imGui_ = ImGuiManager::GetInstance();
+
+	imGui_.DrawSeparate();
+	ImGui::Text("Transform");
+
 	ImGui::DragFloat3("Location" , &m_transform.location.x , 0.1f);
 	ImGui::DragFloat3("Rotation" , &m_transform.rotation.x , 1.0f);
 	ImGui::DragFloat3("Scale"    , &m_transform.scale.x    , 0.1f);
 }
 void BackGround::DrawImGuiMaterialInspector()
 {
+	auto& imGui_ = ImGuiManager::GetInstance();
+
+	imGui_.DrawSeparate();
+	ImGui::Text("Material");
+
 	if (ImGui::Button(("TextureFilePath : %s", m_meshInfo.assetFilePath.c_str())))
 	{
 		std::string defPath_ = COMMON_ASSET_FILE_PATH;

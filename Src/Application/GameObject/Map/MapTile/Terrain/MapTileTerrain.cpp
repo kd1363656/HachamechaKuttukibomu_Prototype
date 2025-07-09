@@ -1,13 +1,13 @@
-﻿#include "MapChipTerrain.h"
+﻿#include "MapTileTerrain.h"
 
-void MapChipTerrain::Init()
+void MapTileTerrain::Init()
 {
-	MapChipBase::Init();
+	MapTileBase::Init();
 }
 
-void MapChipTerrain::PostLoadInit()
+void MapTileTerrain::PostLoadInit()
 {
-	MapChipBase::PostLoadInit();
+	MapTileBase::PostLoadInit();
 
 	if (m_pCollider) { return; }
 
@@ -17,7 +17,7 @@ void MapChipTerrain::PostLoadInit()
 	{
 		m_pCollider->RegisterCollisionShape
 		(
-			{ "MapChipTerrain" } ,
+			{ "MapTileTerrain" } ,
 			{ m_animationMesh  } ,
 			{ m_collisionType  }
 		);
@@ -26,7 +26,7 @@ void MapChipTerrain::PostLoadInit()
 	{
 		m_pCollider->RegisterCollisionShape
 		(
-			{ "MapChipTerrain" } ,
+			{ "MapTileTerrain" } ,
 			{ m_staticMesh     } ,
 			{ m_collisionType  }
 		);	

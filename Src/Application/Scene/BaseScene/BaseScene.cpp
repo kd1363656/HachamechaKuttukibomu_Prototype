@@ -1,4 +1,5 @@
 ﻿#include "BaseScene.h"
+#include "../../Utility/CommonConstant.h"
 
 void BaseScene::PreUpdate()
 {
@@ -47,7 +48,8 @@ void BaseScene::Draw()
 	{
 		for (auto& obj_ : m_objectList)
 		{
-			obj_->GenerateDepthMapFromLight();
+			if (!obj_->HasDrawTypeFlag(KdGameObject::DrawType::GenerateDepthFromMapLight)) { continue; }
+			obj_->Draw();
 		}
 	}
 	KdShaderManager::Instance().m_StandardShader.EndGenerateDepthMapFromLight();
@@ -58,7 +60,8 @@ void BaseScene::Draw()
 	{
 		for (auto& obj_ : m_objectList)
 		{
-			obj_->DrawUnLit();
+			if (!obj_->HasDrawTypeFlag(KdGameObject::DrawType::UnLit)) { continue; }
+			obj_->Draw();
 		}
 	}
 	KdShaderManager::Instance().m_StandardShader.EndUnLit();
@@ -69,7 +72,8 @@ void BaseScene::Draw()
 	{
 		for (auto& obj_ : m_objectList)
 		{
-			obj_->DrawLit();
+			if (!obj_->HasDrawTypeFlag(KdGameObject::DrawType::Lit)) { continue; }
+			obj_->Draw();
 		}
 	}
 	KdShaderManager::Instance().m_StandardShader.EndLit();
@@ -80,7 +84,8 @@ void BaseScene::Draw()
 	{
 		for (auto& obj_ : m_objectList)
 		{
-			obj_->DrawEffect();
+			if (!obj_->HasDrawTypeFlag(KdGameObject::DrawType::UnLit)) { continue; }
+			obj_->Draw();
 		}
 	}
 	KdShaderManager::Instance().m_StandardShader.EndUnLit();
@@ -91,7 +96,8 @@ void BaseScene::Draw()
 	{
 		for (auto& obj_ : m_objectList)
 		{
-			obj_->DrawBright();
+			if (!obj_->HasDrawTypeFlag(KdGameObject::DrawType::Bright)) { continue; }
+			obj_->Draw();
 		}
 	}
 	KdShaderManager::Instance().m_postProcessShader.EndBright();
@@ -105,7 +111,8 @@ void BaseScene::DrawSprite()
 	{
 		for (auto& obj_ : m_objectList)
 		{
-			obj_->DrawSprite();
+			if (!obj_->HasDrawTypeFlag(KdGameObject::DrawType::Sprite)) { continue; }
+			obj_->Draw();
 		}
 	}
 	KdShaderManager::Instance().m_spriteShader.End();

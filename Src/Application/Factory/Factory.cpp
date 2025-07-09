@@ -6,7 +6,7 @@
 
 #include "../GameObject/Actor/Player/Player.h"
 
-#include "../GameObject/Map/MapChip/Terrain/MapChipTerrain.h"
+#include "../GameObject/Map/MapTile/Terrain/MapTileTerrain.h"
 
 #include "../GameObject/Map/BackGround/BackGround.h"
 
@@ -27,7 +27,7 @@ void Factory::RegisterGameObjectFactoryMethod()
 	
 	RegisterGameObjectFactoryMethod<Player>();
 
-	RegisterGameObjectFactoryMethod<MapChipTerrain>();
+	RegisterGameObjectFactoryMethod<MapTileTerrain>();
 
 	RegisterGameObjectFactoryMethod<BackGround>();
 

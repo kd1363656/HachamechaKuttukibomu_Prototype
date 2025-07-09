@@ -1,5 +1,6 @@
 [
     {
+        "DrawType": 65,
         "GravityInfo": {
             "AccumulatedGravity": 2.5,
             "CurrentGravity": 0.0,
@@ -40,13 +41,13 @@
         },
         "Transform": {
             "Location": {
-                "X": -11.002385139465332,
+                "X": -6.836019515991211,
                 "Y": -0.19999979436397552,
-                "Z": 0.21465954184532166
+                "Z": -4.581263065338135
             },
             "Rotation": {
                 "X": 0.0,
-                "Y": 352.400146484375,
+                "Y": 352.6505126953125,
                 "Z": 0.0
             },
             "Scale": {
@@ -59,9 +60,10 @@
     },
     {
         "CollisionType": 1,
+        "DrawType": 1,
         "HasAnimation": false,
         "MeshInfo": {
-            "AssetFilePath": "Asset\\Models\\Map\\MapChip\\Grass\\Grass_1\\Grass_1.gltf",
+            "AssetFilePath": "Asset\\Models\\Map\\MapTile\\Grass\\Grass_1\\Grass_1.gltf",
             "Color": {
                 "W": 1.0,
                 "X": 1.0,
@@ -86,26 +88,27 @@
                 "Z": 11.5
             }
         },
-        "TypeName": "MapChipTerrain"
+        "TypeName": "MapTileTerrain"
     },
     {
         "DegAng": {
-            "X": -2.2499938011169434,
-            "Y": 528.6004638671875,
+            "X": 12.45001220703125,
+            "Y": 529.650634765625,
             "Z": 0.0
         },
         "Location": {
             "X": 0.0,
-            "Y": 1.600000023841858,
+            "Y": 1.5000001192092896,
             "Z": -3.0
         },
         "TypeName": "TPSCamera"
     },
     {
         "CollisionType": 1,
+        "DrawType": 1,
         "HasAnimation": false,
         "MeshInfo": {
-            "AssetFilePath": "Asset\\Models\\Map\\MapChip\\Grass\\Grass_1\\Grass_1.gltf",
+            "AssetFilePath": "Asset\\Models\\Map\\MapTile\\Grass\\Grass_1\\Grass_1.gltf",
             "Color": {
                 "W": 1.0,
                 "X": 1.0,
@@ -130,7 +133,7 @@
                 "Z": 1.0
             }
         },
-        "TypeName": "MapChipTerrain"
+        "TypeName": "MapTileTerrain"
     },
     {
         "MeshInfo": {

@@ -1,5 +1,6 @@
 ﻿#include "PlayerPrepareStickyBombThrowState.h"
 #include "PlayerStickyBombThrowState.h"
+#include "../Idle/PlayerIdleState.h"
 
 #include "../../../../GameObject/Actor/Player/Player.h"
 
@@ -29,7 +30,8 @@ void PlayerPrepareStickyBombThrowState::Enter(Player* Owner)
 
 void PlayerPrepareStickyBombThrowState::Update(Player* Owner)
 {
-	const bool isPrepareStickyBombThrow_ = Owner->IsStickyBombThrowKeyPressed();
+	const bool isPrepareStickyBombThrow_          = Owner->IsStickyBombThrowKeyPressed      ();
+	const bool isCancelStickyBombThrowKeyPressed_ = Owner->IsCancelStickyBombThrowKeyPressed();
 
 	Owner->PrepareStickyBombThrow();
 
@@ -39,5 +41,9 @@ void PlayerPrepareStickyBombThrowState::Update(Player* Owner)
 		m_stateMachine->ChangeState<PlayerStickyBombThrowState>();
 	}
 
-
+	// ボム投げをやめる
+	if (isCancelStickyBombThrowKeyPressed_)
+	{
+		m_stateMachine->ChangeState<PlayerIdleState>();
+	}
 }

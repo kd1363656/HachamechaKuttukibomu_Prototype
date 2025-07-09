@@ -14,7 +14,7 @@ public:
 	void Init        () override;
 	void PostLoadInit() override;
 
-	void DrawUnLit() override;
+	void Draw() override;
 
 	void PostUpdate() override;
 

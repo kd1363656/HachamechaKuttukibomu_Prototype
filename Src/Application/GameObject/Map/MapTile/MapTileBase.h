@@ -1,19 +1,19 @@
 ﻿#pragma once
 #include "../../../Utility/CommonStruct.h"
 
-class MapChipBase : public KdGameObject
+class MapTileBase : public KdGameObject
 {
 public:
 
-	MapChipBase         () = default;
-	virtual ~MapChipBase() = default;
+	MapTileBase         () = default;
+	virtual ~MapTileBase() = default;
 
-	virtual uint32_t GetFinalBaseTypeID()const { return GameObjectID::GetTypeID<MapChipBase>(); }
+	virtual uint32_t GetFinalBaseTypeID()const { return GameObjectID::GetTypeID<MapTileBase>(); }
 
 	virtual void Init        () override;
 	virtual void PostLoadInit() override;
 
-	virtual void DrawLit() override;
+	virtual void Draw() override;
 
 	virtual void PostUpdate() override;
 
@@ -26,7 +26,6 @@ private:
 
 	void DrawImGuiTransformInspector();
 	void DrawImGuiMaterialInspector ();
-	void DrawImGuiCollisionInspector();
 	void DrawImGuiFlagsInspector    ();
 
 protected:
@@ -41,8 +40,6 @@ protected:
 
 	CommonStruct::MeshInfo     m_meshInfo  = {};
 	CommonStruct::Transform3D  m_transform = {};
-
-	uint32_t m_collisionType = 0u;
 
 	// アニメーションするかしないかで基底クラスを分けるのは無駄なのでフラグで管理
 	bool m_hasAnimation = false;

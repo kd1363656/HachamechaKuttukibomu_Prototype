@@ -13,8 +13,7 @@ public:
 	virtual void Init        () override;
 	virtual void PostLoadInit()override;
 	
-	virtual void DrawLit                  () override;
-	virtual void GenerateDepthMapFromLight() override;
+	virtual void Draw() override;
 
 	virtual void PostUpdate() override;
 

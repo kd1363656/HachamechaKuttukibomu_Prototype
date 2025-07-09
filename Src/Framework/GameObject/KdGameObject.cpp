@@ -16,6 +16,8 @@ void KdGameObject::Init()
 
 	m_isExpired = false;
 
+	m_drawType = 0u;
+
 	if (!m_pDebugWire) 
 	{ 
 		m_pDebugWire = std::make_unique<KdDebugWireFrame>(); 
@@ -31,6 +33,107 @@ void KdGameObject::DrawDebug()
 	}
 
 	m_pDebugWire->Draw();
+}
+
+void KdGameObject::DrawImGuiInspectors()
+{
+	DrawImGuiDrawTypeInspector();
+}
+
+void KdGameObject::DrawImGuiDrawTypeInspector()
+{
+	auto& imGui_ = ImGuiManager::GetInstance();
+
+	imGui_.DrawSeparate();
+	ImGui::Text("DrawType");
+
+	// TODO
+	static DrawTypeList list_[] =
+	{
+		{ "Lit"						  , static_cast<uint8_t>(DrawType::Lit                      ) } ,
+		{ "UnLit"                     , static_cast<uint8_t>(DrawType::UnLit                    ) } ,
+		{ "Effect"                    , static_cast<uint8_t>(DrawType::Effect                   ) } ,
+		{ "Bright"                    , static_cast<uint8_t>(DrawType::Bright                   ) } ,
+		{ "UI"                        , static_cast<uint8_t>(DrawType::UI                       ) } ,
+		{ "Sprite"                    , static_cast<uint8_t>(DrawType::Sprite                   ) } ,
+		{ "GenerateDepthFromMapLight" , static_cast<uint8_t>(DrawType::GenerateDepthFromMapLight) }
+	};
+
+	ImGui::PushID(list_);
+	if (ImGui::BeginCombo("##Item", "Type"))
+	{
+		for (auto item_ : list_)
+		{
+			bool isSelected_ = (m_drawType & item_.type);
+
+			if (ImGui::Checkbox(item_.label, &isSelected_))
+			{
+				if (isSelected_)
+				{
+					m_drawType |= item_.type;
+				}
+				else
+				{
+					m_drawType &= ~item_.type;
+				}
+			}
+		}
+		ImGui::EndCombo();
+	}
+	ImGui::PopID();
+}
+void KdGameObject::DrawImGuiCollisionInspector()
+{
+	auto& imGui_ = ImGuiManager::GetInstance();
+
+	imGui_.DrawSeparate();
+	ImGui::Text("Collision");
+
+	static CollisionTypeList list_[] =
+	{
+		{ "TypeGround"     , KdCollider::TypeGround     } ,
+		{ "TypeBump"       , KdCollider::TypeBump       } ,
+		{ "TypeDamage"     , KdCollider::TypeDamage     } ,
+		{ "TypeDamageLine" , KdCollider::TypeDamageLine } ,
+		{ "TypeSight"      , KdCollider::TypeSight      } ,
+		{ "TypeEvent"      , KdCollider::TypeEvent      }
+	};
+
+	ImGui::PushID(list_);
+	if (ImGui::BeginCombo("##Item", "Type"))
+	{
+		for (auto& item_ : list_)
+		{
+			// 特定の"bit"が立っていれば"true"
+			// チェックボックスがついているかどうかを示すことができる("ImGui"上の表示に反映される)
+			bool isSelected_ = (m_collisionType & item_.type) != 0u;
+
+			// 第二引数の"bool"型はユーザーがクリックしたときのチェックボックスに
+			// チェックがついているかどうかの状態の反対の状態を返す
+			if (ImGui::Checkbox(item_.label , &isSelected_))
+			{
+				if (isSelected_)
+				{
+					m_collisionType |= item_.type;
+				}
+				else
+				{
+					m_collisionType &= ~item_.type;
+				}
+			}
+		}
+		ImGui::EndCombo();
+	}
+	ImGui::PopID();
+
+	ImGui::Text("Registered Collision");
+	for (auto& item_ : list_)
+	{
+		if (m_collisionType & item_.type)
+		{
+			ImGui::Text(item_.label);
+		}
+	}
 }
 
 void KdGameObject::CalcDistSqrFromCamera(const Math::Vector3& camPos)
@@ -64,6 +167,26 @@ bool KdGameObject::Intersects(const KdCollider::RayInfo& targetShape, std::list<
 	}
 
 	return m_pCollider->Intersects(targetShape, m_mWorld, pResults);
+}
+
+bool KdGameObject::HasDrawTypeFlag(DrawType Type)
+{
+	const uint8_t flag_ = static_cast<uint8_t>(Type);
+
+	// フラグが立っていたら"true"を返す
+	return (m_drawType & flag_) != 0;
+}
+void KdGameObject::EnableDrawFlag(DrawType Type)
+{
+	const uint8_t flag_ = static_cast<uint8_t>(Type);
+
+	m_drawType |= flag_;
+}
+void KdGameObject::DisableDrawFlag(DrawType Type)
+{
+	const uint8_t flag_ = static_cast<uint8_t>(Type);
+
+	m_drawType &= ~flag_;
 }
 
 Math::Vector3 KdGameObject::GetScale() const

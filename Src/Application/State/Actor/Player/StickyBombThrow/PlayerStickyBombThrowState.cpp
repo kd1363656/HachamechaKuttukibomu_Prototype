@@ -1,4 +1,7 @@
 ﻿#include "PlayerStickyBombThrowState.h"
+#include "../Idle/PlayerIdleState.h"
+
+#include "../../../../GameObject/Actor/Player/Player.h"
 
 #include "../../../../GameObject/Camera/TPSCamera/TPSCamera.h"
 
@@ -25,5 +28,7 @@ void PlayerStickyBombThrowState::Enter(Player* Owner)
 }
 void PlayerStickyBombThrowState::Update(Player* Owner)
 {
-
+	// TODO
+	// アニメーションが終わったら移動できるようにする
+	m_stateMachine->ChangeState<PlayerIdleState>();
 }

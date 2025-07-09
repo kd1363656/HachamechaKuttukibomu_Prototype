@@ -112,16 +112,31 @@ struct ImGuiAppLog
 class KdDebugGUI
 {
 public:
+
+	struct FpsIdling
+	{
+		float fpsIdle      = 60.0f;
+		bool  enableIdling = true;
+		bool  isIdling     = false;
+	};
+
 	void GuiInit();
 	void GuiProcess();
 
 	void AddLog(const char* fmt, ...);
 	
+	void IdleBySleeping(FpsIdling& IoIdling);
+
 private:
+
 	void GuiRelease();
+
+	void WaitForEventTimeout(float TimeoutSeconds);
 
 	// ImGui
 	std::unique_ptr<ImGuiAppLog> m_uqLog = nullptr;
+
+	FpsIdling m_fpsIdle;
 
 	bool m_canShowDebugWindow    = true;
 	bool m_isHeldShowDebugWindow = false;

@@ -133,15 +133,6 @@
     <Filter Include="Src\Application\State\Actor\Plaeyr\Move">
       <UniqueIdentifier>{c5897bb2-e089-46ae-b28b-08ff1a2f58c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\GameObject\Map\MapChip">
-      <UniqueIdentifier>{a59d19f5-1445-466b-b3f2-abced27eaa03}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\GameObject\Map\MapChip\Gimmick">
-      <UniqueIdentifier>{fdb39402-e570-4466-afa0-d66b1d56117b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\GameObject\Map\MapChip\Terrain">
-      <UniqueIdentifier>{0d058f91-7b11-47ef-a0e3-eb1f477f371c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Src\Application\State\Actor\Plaeyr\StickyBombThrow">
       <UniqueIdentifier>{4400338b-7b04-4705-9030-f2ae426cba03}</UniqueIdentifier>
     </Filter>
@@ -159,6 +150,15 @@
     </Filter>
     <Filter Include="Src\Application\State\Camera\TPSCamera\FocusOnPlayerThrow">
       <UniqueIdentifier>{74c4fb6b-057c-4a04-9ca7-1a1847a38f93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Map\MapTile">
+      <UniqueIdentifier>{5687ca9b-206d-493c-997e-f8aa62c2e100}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Map\MapTile\Terrain">
+      <UniqueIdentifier>{b6276315-a0bc-4f52-a0af-e6dc93d0ae9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Map\MapTile\Gimmick">
+      <UniqueIdentifier>{3dbc776d-dccb-4c2d-b665-0e71aa03f914}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -396,12 +396,6 @@
     <ClInclude Include="Src\Application\Utility\CommonConstant.h">
       <Filter>Src\Application\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\GameObject\Map\MapChip\MapChipBase.h">
-      <Filter>Src\Application\GameObject\Map\MapChip</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\GameObject\Map\MapChip\Terrain\MapChipTerrain.h">
-      <Filter>Src\Application\GameObject\Map\MapChip\Terrain</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Application\State\Actor\Player\StickyBombThrow\PlayerPrepareStickyBombThrowState.h">
       <Filter>Src\Application\State\Actor\Plaeyr\StickyBombThrow</Filter>
     </ClInclude>
@@ -416,6 +410,12 @@
     </ClInclude>
     <ClInclude Include="Src\Application\State\Camera\TPSCamera\FocusOnPlayerThrow\TPSCameraFocusOnPlayerThrowState.h">
       <Filter>Src\Application\State\Camera\TPSCamera\FocusOnPlayerThrow</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Map\MapTile\MapTileBase.h">
+      <Filter>Src\Application\GameObject\Map\MapTile</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Map\MapTile\Terrain\MapTileTerrain.h">
+      <Filter>Src\Application\GameObject\Map\MapTile\Terrain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -602,12 +602,6 @@
     <ClCompile Include="Src\Application\State\Actor\Player\Move\PlayerMoveState.cpp">
       <Filter>Src\Application\State\Actor\Plaeyr\Move</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\GameObject\Map\MapChip\MapChipBase.cpp">
-      <Filter>Src\Application\GameObject\Map\MapChip</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\GameObject\Map\MapChip\Terrain\MapChipTerrain.cpp">
-      <Filter>Src\Application\GameObject\Map\MapChip\Terrain</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Application\State\Actor\Player\StickyBombThrow\PlayerPrepareStickyBombThrowState.cpp">
       <Filter>Src\Application\State\Actor\Plaeyr\StickyBombThrow</Filter>
     </ClCompile>
@@ -622,6 +616,12 @@
     </ClCompile>
     <ClCompile Include="Src\Application\State\Camera\TPSCamera\FocusOnPlayerThrow\TPSCameraFocusOnPlayerThrowState.cpp">
       <Filter>Src\Application\State\Camera\TPSCamera\FocusOnPlayerThrow</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Map\MapTile\MapTileBase.cpp">
+      <Filter>Src\Application\GameObject\Map\MapTile</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Map\MapTile\Terrain\MapTileTerrain.cpp">
+      <Filter>Src\Application\GameObject\Map\MapTile\Terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

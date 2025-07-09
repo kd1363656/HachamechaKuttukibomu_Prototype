@@ -26,6 +26,9 @@ void ActorBase::Init()
 	m_meshInfo.assetFilePath = COMMON_ASSET_FILE_PATH;
 
 	m_isInAir = false;
+
+	EnableDrawFlag(KdGameObject::DrawType::Lit                      );
+	EnableDrawFlag(KdGameObject::DrawType::GenerateDepthFromMapLight);
 }
 
 void ActorBase::PostLoadInit()
@@ -36,14 +39,7 @@ void ActorBase::PostLoadInit()
 	PostUpdate();
 }
 
-void ActorBase::DrawLit()
-{
-	if (!m_mesh) { return; }
-
-	KdShaderManager::Instance().m_StandardShader.DrawModel(*m_mesh, m_mWorld , m_meshInfo.color);
-}
-
-void ActorBase::GenerateDepthMapFromLight()
+void ActorBase::Draw()
 {
 	if (!m_mesh) { return; }
 
@@ -61,6 +57,8 @@ void ActorBase::DrawImGuiInspectors()
 	DrawImGuiTransformInspector();
 	DrawImGuiMaterialInspector ();
 	DrawImGuiCollisionInspector();
+
+	KdGameObject::DrawImGuiInspectors();
 }
 void ActorBase::DrawImGuiTransformInspector()
 {
@@ -73,7 +71,6 @@ void ActorBase::DrawImGuiTransformInspector()
 	ImGui::DragFloat3("Rotation", &m_transform.rotation.x, 1.0f);
 	ImGui::DragFloat3("Scale"   , &m_transform.scale.x   , 0.1f);
 }
-
 void ActorBase::LoadJsonData(const nlohmann::json Json)
 {
 	// Jsonで設定した値を代入
@@ -87,6 +84,8 @@ void ActorBase::LoadJsonData(const nlohmann::json Json)
 
 	if (Json.contains("MapRayColliderSetting"   )) { m_mapRayColliderSetting    = JsonUtility::JsonToRayColliderSetting   (Json["MapRayColliderSetting"   ]); }
 	if (Json.contains("MapSphereColliderSetting")) { m_mapSphereColliderSetting = JsonUtility::JsonToSphereColliderSetting(Json["MapSphereColliderSetting"]); }
+
+	m_drawType = Json.value("DrawType", static_cast<uint8_t>(KdGameObject::DrawType::Lit));
 
 	m_maxMoveSpeed = Json.value("MaxMoveSpeed" , 0.0f);
 }
@@ -107,6 +106,8 @@ nlohmann::json ActorBase::SaveJsonData()
 
 	json_["MapRayColliderSetting"   ] = JsonUtility::RayColliderSettingToJson   (m_mapRayColliderSetting   );
 	json_["MapSphereColliderSetting"] = JsonUtility::SphereColliderSettingToJson(m_mapSphereColliderSetting);
+
+	json_["DrawType"] = m_drawType;
 
 	return json_;
 }
@@ -141,7 +142,7 @@ void ActorBase::MapCollision()
 
 	if (!scene_) { return; }
 
-		// レイ判定
+	// レイ判定
 	{
 		// レイのパラメータを設定
 		// TODO
@@ -241,11 +242,6 @@ void ActorBase::MapCollision()
 
 void ActorBase::DrawImGuiMaterialInspector()
 {
-	auto& imGui_ = ImGuiManager::GetInstance();
-
-	imGui_.DrawSeparate();
-	ImGui::Text("Material");
-
 	if (ImGui::Button(("TextureFilePath : %s", m_meshInfo.assetFilePath.c_str())))
 	{
 		std::string defPath_ = COMMON_ASSET_FILE_PATH;

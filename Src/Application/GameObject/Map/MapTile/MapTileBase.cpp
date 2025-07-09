@@ -1,4 +1,4 @@
-﻿#include "MapChipBase.h"
+﻿#include "MapTileBase.h"
 
 #include "../../../Utility/JsonUtility.h"
 #include "../../../Utility/ImGui/ImGuiManager.h"
@@ -6,7 +6,7 @@
 
 #include "../../../main.h"
 
-void MapChipBase::Init()
+void MapTileBase::Init()
 {
 	KdGameObject::Init();
 	
@@ -16,16 +16,18 @@ void MapChipBase::Init()
 	m_meshInfo.assetFilePath = COMMON_ASSET_FILE_PATH;
 
 	m_hasAnimation = false;
+
+	EnableDrawFlag(KdGameObject::DrawType::Lit);
 }
-void MapChipBase::PostLoadInit()
+void MapTileBase::PostLoadInit()
 {
 	LoadAsset();
 	FixMatrix();
 }
 
-void MapChipBase::DrawLit()
+void MapTileBase::Draw()
 {
-	if(m_hasAnimation)
+	if (m_hasAnimation)
 	{
 		if (!m_animationMesh) { return; }
 		KdShaderManager::Instance().m_StandardShader.DrawModel(*m_animationMesh, m_mWorld, m_meshInfo.color);
@@ -37,34 +39,23 @@ void MapChipBase::DrawLit()
 	}
 }
 
-void MapChipBase::PostUpdate()
+void MapTileBase::PostUpdate()
 {
 	FixMatrix();
 }
 
-void MapChipBase::DrawImGuiInspectors()
+void MapTileBase::DrawImGuiInspectors()
 {
-	auto& imGui_ = ImGuiManager::GetInstance();
-
 	// 汚くなったら関数でまとめる
-	imGui_.DrawSeparate();
-	ImGui::Text("Transform");
 	DrawImGuiTransformInspector();
-
-	imGui_.DrawSeparate();
-	ImGui::Text("Material");
 	DrawImGuiMaterialInspector ();
-
-	imGui_.DrawSeparate();
-	ImGui::Text("Collision");
 	DrawImGuiCollisionInspector();
+	DrawImGuiFlagsInspector    ();
 
-	imGui_.DrawSeparate();
-	ImGui::Text("Flags");
-	DrawImGuiFlagsInspector();
+	KdGameObject::DrawImGuiInspectors();
 }
 
-void MapChipBase::LoadJsonData(const nlohmann::json Json)
+void MapTileBase::LoadJsonData(const nlohmann::json Json)
 {
 	// Jsonで設定した値を代入
 	m_typeName = Json.value("TypeName" , "");
@@ -72,11 +63,12 @@ void MapChipBase::LoadJsonData(const nlohmann::json Json)
 	if (Json.contains("Transform")) { m_transform = JsonUtility::JsonToTransform3D(Json["Transform"]); }
 	if (Json.contains("MeshInfo" )) { m_meshInfo  = JsonUtility::JsonToMeshInfo   (Json["MeshInfo" ]); }
 
-	m_collisionType = Json.value("CollisionType" , 0u);
+	m_drawType      = Json.value("DrawType"      , static_cast<uint8_t>(KdGameObject::DrawType::Lit));
+	m_collisionType = Json.value("CollisionType" , static_cast<uint8_t>(KdCollider::TypeGround     ));
 
 	m_hasAnimation = Json.value("HasAnimation" , false);
 }
-nlohmann::json MapChipBase::SaveJsonData()
+nlohmann::json MapTileBase::SaveJsonData()
 {
 	nlohmann::json json_;
 
@@ -85,6 +77,7 @@ nlohmann::json MapChipBase::SaveJsonData()
 	json_["Transform"] = JsonUtility::Transform3DToJson(m_transform);
 	json_["MeshInfo" ] = JsonUtility::MeshInfoToJson   (m_meshInfo );
 
+	json_["DrawType"     ] = m_drawType;
 	json_["CollisionType"] = m_collisionType;
 
 	json_["HasAnimation"] = m_hasAnimation;
@@ -92,14 +85,24 @@ nlohmann::json MapChipBase::SaveJsonData()
 	return json_;
 }
 
-void MapChipBase::DrawImGuiTransformInspector()
+void MapTileBase::DrawImGuiTransformInspector()
 {
+	auto& imGui_ = ImGuiManager::GetInstance();
+
+	imGui_.DrawSeparate();
+	ImGui::Text("Transform");
+
 	ImGui::DragFloat3("Location" , &m_transform.location.x , 0.1f);
 	ImGui::DragFloat3("Rotation" , &m_transform.rotation.x , 1.0f);
 	ImGui::DragFloat3("Scale"    , &m_transform.scale.x    , 0.1f);
 }
-void MapChipBase::DrawImGuiMaterialInspector()
+void MapTileBase::DrawImGuiMaterialInspector()
 {
+	auto& imGui_ = ImGuiManager::GetInstance();
+
+	imGui_.DrawSeparate();
+	ImGui::Text("Material");
+
 	if (ImGui::Button(("TextureFilePath : %s", m_meshInfo.assetFilePath.c_str())))
 	{
 		std::string defPath_ = COMMON_ASSET_FILE_PATH;
@@ -132,55 +135,16 @@ void MapChipBase::DrawImGuiMaterialInspector()
 
 	ImGui::ColorEdit4("Color", &m_meshInfo.color.x);
 }
-void MapChipBase::DrawImGuiCollisionInspector()
+void MapTileBase::DrawImGuiFlagsInspector()
 {
-	// TODO
-	CommonStruct::CollisionTypeList list_[] =
-	{
-		{ "TypeGround"     , KdCollider::TypeGround     } ,
-		{ "TypeBump"       , KdCollider::TypeBump       } ,
-		{ "TypeDamage"     , KdCollider::TypeDamage     } ,
-		{ "TypeDamageLine" , KdCollider::TypeDamageLine } ,
-		{ "TypeSight"      , KdCollider::TypeSight      } ,
-		{ "TypeEvent"      , KdCollider::TypeEvent      }
-	};
+	auto& imGui_ = ImGuiManager::GetInstance();
 
-	for (auto& item_ : list_)
-	{
-		// 特定の"bit"が立っていれば"true"
-		// チェックボックスがついているかどうかを示すことができる("ImGui"上の表示に反映される)
-		bool selected_ = (m_collisionType & item_.type) != 0u;
-
-		// 第二引数の"bool"型はユーザーがクリックしたときのチェックボックスに
-		// チェックがついているかどうかの状態のフラグを返す
-		if (ImGui::Checkbox(item_.label , &selected_))
-		{
-			if (selected_)
-			{
-				m_collisionType |= item_.type;
-			}
-			else
-			{
-				m_collisionType &= ~item_.type;
-			}
-		}
-	}
-
-	ImGui::Text("Registered Collision");
-	for (auto& item_ : list_)
-	{
-		if (m_collisionType & item_.type)
-		{
-			ImGui::Text(item_.label);
-		}
-	}
-}
-void MapChipBase::DrawImGuiFlagsInspector()
-{
+	imGui_.DrawSeparate();
+	ImGui::Text("Flags");
 	ImGui::Checkbox("HasAnimation", &m_hasAnimation);
 }
 
-void MapChipBase::LoadAsset()
+void MapTileBase::LoadAsset()
 {
 	// ファイルパスが存在しなければ"return"
 	if (m_meshInfo.assetFilePath.empty()) { return; }
@@ -197,7 +161,7 @@ void MapChipBase::LoadAsset()
 	}
 }
 
-void MapChipBase::FixMatrix()
+void MapTileBase::FixMatrix()
 {
 	const Math::Matrix transMat_    = Math::Matrix::CreateTranslation(m_transform.location);
 	const Math::Matrix rotationMat_ = Math::Matrix::CreateFromYawPitchRoll

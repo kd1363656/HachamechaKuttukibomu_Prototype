@@ -35,13 +35,6 @@ namespace CommonStruct
 		Math::Color	color         = {};
 	};
 
-	// "ImGui"で使うだけのもの
-	struct CollisionTypeList
-	{
-		const char* label;
-		uint32_t    type;
-	};
-
 	struct GravityInfo
 	{
 		float currentGravity;
