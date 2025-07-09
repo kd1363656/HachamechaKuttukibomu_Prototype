@@ -1,5 +1,5 @@
 ﻿#include "TPSCameraFollowPlayerState.h"
-#include "../PlayerThrowFocus/TPSCameraFocusOnPlayerThrowState.h"
+#include "../FocusOnPlayerThrow/TPSCameraFocusOnPlayerThrowState.h"
 
 #include "../../../../GameObject/Camera/TPSCamera/TPSCamera.h"
 #include "../../../../GameObject/Actor/Player/Player.h"

@@ -28,6 +28,7 @@ public:
 
 	bool IsMoveKeyPressed();
 	bool IsStickyBombThrowKeyPressed();
+	bool IsCancelStickyBombThrowKeyPressed();
 
 private:
 

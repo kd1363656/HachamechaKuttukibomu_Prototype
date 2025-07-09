@@ -157,8 +157,8 @@
     <Filter Include="Src\Application\GameObject\Map\BackGround">
       <UniqueIdentifier>{36b589cb-8b1c-4998-96e9-de7651d817b5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\State\Camera\TPSCamera\PlayerThrowFocus">
-      <UniqueIdentifier>{6a9695b0-429f-4170-af7f-4878103d20b3}</UniqueIdentifier>
+    <Filter Include="Src\Application\State\Camera\TPSCamera\FocusOnPlayerThrow">
+      <UniqueIdentifier>{74c4fb6b-057c-4a04-9ca7-1a1847a38f93}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -414,8 +414,8 @@
     <ClInclude Include="Src\Application\GameObject\Map\BackGround\BackGround.h">
       <Filter>Src\Application\GameObject\Map\BackGround</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\State\Camera\TPSCamera\PlayerThrowFocus\TPSCameraFocusOnPlayerThrowState.h">
-      <Filter>Src\Application\State\Camera\TPSCamera\PlayerThrowFocus</Filter>
+    <ClInclude Include="Src\Application\State\Camera\TPSCamera\FocusOnPlayerThrow\TPSCameraFocusOnPlayerThrowState.h">
+      <Filter>Src\Application\State\Camera\TPSCamera\FocusOnPlayerThrow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -620,8 +620,8 @@
     <ClCompile Include="Src\Application\GameObject\Map\BackGround\BackGround.cpp">
       <Filter>Src\Application\GameObject\Map\BackGround</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\State\Camera\TPSCamera\PlayerThrowFocus\TPSCameraFocusOnPlayerThrowState.cpp">
-      <Filter>Src\Application\State\Camera\TPSCamera\PlayerThrowFocus</Filter>
+    <ClCompile Include="Src\Application\State\Camera\TPSCamera\FocusOnPlayerThrow\TPSCameraFocusOnPlayerThrowState.cpp">
+      <Filter>Src\Application\State\Camera\TPSCamera\FocusOnPlayerThrow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

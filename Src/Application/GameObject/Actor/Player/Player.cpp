@@ -191,6 +191,13 @@ bool Player::IsStickyBombThrowKeyPressed()
 	return input_.IsMouseClickedLeftOnce();
 }
 
+bool Player::IsCancelStickyBombThrowKeyPressed()
+{
+	auto& input_ = RawInputManager::GetInstance();
+
+	return input_.IsMouseClickedRightOnce();
+}
+
 void Player::AddMoveDirectionIfKeyPressed(int VirtualKeyCode, Math::Vector3& MoveDirection, const Math::Vector3& WantAddDirection)
 {
 	auto& input_ = RawInputManager::GetInstance();
