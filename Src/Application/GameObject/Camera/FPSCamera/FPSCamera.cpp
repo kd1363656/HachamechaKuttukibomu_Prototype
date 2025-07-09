@@ -17,7 +17,7 @@ void FPSCamera::PostUpdate()
 {
 	// ターゲットの行列(有効な場合利用する)
 	Math::Matrix								_targetMat	= Math::Matrix::Identity;
-	const std::shared_ptr<const KdGameObject>	_spTarget	= m_player.lock();	
+	const std::shared_ptr<const KdGameObject>	_spTarget	= m_targetPlayer.lock();	
 	if (_spTarget)
 	{
 		_targetMat = Math::Matrix::CreateTranslation(_spTarget->GetPos());
@@ -26,7 +26,6 @@ void FPSCamera::PostUpdate()
 	// カメラの回転
 	UpdateRotateByMouse();
 	
-
 	m_mRotation = GetRotationMatrix();
 	m_mWorld	= m_mRotation * m_mLocalPos * _targetMat;
 }

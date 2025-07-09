@@ -22,13 +22,14 @@ void KdDebugGUI::GuiInit()
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	// Setup Dear ImGui style
-	ImGui::StyleColorsDark();
 
 	// "ImGuiDocking"
 	ImGuiIO& io = ImGui::GetIO();
 	// ここの部分でImGuiのドッキング機能を有効にする
 	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;      //    マルチウィンドウを有効にする
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;        //    ドッキングを有効にする
+
+	ImGui::StyleColorsDark();
 
 	//ImGui::StyleColorsClassic();
 	// Setup Platform/Renderer bindings
@@ -115,6 +116,20 @@ void KdDebugGUI::GuiProcess()
 	//===========================================================
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+	// マルチウィンドウを有効にしている場合は、以下の処理も必要
+	if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+	    // 描画、更新
+	    ImGui::UpdatePlatformWindows();
+	    ImGui::RenderPlatformWindowsDefault();
+	
+	    // ここでレンダリングターゲットを戻す必要がある
+	    KdDirect3D::Instance().WorkDevContext()->OMSetRenderTargets(
+	        1,
+	        KdDirect3D::Instance().GetBackBuffer()->WorkRTViewAddress(),
+	        KdDirect3D::Instance().GetZBuffer()->WorkDSView());
+	}
 }
 
 void KdDebugGUI::AddLog(const char* fmt,...)

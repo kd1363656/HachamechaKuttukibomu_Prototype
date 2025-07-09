@@ -148,6 +148,18 @@
     <Filter Include="Src\Application\State\Camera">
       <UniqueIdentifier>{e9d49ff2-a067-4a85-85d6-ec8ab798f3a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\State\Camera\TPSCamera">
+      <UniqueIdentifier>{b7650cea-e309-40bd-88f2-d4e7148bfdaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\State\Camera\TPSCamera\FollowPlayer">
+      <UniqueIdentifier>{c0af836a-8a5e-40fa-900b-55a9a79757b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Map\BackGround">
+      <UniqueIdentifier>{36b589cb-8b1c-4998-96e9-de7651d817b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\State\Camera\TPSCamera\PlayerThrowFocus">
+      <UniqueIdentifier>{6a9695b0-429f-4170-af7f-4878103d20b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -396,6 +408,15 @@
     <ClInclude Include="Src\Application\State\Actor\Player\StickyBombThrow\PlayerStickyBombThrowState.h">
       <Filter>Src\Application\State\Actor\Plaeyr\StickyBombThrow</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\State\Camera\TPSCamera\FollowPlayer\TPSCameraFollowPlayerState.h">
+      <Filter>Src\Application\State\Camera\TPSCamera\FollowPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Map\BackGround\BackGround.h">
+      <Filter>Src\Application\GameObject\Map\BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\State\Camera\TPSCamera\PlayerThrowFocus\TPSCameraFocusOnPlayerThrowState.h">
+      <Filter>Src\Application\State\Camera\TPSCamera\PlayerThrowFocus</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -592,6 +613,15 @@
     </ClCompile>
     <ClCompile Include="Src\Application\State\Actor\Player\StickyBombThrow\PlayerStickyBombThrowState.cpp">
       <Filter>Src\Application\State\Actor\Plaeyr\StickyBombThrow</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\State\Camera\TPSCamera\FollowPlayer\TPSCameraFollowPlayerState.cpp">
+      <Filter>Src\Application\State\Camera\TPSCamera\FollowPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Map\BackGround\BackGround.cpp">
+      <Filter>Src\Application\GameObject\Map\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\State\Camera\TPSCamera\PlayerThrowFocus\TPSCameraFocusOnPlayerThrowState.cpp">
+      <Filter>Src\Application\State\Camera\TPSCamera\PlayerThrowFocus</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

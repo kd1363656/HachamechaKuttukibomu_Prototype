@@ -48,8 +48,6 @@ public:
 	virtual void           LoadJsonData(const nlohmann::json Json) {/* まだ実装されていません、派生クラスで実装してください */ }
 	virtual nlohmann::json SaveJsonData()						   { return nlohmann::json(); }
 
-	virtual void LoadAsset() {/* まだ実装されていません、派生クラスで実装してください */ }
-
 	// カメラからの距離を計算
 	virtual void CalcDistSqrFromCamera(const Math::Vector3& camPos);
 	// 視錐台範囲内に入っているかどうか
@@ -88,7 +86,11 @@ public:
 
 protected:
 
+	virtual void LoadAsset() {/* まだ実装されていません、派生クラスで実装してください */ }
+
 	void Release() { /* まだ実装されていません、派生クラスで実装してください */ }
+
+	const std::string COMMON_ASSET_FILE_PATH = "Asset/";
 
 	std::unique_ptr<KdCollider> m_pCollider = nullptr;
 

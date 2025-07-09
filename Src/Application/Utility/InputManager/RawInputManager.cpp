@@ -88,8 +88,8 @@ void RawInputManager::ProcessInput(LPARAM LParam)
 			// 今のゲームウィンドウ用に変換
 			// 左上のを基準に座標を取るので調整する
 			ScreenToClient(m_hWnd, &mousePos_);
-			m_nowMouseData.location.x =  static_cast<float>(mousePos_.x) - 640.0f;
-			m_nowMouseData.location.y = (static_cast<float>(mousePos_.y) - 360.0f) * -1.0f;
+			//m_nowMouseData.location.x =  static_cast<float>(mousePos_.x) - 640.0f;
+			//m_nowMouseData.location.y = (static_cast<float>(mousePos_.y) - 360.0f) * -1.0f;
 		}
 
 		WORD flags_ = raw_->data.mouse.usButtonFlags;

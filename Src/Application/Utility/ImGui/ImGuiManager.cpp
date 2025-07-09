@@ -5,6 +5,7 @@
 #include "../../GameObject/Camera/CameraBase.h"
 #include "../../GameObject/Actor/ActorBase.h"
 #include "../../GameObject/Map/MapChip/MapChipBase.h"
+#include "../../GameObject/Map/BackGround/BackGround.h"
 
 #include "../../Factory/Factory.h"
 
@@ -19,6 +20,7 @@ void ImGuiManager::Init()
 	GenereateGameObjectNameFilter<CameraBase> ();
 	GenereateGameObjectNameFilter<ActorBase>  ();
 	GenereateGameObjectNameFilter<MapChipBase>();
+	GenereateGameObjectNameFilter<BackGround> ();
 
 	m_isShowSavePopUp = false;
 }
@@ -144,6 +146,8 @@ void ImGuiManager::DrawFactoryPanel()
 		ImGui::Separator();
 		DrawFactoryPanel(GameObjectID::GetTypeID<MapChipBase>(), "Add Camera");
 		ImGui::Separator();
+		DrawFactoryPanel(GameObjectID::GetTypeID<BackGround>() , "Add BackGround");
+		ImGui::Separator();
 	}
 	ImGui::End();
 }
@@ -247,6 +251,8 @@ void ImGuiManager::DrawInspector()
 		DrawInspector(GameObjectID::GetTypeID<ActorBase> ());
 		ImGui::Separator();
 		DrawInspector(GameObjectID::GetTypeID<MapChipBase>());
+		ImGui::Separator();
+		DrawInspector(GameObjectID::GetTypeID<BackGround>());
 		ImGui::Separator();
 	}
 	ImGui::End();

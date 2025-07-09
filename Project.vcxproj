@@ -282,6 +282,7 @@
     <ClInclude Include="Src\Application\GameObject\Camera\DebugCamera\DebugCamera.h" />
     <ClInclude Include="Src\Application\GameObject\Camera\FPSCamera\FPSCamera.h" />
     <ClInclude Include="Src\Application\GameObject\Camera\TPSCamera\TPSCamera.h" />
+    <ClInclude Include="Src\Application\GameObject\Map\BackGround\BackGround.h" />
     <ClInclude Include="Src\Application\GameObject\Map\MapChip\MapChipBase.h" />
     <ClInclude Include="Src\Application\GameObject\Map\MapChip\Terrain\MapChipTerrain.h" />
     <ClInclude Include="Src\Application\main.h" />
@@ -293,6 +294,8 @@
     <ClInclude Include="Src\Application\State\Actor\Player\Move\PlayerMoveState.h" />
     <ClInclude Include="Src\Application\State\Actor\Player\StickyBombThrow\PlayerPrepareStickyBombThrowState.h" />
     <ClInclude Include="Src\Application\State\Actor\Player\StickyBombThrow\PlayerStickyBombThrowState.h" />
+    <ClInclude Include="Src\Application\State\Camera\TPSCamera\FollowPlayer\TPSCameraFollowPlayerState.h" />
+    <ClInclude Include="Src\Application\State\Camera\TPSCamera\PlayerThrowFocus\TPSCameraFocusOnPlayerThrowState.h" />
     <ClInclude Include="Src\Application\State\StateBase.h" />
     <ClInclude Include="Src\Application\State\StateMachine.h" />
     <ClInclude Include="Src\Application\Utility\CommonConstant.h" />
@@ -358,6 +361,7 @@
     <ClCompile Include="Src\Application\GameObject\Camera\DebugCamera\DebugCamera.cpp" />
     <ClCompile Include="Src\Application\GameObject\Camera\FPSCamera\FPSCamera.cpp" />
     <ClCompile Include="Src\Application\GameObject\Camera\TPSCamera\TPSCamera.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Map\BackGround\BackGround.cpp" />
     <ClCompile Include="Src\Application\GameObject\Map\MapChip\MapChipBase.cpp" />
     <ClCompile Include="Src\Application\GameObject\Map\MapChip\Terrain\MapChipTerrain.cpp" />
     <ClCompile Include="Src\Application\main.cpp" />
@@ -369,6 +373,8 @@
     <ClCompile Include="Src\Application\State\Actor\Player\Move\PlayerMoveState.cpp" />
     <ClCompile Include="Src\Application\State\Actor\Player\StickyBombThrow\PlayerPrepareStickyBombThrowState.cpp" />
     <ClCompile Include="Src\Application\State\Actor\Player\StickyBombThrow\PlayerStickyBombThrowState.cpp" />
+    <ClCompile Include="Src\Application\State\Camera\TPSCamera\FollowPlayer\TPSCameraFollowPlayerState.cpp" />
+    <ClCompile Include="Src\Application\State\Camera\TPSCamera\PlayerThrowFocus\TPSCameraFocusOnPlayerThrowState.cpp" />
     <ClCompile Include="Src\Application\Utility\DebugKey\DebugKey.cpp" />
     <ClCompile Include="Src\Application\Utility\ImGui\ImGuiManager.cpp" />
     <ClCompile Include="Src\Application\Utility\InputManager\RawInputManager.cpp" />

@@ -1,9 +1,8 @@
 ﻿#include "PlayerIdleState.h"
-
-#include "../../../../GameObject/Actor/Player/Player.h"
-
 #include "../Move/PlayerMoveState.h"
 #include "../StickyBombThrow/PlayerPrepareStickyBombThrowState.h"
+
+#include "../../../../GameObject/Actor/Player/Player.h"
 
 void PlayerIdleState::Enter(Player* Owner)
 {

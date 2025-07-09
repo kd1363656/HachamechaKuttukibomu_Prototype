@@ -8,6 +8,8 @@
 
 #include "../GameObject/Map/MapChip/Terrain/MapChipTerrain.h"
 
+#include "../GameObject/Map/BackGround/BackGround.h"
+
 void Factory::Init()
 {
 	RegisterGameObjectFactoryMethod();
@@ -26,6 +28,8 @@ void Factory::RegisterGameObjectFactoryMethod()
 	RegisterGameObjectFactoryMethod<Player>();
 
 	RegisterGameObjectFactoryMethod<MapChipTerrain>();
+
+	RegisterGameObjectFactoryMethod<BackGround>();
 
 #ifdef _DEBUG
 	KdDebugGUI::Instance().AddLog("\n============ End register gameObject factory ==============\n\n\n\n");

@@ -3,6 +3,7 @@
 #include "../../Utility/InputManager/RawInputManager.h"
 #include "../../Utility/JsonUtility.h"
 #include "../../Utility/ImGui/ImGuiManager.h"
+#include "../../Utility/CommonConstant.h"
 
 #include "../../Scene/SceneManager.h"
 #include "../../Scene/BaseScene/BaseScene.h"
@@ -24,8 +25,7 @@ void CameraBase::Init()
 	m_FixMousePos.x = 640;
 	m_FixMousePos.y = 360;
 
-	m_isDebugMouseFree      = false;
-	m_isPressDebugMouseFree = false;
+	m_isDebugMouseFree = false;
 }
 
 void CameraBase::PostLoadInit()
@@ -38,13 +38,18 @@ void CameraBase::PostLoadInit()
 	// カメラのポインタをプレイヤーの"std::weak_ptr"に格納
 	for (auto& cache_ : currentScene_->GetCacheObjectList<Player>())
 	{
-		m_player = cache_;
+		m_targetPlayer = cache_;
 	}
 }
 
 void CameraBase::Update()
 {
 	ToggleIsMouseFree();
+}
+
+void CameraBase::PostUpdate()
+{
+	FixMatrix();
 }
 
 void CameraBase::PreDraw()
@@ -62,16 +67,6 @@ void CameraBase::DrawImGuiInspectors()
 	imGui_.DrawSeparate();
 	ImGui::Text("Transform");
 	DrawImGuiTransformInspector();
-}
-void CameraBase::DrawImGuiTransformInspector()
-{
-	ImGui::DragFloat3("Location", &m_location.x, 0.1f);
-	ImGui::DragFloat3("Rotation", &m_degAng.x, 1.0f);
-
-	if (ImGui::Button("Reset Rotation"))
-	{
-		m_degAng = {};
-	}
 }
 
 void CameraBase::LoadJsonData(const nlohmann::json Json)
@@ -94,16 +89,42 @@ nlohmann::json CameraBase::SaveJsonData()
 	return json_;
 }
 
+void CameraBase::FixMatrix()
+{
+	Math::Matrix								_targetMat = Math::Matrix::Identity;
+	const std::shared_ptr<const KdGameObject>	_spTarget = GetTargetPlayer().lock();
+	if (_spTarget)
+	{
+		_targetMat = Math::Matrix::CreateTranslation(_spTarget->GetPos());
+	}
+
+	// カメラ座標の更新
+	m_mLocalPos = Math::Matrix::CreateTranslation(m_location);
+
+	m_mRotation = GetRotationMatrix();
+	m_mWorld = m_mLocalPos * m_mRotation * _targetMat;
+}
+
+void CameraBase::DrawImGuiTransformInspector()
+{
+	ImGui::DragFloat3("Location", &m_location.x, 0.1f);
+	ImGui::DragFloat3("Rotation", &m_degAng.x  , 1.0f);
+
+	if (ImGui::Button("Reset Rotation"))
+	{
+		m_degAng = {};
+	}
+}
+
 void CameraBase::ToggleIsMouseFree()
 {
 	// TODO
 	auto& input_ = RawInputManager::GetInstance();
 
-	if(input_.GetKeyState(VK_CONTROL) && input_.GetKeyState('C'))
+	if(input_.GetKeyState(VK_CONTROL))
 	{
-		if (!m_isPressDebugMouseFree)
+		if (input_.IsKeyPressedOnce('C'))
 		{
-
 			if (m_isDebugMouseFree)
 			{
 				m_isDebugMouseFree = false;
@@ -112,13 +133,7 @@ void CameraBase::ToggleIsMouseFree()
 			{
 				m_isDebugMouseFree = true;
 			}
-
-			m_isPressDebugMouseFree = true;
 		}
-	}
-	else
-	{
-		m_isPressDebugMouseFree = false;
 	}
 }
 
@@ -142,4 +157,6 @@ void CameraBase::UpdateRotateByMouse()
 
 	// 回転制御
 	m_degAng.x = std::clamp(m_degAng.x, -45.f, 45.f);
+	
+	Math::Vector3 v = {};
 }

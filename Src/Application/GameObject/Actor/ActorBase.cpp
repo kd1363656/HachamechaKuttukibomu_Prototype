@@ -73,37 +73,6 @@ void ActorBase::DrawImGuiTransformInspector()
 	ImGui::DragFloat3("Rotation", &m_transform.rotation.x, 1.0f);
 	ImGui::DragFloat3("Scale"   , &m_transform.scale.x   , 0.1f);
 }
-void ActorBase::DrawImGuiMaterialInspector()
-{
-	auto& imGui_ = ImGuiManager::GetInstance();
-
-	imGui_.DrawSeparate();
-	ImGui::Text("Material");
-
-	if (ImGui::Button(("TextureFilePath : %s", m_meshInfo.assetFilePath.c_str())))
-	{
-		std::string defPath_ = COMMON_ASSET_FILE_PATH;
-		if (Application::Instance().GetWindow().OpenFileDialog(defPath_))
-		{
-			// 変更したファイルパスを取得して変数に代入し、画像をロードしなおす
-			m_meshInfo.assetFilePath = defPath_;
-
-			if (!m_mesh) { m_mesh = std::make_shared<KdModelWork>(); }
-			if (m_mesh ) { m_mesh->SetModelData(defPath_);           }
-		}
-	}
-
-	ImGui::ColorEdit4("Color", &m_meshInfo.color.x);
-}
-void ActorBase::DrawImGuiCollisionInspector()
-{
-	auto& imGui_ = ImGuiManager::GetInstance();
-
-	imGui_.DrawSeparate();
-	ImGui::Text("Collision");
-
-	ImGui::Text("m_isInAir : %d" , m_isInAir);
-}
 
 void ActorBase::LoadJsonData(const nlohmann::json Json)
 {
@@ -121,7 +90,6 @@ void ActorBase::LoadJsonData(const nlohmann::json Json)
 
 	m_maxMoveSpeed = Json.value("MaxMoveSpeed" , 0.0f);
 }
-
 nlohmann::json ActorBase::SaveJsonData()
 {
 	// TODO
@@ -269,6 +237,38 @@ void ActorBase::MapCollision()
 			m_gravityInfo.currentGravity = 0.0f;
 		}
 	}
+}
+
+void ActorBase::DrawImGuiMaterialInspector()
+{
+	auto& imGui_ = ImGuiManager::GetInstance();
+
+	imGui_.DrawSeparate();
+	ImGui::Text("Material");
+
+	if (ImGui::Button(("TextureFilePath : %s", m_meshInfo.assetFilePath.c_str())))
+	{
+		std::string defPath_ = COMMON_ASSET_FILE_PATH;
+		if (Application::Instance().GetWindow().OpenFileDialog(defPath_))
+		{
+			// 変更したファイルパスを取得して変数に代入し、画像をロードしなおす
+			m_meshInfo.assetFilePath = defPath_;
+
+			if (!m_mesh) { m_mesh = std::make_shared<KdModelWork>(); }
+			if (m_mesh ) { m_mesh->SetModelData(defPath_);           }
+		}
+	}
+
+	ImGui::ColorEdit4("Color", &m_meshInfo.color.x);
+}
+void ActorBase::DrawImGuiCollisionInspector()
+{
+	auto& imGui_ = ImGuiManager::GetInstance();
+
+	imGui_.DrawSeparate();
+	ImGui::Text("Collision");
+
+	ImGui::Text("m_isInAir : %d" , m_isInAir);
 }
 
 void ActorBase::FixMatrix()

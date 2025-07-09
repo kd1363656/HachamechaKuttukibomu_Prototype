@@ -112,7 +112,7 @@ nlohmann::json JsonUtility::SphereColliderSettingToJson(const CommonStruct::Sphe
 	return nlohmann::json
 	{
 		{ "Offset"        , Vec3ToJson(SphereColliderSetting.offset) } , 
-		{ "Radius"        , 0.0f                                     } ,
-		{ "CollisionType" , 0u                                       }
+		{ "Radius"        , SphereColliderSetting.radius             } ,
+		{ "CollisionType" , SphereColliderSetting.collisionType      }
 	};
 }

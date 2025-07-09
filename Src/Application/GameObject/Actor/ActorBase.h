@@ -18,11 +18,8 @@ public:
 
 	virtual void PostUpdate() override;
 
-	virtual void DrawImGuiInspectors        ()override;
-	void		 DrawImGuiTransformInspector();
-	void		 DrawImGuiMaterialInspector ();
-	void		 DrawImGuiCollisionInspector();
-
+	virtual void DrawImGuiInspectors()override;
+	
 	void           LoadJsonData(const nlohmann::json Json) override;
 	nlohmann::json SaveJsonData()						   override;
 
@@ -37,7 +34,9 @@ public:
 
 private:
 
-	const std::string COMMON_ASSET_FILE_PATH = "Asset/";
+	void DrawImGuiTransformInspector();
+	void DrawImGuiMaterialInspector ();
+	void DrawImGuiCollisionInspector();
 
 protected:
 

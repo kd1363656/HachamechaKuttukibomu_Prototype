@@ -5,6 +5,7 @@ class Player;
 class CameraBase : public KdGameObject
 {
 public:
+
 	CameraBase()						{}
 	virtual ~CameraBase()	override	{}
 
@@ -14,15 +15,18 @@ public:
 	void PostLoadInit()     override;
 
 	void Update()			override;
+	void PostUpdate()       override;
+
 	void PreDraw()			override;
 
-	virtual void DrawImGuiInspectors        ()override;
-	void		 DrawImGuiTransformInspector();
+	virtual void DrawImGuiInspectors() override;
 
 	void           LoadJsonData(const nlohmann::json Json) override;
 	nlohmann::json SaveJsonData()						   override;
 
-	void SetTarget(const std::shared_ptr<KdGameObject>& target);
+	void UpdateRotateByMouse();
+
+	void SetTargetPlayer(std::weak_ptr<KdGameObject> Set) { m_targetPlayer = Set; }
 
 	// 「絶対変更しません！見るだけ！」な書き方
 	const std::shared_ptr<KdCamera>& GetCamera() const
@@ -55,10 +59,16 @@ public:
 		m_wpHitObjectList.push_back(object);
 	}
 
+	const std::weak_ptr<KdGameObject> GetTargetPlayer()
+	{
+		return m_targetPlayer;
+	}
+
 protected:
-	
-	void ToggleIsMouseFree  ();
-	void UpdateRotateByMouse();
+
+	void FixMatrix();
+	void DrawImGuiTransformInspector();
+	void ToggleIsMouseFree();
 
 	std::shared_ptr<KdCamera>					m_spCamera		= nullptr;
 	std::vector<std::weak_ptr<KdGameObject>>	m_wpHitObjectList{};
@@ -66,7 +76,7 @@ protected:
 	Math::Matrix								m_mLocalPos		= Math::Matrix::Identity;
 	Math::Matrix								m_mRotation		= Math::Matrix::Identity;
 
-	std::weak_ptr<Player>						m_player;
+	std::weak_ptr<KdGameObject>					m_targetPlayer;
 
 	// カメラ回転用角度
 	Math::Vector3								m_degAng   = Math::Vector3::Zero;
@@ -77,5 +87,4 @@ protected:
 
 	// TODO
 	bool									    m_isDebugMouseFree      = false;
-	bool									    m_isPressDebugMouseFree = false;
 };

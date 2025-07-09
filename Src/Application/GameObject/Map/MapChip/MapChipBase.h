@@ -18,27 +18,32 @@ public:
 	virtual void PostUpdate() override;
 
 	virtual void DrawImGuiInspectors        () override;
-	void		 DrawImGuiTransformInspector();
-	void		 DrawImGuiMaterialInspector ();
-	void		 DrawImGuiCollisionInspector();
-
+	
 	void           LoadJsonData(const nlohmann::json Json) override;
 	nlohmann::json SaveJsonData()						   override;
 
-	void LoadAsset() final override;
-
 private:
 
-	const std::string COMMON_ASSET_FILE_PATH = "Asset/";
+	void DrawImGuiTransformInspector();
+	void DrawImGuiMaterialInspector ();
+	void DrawImGuiCollisionInspector();
+	void DrawImGuiFlagsInspector    ();
 
 protected:
 
+	void LoadAsset() final override;
+
 	virtual void FixMatrix();
 
-	std::shared_ptr<KdModelWork> m_mesh = nullptr;
+	// TODO
+	std::shared_ptr<KdModelWork> m_animationMesh = nullptr;
+	std::shared_ptr<KdModelData> m_staticMesh    = nullptr;
 
 	CommonStruct::MeshInfo     m_meshInfo  = {};
 	CommonStruct::Transform3D  m_transform = {};
 
 	uint32_t m_collisionType = 0u;
+
+	// アニメーションするかしないかで基底クラスを分けるのは無駄なのでフラグで管理
+	bool m_hasAnimation = false;
 };

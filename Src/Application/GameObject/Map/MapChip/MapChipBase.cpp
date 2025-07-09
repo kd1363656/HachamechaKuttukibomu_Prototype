@@ -14,8 +14,9 @@ void MapChipBase::Init()
 	m_transform = {};
 
 	m_meshInfo.assetFilePath = COMMON_ASSET_FILE_PATH;
-}
 
+	m_hasAnimation = false;
+}
 void MapChipBase::PostLoadInit()
 {
 	LoadAsset();
@@ -24,9 +25,16 @@ void MapChipBase::PostLoadInit()
 
 void MapChipBase::DrawLit()
 {
-	if (!m_mesh) { return; }
-
-	KdShaderManager::Instance().m_StandardShader.DrawModel(*m_mesh , m_mWorld , m_meshInfo.color);
+	if(m_hasAnimation)
+	{
+		if (!m_animationMesh) { return; }
+		KdShaderManager::Instance().m_StandardShader.DrawModel(*m_animationMesh, m_mWorld, m_meshInfo.color);
+	}
+	else
+	{
+		if (!m_staticMesh) { return; }
+		KdShaderManager::Instance().m_StandardShader.DrawModel(*m_staticMesh, m_mWorld, m_meshInfo.color);
+	}
 }
 
 void MapChipBase::PostUpdate()
@@ -38,6 +46,7 @@ void MapChipBase::DrawImGuiInspectors()
 {
 	auto& imGui_ = ImGuiManager::GetInstance();
 
+	// 汚くなったら関数でまとめる
 	imGui_.DrawSeparate();
 	ImGui::Text("Transform");
 	DrawImGuiTransformInspector();
@@ -49,7 +58,40 @@ void MapChipBase::DrawImGuiInspectors()
 	imGui_.DrawSeparate();
 	ImGui::Text("Collision");
 	DrawImGuiCollisionInspector();
+
+	imGui_.DrawSeparate();
+	ImGui::Text("Flags");
+	DrawImGuiFlagsInspector();
 }
+
+void MapChipBase::LoadJsonData(const nlohmann::json Json)
+{
+	// Jsonで設定した値を代入
+	m_typeName = Json.value("TypeName" , "");
+
+	if (Json.contains("Transform")) { m_transform = JsonUtility::JsonToTransform3D(Json["Transform"]); }
+	if (Json.contains("MeshInfo" )) { m_meshInfo  = JsonUtility::JsonToMeshInfo   (Json["MeshInfo" ]); }
+
+	m_collisionType = Json.value("CollisionType" , 0u);
+
+	m_hasAnimation = Json.value("HasAnimation" , false);
+}
+nlohmann::json MapChipBase::SaveJsonData()
+{
+	nlohmann::json json_;
+
+	json_["TypeName"] = m_typeName;
+
+	json_["Transform"] = JsonUtility::Transform3DToJson(m_transform);
+	json_["MeshInfo" ] = JsonUtility::MeshInfoToJson   (m_meshInfo );
+
+	json_["CollisionType"] = m_collisionType;
+
+	json_["HasAnimation"] = m_hasAnimation;
+
+	return json_;
+}
+
 void MapChipBase::DrawImGuiTransformInspector()
 {
 	ImGui::DragFloat3("Location" , &m_transform.location.x , 0.1f);
@@ -66,14 +108,24 @@ void MapChipBase::DrawImGuiMaterialInspector()
 			// 変更したファイルパスを取得して変数に代入し、画像をロードしなおす
 			m_meshInfo.assetFilePath = defPath_;
 
-			if (!m_mesh)
+			if(m_hasAnimation)
 			{
-				m_mesh = std::make_shared<KdModelWork>();
+				if (!m_animationMesh)
+				{
+					m_animationMesh = std::make_shared<KdModelWork>();
+				}
+			}
+			else
+			{
+				if(!m_staticMesh)
+				{
+					m_staticMesh = std::make_shared<KdModelData>();
+				}
 			}
 
-			if (m_mesh)
+			if (m_staticMesh)
 			{
-				m_mesh->SetModelData(defPath_);
+				m_staticMesh->Load(defPath_);
 			}
 		}
 	}
@@ -123,40 +175,25 @@ void MapChipBase::DrawImGuiCollisionInspector()
 		}
 	}
 }
-
-void MapChipBase::LoadJsonData(const nlohmann::json Json)
+void MapChipBase::DrawImGuiFlagsInspector()
 {
-	// Jsonで設定した値を代入
-	m_typeName = Json.value("TypeName" , "");
-
-	if (Json.contains("Transform")) { m_transform = JsonUtility::JsonToTransform3D(Json["Transform"]); }
-	if (Json.contains("MeshInfo" )) { m_meshInfo  = JsonUtility::JsonToMeshInfo   (Json["MeshInfo" ]); }
-
-	m_collisionType = Json.value("CollisionType" , 0u);
-}
-
-nlohmann::json MapChipBase::SaveJsonData()
-{
-	nlohmann::json json_;
-
-	json_["TypeName"] = m_typeName;
-
-	json_["Transform"] = JsonUtility::Transform3DToJson(m_transform);
-	json_["MeshInfo" ] = JsonUtility::MeshInfoToJson   (m_meshInfo );
-
-	json_["CollisionType"] = m_collisionType;
-
-	return json_;
+	ImGui::Checkbox("HasAnimation", &m_hasAnimation);
 }
 
 void MapChipBase::LoadAsset()
 {
+	// ファイルパスが存在しなければ"return"
 	if (m_meshInfo.assetFilePath.empty()) { return; }
 
-	if (!m_mesh)
+	if (m_hasAnimation && !m_animationMesh)
 	{
-		m_mesh = std::make_shared<KdModelWork>();
-		m_mesh->SetModelData(m_meshInfo.assetFilePath);
+		m_animationMesh = std::make_shared<KdModelWork>();
+		m_animationMesh->SetModelData(m_meshInfo.assetFilePath);
+	}
+	else if (!m_hasAnimation && !m_staticMesh)
+	{
+		m_staticMesh = std::make_shared<KdModelData>();
+		m_staticMesh->Load(m_meshInfo.assetFilePath);
 	}
 }
 

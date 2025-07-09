@@ -40,13 +40,13 @@ public :
 		m_objectCacheList[derivedID_].emplace_back(Obj);
 	}
 
-	template<class BaseType>
-	std::list<std::weak_ptr<BaseType>> GetCacheObjectList()
+	template<class Type>
+	std::list<std::weak_ptr<Type>> GetCacheObjectList()
 	{
-		static_assert(std::is_base_of_v<KdGameObject, BaseType> , "KdGameObjectが継承されていないクラスをリストに格納しようとしました、コードを確認してください");
-		std::list<std::weak_ptr<BaseType>> result_;
+		static_assert(std::is_base_of_v<KdGameObject, Type> , "KdGameObjectが継承されていないクラスをリストに格納しようとしました、コードを確認してください");
+		std::list<std::weak_ptr<Type>> result_;
 
-		const uint32_t id_ = GameObjectID::GetTypeID<BaseType>();
+		const uint32_t id_ = GameObjectID::GetTypeID<Type>();
 
 		// IDと一致したキャッシュを格納したリストを安全にダウンキャスト
 		if(m_objectCacheList.contains(id_))
@@ -55,7 +55,7 @@ public :
 			{
 				if(std::shared_ptr<KdGameObject> wp_ = cache_.lock())
 				{
-					std::weak_ptr<BaseType> casted_ = std::static_pointer_cast<BaseType>(wp_);
+					std::weak_ptr<Type> casted_ = std::static_pointer_cast<Type>(wp_);
 
 					result_.emplace_back(casted_);
 				}

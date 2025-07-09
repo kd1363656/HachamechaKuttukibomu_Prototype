@@ -2,36 +2,76 @@
 
 #include "../../Actor/Player/Player.h"
 
+#include "../../../State/Camera/TPSCamera/FollowPlayer/TPSCameraFollowPlayerState.h"
+
+#include "../../../main.h"
+
 void TPSCamera::Init()
 {
 	// 親クラスの初期化呼び出し
 	CameraBase::Init();
 
 	// 注視点
-	m_location  = POINT_OF_FIXATION;
+	m_location  = STANDARD_CAMERA_LOCATION;
 	m_mLocalPos = Math::Matrix::CreateTranslation(m_location);
 
 	SetCursorPos(m_FixMousePos.x, m_FixMousePos.y);
+
+	m_stateMachine.Start(this);
+	m_stateMachine.ChangeState<TPSCameraFollowPlayerState>();
+}
+
+void TPSCamera::Update()
+{
+	CameraBase::Update();
+
+	m_stateMachine.Update();
 }
 
 void TPSCamera::PostUpdate()
 {
-	// ターゲットの行列(有効な場合利用する)
-	Math::Matrix								_targetMat = Math::Matrix::Identity;
-	const std::shared_ptr<const KdGameObject>	_spTarget  = m_player.lock();
-	if (_spTarget)
-	{
-		_targetMat = Math::Matrix::CreateTranslation(_spTarget->GetPos());
-	}
+	AdjustLocation();
 
-	// カメラの回転
-	UpdateRotateByMouse();
+	CameraBase::PostUpdate();
+}
 
-	// カメラ座標の更新
-	m_mLocalPos = Math::Matrix::CreateTranslation(m_location);
+void TPSCamera::LerpToFocusOnPlayerThrowCameraLocation()
+{
+	const float deltaTime_ = Application::Instance().GetScaledDeltaTime();
 
-	m_mRotation = GetRotationMatrix();
-	m_mWorld = m_mLocalPos * m_mRotation * _targetMat;
+	m_location = Math::Vector3::Lerp(m_location, FOCUS_ON_PLAYER_THROW_CAMERA_LOCATION, 3.0f * deltaTime_);
+}
+void TPSCamera::LerpToStandardCameraLocation()
+{
+	const float deltaTime_ = Application::Instance().GetScaledDeltaTime();
+
+	m_location = Math::Vector3::Lerp(m_location, STANDARD_CAMERA_LOCATION, 3.0f * deltaTime_);
+}
+
+bool TPSCamera::HasStateFlag(StateFlg Flag)
+{
+	const uint32_t flg_ = static_cast<uint32_t>(Flag);
+
+	return (m_stateChangeFlg & flg_) != 0;
+}
+void TPSCamera::EnableStateFlag(StateFlg Flag)
+{
+	const uint32_t flg_ = static_cast<uint32_t>(Flag);
+
+	m_stateChangeFlg |= flg_;
+}
+void TPSCamera::DisableStateFlag(StateFlg Flag)
+{
+	const uint32_t flg_ = static_cast<uint32_t>(Flag);
+
+	m_stateChangeFlg &= ~flg_;
+}
+
+void TPSCamera::AdjustLocation()
+{
+	auto _spTarget = m_targetPlayer.lock();
+
+	if (!_spTarget) { return; }
 
 	// ↓めり込み防止の為の座標補正計算↓
 	// ①当たり判定(レイ判定)用の情報作成
