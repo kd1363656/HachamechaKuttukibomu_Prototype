@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "../FileIOBase.h"
 
-class GameObjectFileIO: public FileIOBase
+class GameObjectFileIO : public FileIOBase
 {
 public:
 
@@ -15,8 +15,7 @@ public:
 
 private:
 
-	// TODO
-	std::string FIRST_FILE_PATH = "Asset/Data/GameObject/GameScene/GameObject";
+	const std::string FIRST_FILE_PATH = "Asset/Data/GameObject/GameScene/GameObject";
 
 	void LoadGameObjectData(std::string&& ClassName , const nlohmann::json& Json = nlohmann::json());
 };

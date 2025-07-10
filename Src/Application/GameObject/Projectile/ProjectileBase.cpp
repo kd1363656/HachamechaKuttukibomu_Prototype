@@ -1,7 +1,8 @@
 ﻿#include "ProjectileBase.h"
-#include "../../Utility/JsonUtility.h"
 
+#include "../../Utility/JsonUtility.h"
 #include "../../Utility/ImGui/ImGuiManager.h"
+
 #include "../../main.h"
 
 void ProjectileBase::Init()

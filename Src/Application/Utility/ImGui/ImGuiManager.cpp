@@ -1,7 +1,5 @@
 ﻿#include "ImGuiManager.h"
 
-#include "../../main.h"
-
 #include "../../GameObject/Camera/CameraBase.h"
 #include "../../GameObject/Actor/ActorBase.h"
 #include "../../GameObject/Map/MapTile/MapTileBase.h"
@@ -10,10 +8,12 @@
 
 #include "../../Factory/Factory.h"
 
-#include "../../Scene/SceneManager.h"
-#include "../../Scene/BaseScene/BaseScene.h"
-
 #include "../InputManager/RawInputManager.h"
+
+#include "../../Scene/BaseScene/BaseScene.h"
+#include "../../Scene/SceneManager.h"
+
+#include "../../main.h"
 
 // "ImGui"の表示を消したかったら"KdDebugGui"を見てください
 void ImGuiManager::Init()

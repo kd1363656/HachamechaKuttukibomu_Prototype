@@ -3,7 +3,6 @@
 #include "../Utility/StringUtility.h"
 #include "../Utility/CommonStruct.h"
 
-// "class"は必ず"class Name"と書く、でなければバグがファクトリーメソッドで発生する
 class Factory : public SingletonBase<Factory>
 {
 public:

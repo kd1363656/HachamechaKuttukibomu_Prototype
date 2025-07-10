@@ -5,10 +5,10 @@
 #include "../../Utility/JsonUtility.h"
 #include "../../Utility/ImGui/ImGuiManager.h"
 
-#include "../../main.h"
-
-#include "../../Scene/SceneManager.h"
 #include "../../Scene/BaseScene/BaseScene.h"
+#include "../../Scene/SceneManager.h"
+
+#include "../../main.h"
 
 void ActorBase::Init()
 {

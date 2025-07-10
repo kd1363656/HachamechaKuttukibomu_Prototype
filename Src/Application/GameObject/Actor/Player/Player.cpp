@@ -1,17 +1,15 @@
 ﻿#include "Player.h"
+#include "../../Camera/CameraBase.h"
 
 #include "../../../State/Actor/Player/Idle/PlayerIdleState.h"
 
 #include "../../../Utility/InputManager/RawInputManager.h"
+#include "../../../Utility/CommonConstant.h"
+
+#include "../../../Scene/BaseScene/BaseScene.h"
+#include "../../../Scene/SceneManager.h"
 
 #include "../../../main.h"
-
-#include "../../../Scene/SceneManager.h"
-#include "../../../Scene/BaseScene/BaseScene.h"
-
-#include "../../Camera/CameraBase.h"
-
-#include "../../../Utility/CommonConstant.h"
 
 void Player::Init()
 {

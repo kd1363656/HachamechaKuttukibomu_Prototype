@@ -5,10 +5,10 @@
 #include "../../Utility/ImGui/ImGuiManager.h"
 #include "../../Utility/CommonConstant.h"
 
-#include "../../Scene/SceneManager.h"
-#include "../../Scene/BaseScene/BaseScene.h"
-
 #include "../Actor/Player/Player.h"
+
+#include "../../Scene/BaseScene/BaseScene.h"
+#include "../../Scene/SceneManager.h"
 
 void CameraBase::Init()
 {
@@ -22,8 +22,8 @@ void CameraBase::Init()
 		m_spCamera = std::make_shared<KdCamera>();
 	}
 	// ↓画面中央座標
-	m_FixMousePos.x = 640;
-	m_FixMousePos.y = 360;
+	m_FixMousePos.x = CommonConstant::HALF_SCREEN_WIDTH;
+	m_FixMousePos.y = CommonConstant::HALF_SCREEN_HEIGHT;
 
 	m_isDebugMouseFree = false;
 }

@@ -10,4 +10,6 @@ namespace CommonConstant
 	constexpr float ALL_DEGREE             = 360.0f;
 	constexpr float MAX_SCREEN_WIDTH       = 1280.0f;
 	constexpr float MAX_SCREEN_HEIGHT      = 760.0f;
+	constexpr float HALF_SCREEN_WIDTH      = MAX_SCREEN_WIDTH  / 2.0f;
+	constexpr float HALF_SCREEN_HEIGHT     = MAX_SCREEN_HEIGHT / 2.0f;
 }

@@ -1,8 +1,8 @@
 ﻿#include "TPSCamera.h"
 
-#include "../../Actor/Player/Player.h"
-
 #include "../../../State/Camera/TPSCamera/FollowPlayer/TPSCameraFollowPlayerState.h"
+
+#include "../../Actor/Player/Player.h"
 
 #include "../../../main.h"
 

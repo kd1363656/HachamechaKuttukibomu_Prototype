@@ -3,13 +3,9 @@
 #include "../GameObject/Camera/FPSCamera/FPSCamera.h"
 #include "../GameObject/Camera/TPSCamera/TPSCamera.h"
 #include "../GameObject/Camera/DebugCamera/DebugCamera.h"
-
 #include "../GameObject/Actor/Player/Player.h"
-
 #include "../GameObject/Map/MapTile/Terrain/MapTileTerrain.h"
-
 #include "../GameObject/Map/BackGround/BackGround.h"
-
 #include "../GameObject/Projectile/StickyBomb/StickyBomb.h"
 
 void Factory::Init()

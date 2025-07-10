@@ -2,9 +2,8 @@
 
 #include "../../../Utility/InputManager/RawInputManager.h"
 
-#include "../../../Scene/SceneManager.h"
-
 #include "../../../Scene/BaseScene/BaseScene.h"
+#include "../../../Scene/SceneManager.h"
 
 void DebugCamera::Init()
 {

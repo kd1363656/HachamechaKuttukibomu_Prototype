@@ -1,5 +1,4 @@
 ﻿#pragma once
-
 #include"../BaseScene/BaseScene.h"
 
 class TitleScene : public BaseScene

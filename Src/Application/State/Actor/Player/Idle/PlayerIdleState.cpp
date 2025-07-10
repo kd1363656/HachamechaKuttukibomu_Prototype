@@ -5,11 +5,12 @@
 #include "../../../../GameObject/Actor/Player/Player.h"
 #include "../../../../GameObject/Camera/TPSCamera/TPSCamera.h"
 
-#include "../../../../Scene/SceneManager.h"
 #include "../../../../Scene/BaseScene/BaseScene.h"
+#include "../../../../Scene/SceneManager.h"
 
 void PlayerIdleState::Enter(Player* Owner)
 {
+	// SHOULD DELETE BEFORE RELEASE
 	KdDebugGUI::Instance().AddLog("Player State : Idle\n");
 
 	auto scene_ = SceneManager::GetInstance().GetCurrentScene().lock();

@@ -1,10 +1,9 @@
 ﻿#include "BackGround.h"
 
 #include "../../../Utility/JsonUtility.h"
+#include "../../../Utility/ImGui/ImGuiManager.h"
 
 #include "../../../main.h"
-
-#include "../../../Utility/ImGui/ImGuiManager.h"
 
 void BackGround::Init()
 {

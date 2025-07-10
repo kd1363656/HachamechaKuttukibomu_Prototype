@@ -1,8 +1,8 @@
 ﻿#include "DebugKey.h"
 
-#include "../../Scene/SceneManager.h"
-
 #include "../InputManager/RawInputManager.h"
+
+#include "../../Scene/SceneManager.h"
 
 void DebugKey::Init()
 {

@@ -1,4 +1,5 @@
 ﻿#include "BaseScene.h"
+
 #include "../../Utility/CommonConstant.h"
 
 void BaseScene::PreUpdate()
@@ -130,16 +131,6 @@ void BaseScene::DrawDebug()
 		}
 	}
 	KdShaderManager::Instance().m_StandardShader.EndUnLit();
-}
-
-void BaseScene::Event()
-{
-	// 各シーンで必要な内容を実装(オーバーライド)する
-}
-
-void BaseScene::Init()
-{
-	// 各シーンで必要な内容を実装(オーバーライド)する
 }
 
 void BaseScene::ClearExpiredGameObject()

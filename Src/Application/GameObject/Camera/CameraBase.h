@@ -85,6 +85,6 @@ protected:
 	// カメラ回転用マウス座標の差分
 	POINT										m_FixMousePos{};
 
-	// TODO
+	// SHOULD DELETE BEFORE RELEASE
 	bool									    m_isDebugMouseFree      = false;
 };

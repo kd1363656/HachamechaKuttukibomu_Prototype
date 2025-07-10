@@ -68,8 +68,8 @@ public :
 protected :
 
 	// 継承先シーンで必要ならオーバーライドする
-	virtual void Event();
-	virtual void Init ();
+	virtual void Event() { /* 各シーンで必要な内容を実装(オーバーライド)する */ }
+	virtual void Init () { /* 各シーンで必要な内容を実装(オーバーライド)する */ }
 
 	void ClearExpiredGameObjectCacheList();
 	void ClearExpiredGameObject         ();
