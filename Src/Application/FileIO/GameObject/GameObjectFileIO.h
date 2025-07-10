@@ -16,7 +16,7 @@ public:
 private:
 
 	// TODO
-	std::string FIRST_FILE_PATH = "Asset/Data/SceneData/GameScene/GameScene";
+	std::string FIRST_FILE_PATH = "Asset/Data/GameObject/GameScene/GameObject";
 
 	void LoadGameObjectData(std::string&& ClassName , const nlohmann::json& Json = nlohmann::json());
 };

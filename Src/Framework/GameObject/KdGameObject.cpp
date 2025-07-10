@@ -4,6 +4,8 @@
 
 #include "../Src/Application/Utility/ImGui/ImGuiManager.h"
 
+#include "../Src/Application/Utility/FileSystem/FileSystem.h"
+
 void KdGameObject::Init()
 {
 	m_mWorld = Math::Matrix::Identity;
@@ -22,6 +24,13 @@ void KdGameObject::Init()
 	{ 
 		m_pDebugWire = std::make_unique<KdDebugWireFrame>(); 
 	}
+}
+void KdGameObject::PostLoadInit()
+{
+	// TODO
+	//const std::string fileName_ = "Asset/Data/Prefab/" + m_typeName;
+	//nlohmann::json json_ = SaveJsonData();
+	//FileSystem::SaveJsonFile(json_, fileName_);
 }
 
 void KdGameObject::DrawDebug()

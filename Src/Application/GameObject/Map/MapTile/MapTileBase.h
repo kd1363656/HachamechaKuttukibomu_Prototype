@@ -34,7 +34,6 @@ protected:
 
 	virtual void FixMatrix();
 
-	// TODO
 	std::shared_ptr<KdModelWork> m_animationMesh = nullptr;
 	std::shared_ptr<KdModelData> m_staticMesh    = nullptr;
 

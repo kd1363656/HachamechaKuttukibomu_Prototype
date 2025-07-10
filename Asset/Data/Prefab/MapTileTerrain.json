@@ -1,0 +1,32 @@
+{
+    "CollisionType": 1,
+    "DrawType": 1,
+    "HasAnimation": false,
+    "MeshInfo": {
+        "AssetFilePath": "Asset\\Models\\Map\\MapTile\\Grass\\Grass_1\\Grass_1.gltf",
+        "Color": {
+            "W": 1.0,
+            "X": 1.0,
+            "Y": 1.0,
+            "Z": 1.0
+        }
+    },
+    "Transform": {
+        "Location": {
+            "X": 23.299999237060547,
+            "Y": -0.8999999761581421,
+            "Z": 0.0
+        },
+        "Rotation": {
+            "X": 0.0,
+            "Y": 0.0,
+            "Z": 0.0
+        },
+        "Scale": {
+            "X": 1.0,
+            "Y": 1.0,
+            "Z": 1.0
+        }
+    },
+    "TypeName": "MapTileTerrain"
+}

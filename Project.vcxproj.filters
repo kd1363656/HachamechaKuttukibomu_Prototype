@@ -160,6 +160,21 @@
     <Filter Include="Src\Application\GameObject\Map\MapTile\Gimmick">
       <UniqueIdentifier>{3dbc776d-dccb-4c2d-b665-0e71aa03f914}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\GameObject\Projectile">
+      <UniqueIdentifier>{c6ec8bc8-6518-4de9-97f5-b41d5b607d3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\GameObject\Projectile\StickyBomb">
+      <UniqueIdentifier>{022e7ada-d00b-46d7-a863-1e73b2472398}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Utility\FileSystem">
+      <UniqueIdentifier>{543a8596-86c3-41f6-8bac-7c7e273e0ef7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Resource">
+      <UniqueIdentifier>{692c73f8-d6b0-42f6-bd01-d8f4e23fe884}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Resource\Prefab">
+      <UniqueIdentifier>{a68ba349-50c1-4b42-ad03-5cd3fbb1f482}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -417,6 +432,21 @@
     <ClInclude Include="Src\Application\GameObject\Map\MapTile\Terrain\MapTileTerrain.h">
       <Filter>Src\Application\GameObject\Map\MapTile\Terrain</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\GameObject\Projectile\ProjectileBase.h">
+      <Filter>Src\Application\GameObject\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Utility\FileSystem\FileSystem.h">
+      <Filter>Src\Application\Utility\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Resource\ResourceManagerBase.h">
+      <Filter>Src\Application\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Resource\Prefab\PrefabData.h">
+      <Filter>Src\Application\Resource\Prefab</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Resource\Prefab\PrefabManager.h">
+      <Filter>Src\Application\Resource\Prefab</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -622,6 +652,21 @@
     </ClCompile>
     <ClCompile Include="Src\Application\GameObject\Map\MapTile\Terrain\MapTileTerrain.cpp">
       <Filter>Src\Application\GameObject\Map\MapTile\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\GameObject\Projectile\ProjectileBase.cpp">
+      <Filter>Src\Application\GameObject\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Utility\FileSystem\FileSystem.cpp">
+      <Filter>Src\Application\Utility\FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Resource\ResourceManagerBase.cpp">
+      <Filter>Src\Application\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Resource\Prefab\PrefabData.cpp">
+      <Filter>Src\Application\Resource\Prefab</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Resource\Prefab\PrefabManager.cpp">
+      <Filter>Src\Application\Resource\Prefab</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

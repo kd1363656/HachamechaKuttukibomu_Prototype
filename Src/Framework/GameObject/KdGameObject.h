@@ -41,7 +41,7 @@ public:
 	virtual uint32_t GetFinalBaseTypeID() const = 0;
 
 	virtual void Init        ();
-	virtual void PostLoadInit() {}
+	virtual void PostLoadInit();
 
 	virtual void PreUpdate () { /* まだ実装されていません、派生クラスで実装してください */ }
 	virtual void Update    () { /* まだ実装されていません、派生クラスで実装してください */ }

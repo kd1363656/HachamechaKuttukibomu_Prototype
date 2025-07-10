@@ -25,8 +25,6 @@ void ActorBase::Init()
 
 	m_meshInfo.assetFilePath = COMMON_ASSET_FILE_PATH;
 
-	m_isInAir = false;
-
 	EnableDrawFlag(KdGameObject::DrawType::Lit                      );
 	EnableDrawFlag(KdGameObject::DrawType::GenerateDepthFromMapLight);
 }
@@ -186,11 +184,6 @@ void ActorBase::MapCollision()
 		{
 			m_transform.location.y       = hitLocation_.y;
 			m_gravityInfo.currentGravity = 0.0f;
-			m_isInAir					 = false;
-		}
-		else
-		{
-			m_isInAir = true;
 		}
 	}
 
@@ -263,8 +256,6 @@ void ActorBase::DrawImGuiCollisionInspector()
 
 	imGui_.DrawSeparate();
 	ImGui::Text("Collision");
-
-	ImGui::Text("m_isInAir : %d" , m_isInAir);
 }
 
 void ActorBase::FixMatrix()

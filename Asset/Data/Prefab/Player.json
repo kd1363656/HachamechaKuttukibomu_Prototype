@@ -1,0 +1,59 @@
+{
+    "DrawType": 65,
+    "GravityInfo": {
+        "AccumulatedGravity": 2.5,
+        "CurrentGravity": 0.0,
+        "MaxGravity": 4.5
+    },
+    "MapRayColliderSetting": {
+        "CollisionType": 1,
+        "Direction": {
+            "X": 0.0,
+            "Y": -1.0,
+            "Z": 0.0
+        },
+        "Offset": {
+            "X": 0.0,
+            "Y": 0.4000000059604645,
+            "Z": 0.0
+        },
+        "Range": 0.4099999964237213
+    },
+    "MapSphereColliderSetting": {
+        "CollisionType": 1,
+        "Offset": {
+            "X": 0.0,
+            "Y": 0.5600000023841858,
+            "Z": 0.0
+        },
+        "Radius": 0.550000011920929
+    },
+    "MaxMoveSpeed": 3.0,
+    "MeshInfo": {
+        "AssetFilePath": "Asset/Models/Player/MF_IDLE/MF_IDLE.gltf",
+        "Color": {
+            "W": 1.0,
+            "X": 1.0,
+            "Y": 1.0,
+            "Z": 1.0
+        }
+    },
+    "Transform": {
+        "Location": {
+            "X": -6.836019515991211,
+            "Y": -0.19999979436397552,
+            "Z": -4.581263065338135
+        },
+        "Rotation": {
+            "X": 0.0,
+            "Y": 352.6505126953125,
+            "Z": 0.0
+        },
+        "Scale": {
+            "X": 1.0,
+            "Y": 1.100000023841858,
+            "Z": 1.0
+        }
+    },
+    "TypeName": "Player"
+}

@@ -4,6 +4,7 @@
 #include "../../Scene/BaseScene/BaseScene.h"
 
 #include "../../Utility/JsonUtility.h"
+#include "../../Utility/FileSystem/FileSystem.h"
 
 #include "../../Factory/Factory.h"
 
@@ -30,7 +31,7 @@ void GameObjectFileIO::SaveSceneData()
 		json_.emplace_back(obj_->SaveJsonData()); 	
 	}
 
-	JsonUtility::SaveJsonFile(json_, m_filePath);
+	FileSystem::SaveJsonFile(json_, m_filePath);
 }
 
 void GameObjectFileIO::LoadSceneData()
@@ -39,7 +40,7 @@ void GameObjectFileIO::LoadSceneData()
 
 	if (!currentScene_) { return; }
 
-	nlohmann::json json_ = JsonUtility::LoadJsonFile(m_filePath);
+	nlohmann::json json_ = FileSystem::LoadJsonFile(m_filePath);
 
 	for(auto it_ : json_)
 	{

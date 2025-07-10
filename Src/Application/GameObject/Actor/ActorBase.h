@@ -54,6 +54,4 @@ protected:
 	Math::Vector3 m_moveDirection = Math::Vector3::Zero;
 
 	float m_maxMoveSpeed  = 0.0f;
-
-	bool m_isInAir;
 };

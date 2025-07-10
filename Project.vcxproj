@@ -285,7 +285,11 @@
     <ClInclude Include="Src\Application\GameObject\Map\BackGround\BackGround.h" />
     <ClInclude Include="Src\Application\GameObject\Map\MapTile\MapTileBase.h" />
     <ClInclude Include="Src\Application\GameObject\Map\MapTile\Terrain\MapTileTerrain.h" />
+    <ClInclude Include="Src\Application\GameObject\Projectile\ProjectileBase.h" />
     <ClInclude Include="Src\Application\main.h" />
+    <ClInclude Include="Src\Application\Resource\Prefab\PrefabData.h" />
+    <ClInclude Include="Src\Application\Resource\Prefab\PrefabManager.h" />
+    <ClInclude Include="Src\Application\Resource\ResourceManagerBase.h" />
     <ClInclude Include="Src\Application\Scene\BaseScene\BaseScene.h" />
     <ClInclude Include="Src\Application\Scene\GameScene\GameScene.h" />
     <ClInclude Include="Src\Application\Scene\SceneManager.h" />
@@ -300,6 +304,7 @@
     <ClInclude Include="Src\Application\State\StateMachine.h" />
     <ClInclude Include="Src\Application\Utility\CommonConstant.h" />
     <ClInclude Include="Src\Application\Utility\DebugKey\DebugKey.h" />
+    <ClInclude Include="Src\Application\Utility\FileSystem\FileSystem.h" />
     <ClInclude Include="Src\Application\Utility\ImGui\ImGuiManager.h" />
     <ClInclude Include="Src\Application\Utility\InputManager\RawInputManager.h" />
     <ClInclude Include="Src\Application\Utility\JsonUtility.h" />
@@ -364,7 +369,11 @@
     <ClCompile Include="Src\Application\GameObject\Map\BackGround\BackGround.cpp" />
     <ClCompile Include="Src\Application\GameObject\Map\MapTile\MapTileBase.cpp" />
     <ClCompile Include="Src\Application\GameObject\Map\MapTile\Terrain\MapTileTerrain.cpp" />
+    <ClCompile Include="Src\Application\GameObject\Projectile\ProjectileBase.cpp" />
     <ClCompile Include="Src\Application\main.cpp" />
+    <ClCompile Include="Src\Application\Resource\Prefab\PrefabData.cpp" />
+    <ClCompile Include="Src\Application\Resource\Prefab\PrefabManager.cpp" />
+    <ClCompile Include="Src\Application\Resource\ResourceManagerBase.cpp" />
     <ClCompile Include="Src\Application\Scene\BaseScene\BaseScene.cpp" />
     <ClCompile Include="Src\Application\Scene\GameScene\GameScene.cpp" />
     <ClCompile Include="Src\Application\Scene\SceneManager.cpp" />
@@ -376,6 +385,7 @@
     <ClCompile Include="Src\Application\State\Camera\TPSCamera\FocusOnPlayerThrow\TPSCameraFocusOnPlayerThrowState.cpp" />
     <ClCompile Include="Src\Application\State\Camera\TPSCamera\FollowPlayer\TPSCameraFollowPlayerState.cpp" />
     <ClCompile Include="Src\Application\Utility\DebugKey\DebugKey.cpp" />
+    <ClCompile Include="Src\Application\Utility\FileSystem\FileSystem.cpp" />
     <ClCompile Include="Src\Application\Utility\ImGui\ImGuiManager.cpp" />
     <ClCompile Include="Src\Application\Utility\InputManager\RawInputManager.cpp" />
     <ClCompile Include="Src\Application\Utility\JsonUtility.cpp" />
