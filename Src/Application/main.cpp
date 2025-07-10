@@ -4,8 +4,8 @@
 
 #include "Factory/Factory.h"
 
-#include "Utility/ImGui/ImGuiManager.h"
-#include "Utility/InputManager/RawInputManager.h"
+#include "../System/ImGui/ImGuiManager.h"
+#include "../System/Input/RawInputManager.h"
 
 // ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// ///// /////
 // エントリーポイント

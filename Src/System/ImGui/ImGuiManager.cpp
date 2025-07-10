@@ -1,19 +1,19 @@
 ﻿#include "ImGuiManager.h"
 
-#include "../../GameObject/Camera/CameraBase.h"
-#include "../../GameObject/Actor/ActorBase.h"
-#include "../../GameObject/Map/MapTile/MapTileBase.h"
-#include "../../GameObject/Map/BackGround/BackGround.h"
-#include "../../GameObject/Projectile/ProjectileBase.h"
+#include "../Src/Application/GameObject/Camera/CameraBase.h"
+#include "../Src/Application/GameObject/Actor/ActorBase.h"
+#include "../Src/Application/GameObject/Map/MapTile/MapTileBase.h"
+#include "../Src/Application/GameObject/Map/BackGround/BackGround.h"
+#include "../Src/Application/GameObject/Projectile/ProjectileBase.h"
 
-#include "../../Factory/Factory.h"
+#include "../Src/Application/Factory/Factory.h"
 
-#include "../InputManager/RawInputManager.h"
+#include "../Input/RawInputManager.h"
 
-#include "../../Scene/BaseScene/BaseScene.h"
-#include "../../Scene/SceneManager.h"
+#include "../Src/Application/Scene/BaseScene/BaseScene.h"
+#include "../Src/Application/Scene/SceneManager.h"
 
-#include "../../main.h"
+#include "../Src/Application/main.h"
 
 // "ImGui"の表示を消したかったら"KdDebugGui"を見てください
 void ImGuiManager::Init()

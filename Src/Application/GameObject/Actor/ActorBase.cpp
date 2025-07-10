@@ -3,12 +3,13 @@
 #include "../../Factory/Factory.h"
 
 #include "../../Utility/JsonUtility.h"
-#include "../../Utility/ImGui/ImGuiManager.h"
 
 #include "../../Scene/BaseScene/BaseScene.h"
 #include "../../Scene/SceneManager.h"
 
 #include "../../main.h"
+
+#include "../../../System/ImGui/ImGuiManager.h"
 
 void ActorBase::Init()
 {

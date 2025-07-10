@@ -2,7 +2,7 @@
 
 #include "KdWindow.h"
 
-#include "../Src/Application/Utility/InputManager/RawInputManager.h"
+#include "../Src/System/Input/RawInputManager.h"
 
 // ImGui
 LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);

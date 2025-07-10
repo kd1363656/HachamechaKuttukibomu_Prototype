@@ -97,17 +97,8 @@
     <Filter Include="Src\Application\GameObject\Actor\Player">
       <UniqueIdentifier>{ea60a7ed-d9e1-4b03-928b-0ef61bc048c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\Utility\ImGui">
-      <UniqueIdentifier>{ab3c4a33-bbb5-4849-b6c5-df7e85f88381}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Src\Application\Factory">
       <UniqueIdentifier>{a06d722d-a883-4a6a-870a-37362287b6ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\Utility\DebugKey">
-      <UniqueIdentifier>{63419e37-eee8-4c55-8080-2d26323accbf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\Utility\InputManager">
-      <UniqueIdentifier>{26fa6ce6-2e29-441a-85fc-c7ac97e93b43}</UniqueIdentifier>
     </Filter>
     <Filter Include="Src\Application\FileIO">
       <UniqueIdentifier>{768cf0fd-8373-4abf-a419-92b6eb249f01}</UniqueIdentifier>
@@ -166,8 +157,26 @@
     <Filter Include="Src\Application\GameObject\Projectile\StickyBomb">
       <UniqueIdentifier>{022e7ada-d00b-46d7-a863-1e73b2472398}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\Utility\FileSystem">
-      <UniqueIdentifier>{543a8596-86c3-41f6-8bac-7c7e273e0ef7}</UniqueIdentifier>
+    <Filter Include="Src\Application\Resource">
+      <UniqueIdentifier>{7c6d5b24-1072-4d3c-8020-6c48972da497}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\System">
+      <UniqueIdentifier>{b7dc9c7c-2489-43f2-b05d-e5ee56d442ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\System\DebugKey">
+      <UniqueIdentifier>{847a95e5-56cc-4303-aea8-6f18d92f55bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\System\FileSystem">
+      <UniqueIdentifier>{bdfbbc4e-0b78-44c9-8a75-b5536a8a8e98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\System\ImGui">
+      <UniqueIdentifier>{6bbd4a4f-c06f-43a3-b924-61b0ca9aa18c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\System\Input">
+      <UniqueIdentifier>{373e7506-2335-4898-87a3-1bd7fde91ef6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Application\Resource\Prefab">
+      <UniqueIdentifier>{f2633523-b8e3-48df-8c2f-8c646fc580b4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -360,9 +369,6 @@
     <ClInclude Include="Src\Application\GameObject\Actor\Player\Player.h">
       <Filter>Src\Application\GameObject\Actor\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\Utility\ImGui\ImGuiManager.h">
-      <Filter>Src\Application\Utility\ImGui</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Application\Factory\Factory.h">
       <Filter>Src\Application\Factory</Filter>
     </ClInclude>
@@ -371,12 +377,6 @@
     </ClInclude>
     <ClInclude Include="Src\Application\Utility\JsonUtility.h">
       <Filter>Src\Application\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\Utility\DebugKey\DebugKey.h">
-      <Filter>Src\Application\Utility\DebugKey</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\Utility\InputManager\RawInputManager.h">
-      <Filter>Src\Application\Utility\InputManager</Filter>
     </ClInclude>
     <ClInclude Include="Src\Application\Utility\StringUtility.h">
       <Filter>Src\Application\Utility</Filter>
@@ -429,11 +429,26 @@
     <ClInclude Include="Src\Application\GameObject\Projectile\ProjectileBase.h">
       <Filter>Src\Application\GameObject\Projectile</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\Utility\FileSystem\FileSystem.h">
-      <Filter>Src\Application\Utility\FileSystem</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Application\GameObject\Projectile\StickyBomb\StickyBomb.h">
       <Filter>Src\Application\GameObject\Projectile\StickyBomb</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\DebugKey\DebugKey.h">
+      <Filter>Src\System\DebugKey</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\FileSystem\FileSystem.h">
+      <Filter>Src\System\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\ImGui\ImGuiManager.h">
+      <Filter>Src\System\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\System\Input\RawInputManager.h">
+      <Filter>Src\System\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Resource\ResourceManager.h">
+      <Filter>Src\Application\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Resource\Prefab\Prefab.h">
+      <Filter>Src\Application\Resource\Prefab</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -593,17 +608,8 @@
     <ClCompile Include="Src\Application\GameObject\Actor\Player\Player.cpp">
       <Filter>Src\Application\GameObject\Actor\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\Utility\ImGui\ImGuiManager.cpp">
-      <Filter>Src\Application\Utility\ImGui</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Application\Factory\Factory.cpp">
       <Filter>Src\Application\Factory</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\Utility\DebugKey\DebugKey.cpp">
-      <Filter>Src\Application\Utility\DebugKey</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\Utility\InputManager\RawInputManager.cpp">
-      <Filter>Src\Application\Utility\InputManager</Filter>
     </ClCompile>
     <ClCompile Include="Src\Application\FileIO\GameObject\GameObjectFileIO.cpp">
       <Filter>Src\Application\FileIO\GameObject</Filter>
@@ -644,11 +650,26 @@
     <ClCompile Include="Src\Application\GameObject\Projectile\ProjectileBase.cpp">
       <Filter>Src\Application\GameObject\Projectile</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\Utility\FileSystem\FileSystem.cpp">
-      <Filter>Src\Application\Utility\FileSystem</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Application\GameObject\Projectile\StickyBomb\StickyBomb.cpp">
       <Filter>Src\Application\GameObject\Projectile\StickyBomb</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\DebugKey\DebugKey.cpp">
+      <Filter>Src\System\DebugKey</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\FileSystem\FileSystem.cpp">
+      <Filter>Src\System\FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\ImGui\ImGuiManager.cpp">
+      <Filter>Src\System\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\System\Input\RawInputManager.cpp">
+      <Filter>Src\System\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Resource\ResourceManager.cpp">
+      <Filter>Src\Application\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Resource\Prefab\Prefab.cpp">
+      <Filter>Src\Application\Resource\Prefab</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

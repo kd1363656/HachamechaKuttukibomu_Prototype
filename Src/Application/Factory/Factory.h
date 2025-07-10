@@ -49,7 +49,18 @@ public:
 #endif
 	}
 
-	const std::unordered_map<std::string, CommonStruct::GameObjectFactoryInfo>& GetGameObjectFactoryMethodList() const { return m_gameObjectFactoryMethodList; }
+	template <class ObjectType> 
+	std::shared_ptr<ObjectType> CreateInstance(const std::string TypeName)
+	{
+		if(m_gameObjectFactoryMethodList.contains())
+		{
+			return m_gameObjectFactoryMethodList[TypeName].gameObjectFactoryMethod();
+		}
+
+		return std::make_shared<ObjectType>();
+	}
+
+	const auto& GetGameObjectFactoryMethodList() const { return m_gameObjectFactoryMethodList; }
 
 private:
 

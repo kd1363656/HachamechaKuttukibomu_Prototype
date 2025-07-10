@@ -1,10 +1,8 @@
 ﻿#include "KdGameObject.h"
 
 #include "../Src/Application/Utility/StringUtility.h"
-
-#include "../Src/Application/Utility/ImGui/ImGuiManager.h"
-
-#include "../Src/Application/Utility/FileSystem/FileSystem.h"
+#include "../Src/System/ImGui/ImGuiManager.h"
+#include "../Src/System/FileSystem/FileSystem.h"
 
 void KdGameObject::Init()
 {

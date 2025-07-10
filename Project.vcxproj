@@ -288,6 +288,8 @@
     <ClInclude Include="Src\Application\GameObject\Projectile\ProjectileBase.h" />
     <ClInclude Include="Src\Application\GameObject\Projectile\StickyBomb\StickyBomb.h" />
     <ClInclude Include="Src\Application\main.h" />
+    <ClInclude Include="Src\Application\Resource\Prefab\Prefab.h" />
+    <ClInclude Include="Src\Application\Resource\ResourceManager.h" />
     <ClInclude Include="Src\Application\Scene\BaseScene\BaseScene.h" />
     <ClInclude Include="Src\Application\Scene\GameScene\GameScene.h" />
     <ClInclude Include="Src\Application\Scene\SceneManager.h" />
@@ -301,10 +303,6 @@
     <ClInclude Include="Src\Application\State\StateBase.h" />
     <ClInclude Include="Src\Application\State\StateMachine.h" />
     <ClInclude Include="Src\Application\Utility\CommonConstant.h" />
-    <ClInclude Include="Src\Application\Utility\DebugKey\DebugKey.h" />
-    <ClInclude Include="Src\Application\Utility\FileSystem\FileSystem.h" />
-    <ClInclude Include="Src\Application\Utility\ImGui\ImGuiManager.h" />
-    <ClInclude Include="Src\Application\Utility\InputManager\RawInputManager.h" />
     <ClInclude Include="Src\Application\Utility\JsonUtility.h" />
     <ClInclude Include="Src\Application\Utility\StringUtility.h" />
     <ClInclude Include="Src\Application\Utility\CommonStruct.h" />
@@ -346,6 +344,10 @@
     <ClInclude Include="Src\Framework\Shader\SpriteShader\KdSpriteShader.h" />
     <ClInclude Include="src\Framework\Utility\KdUtility.h" />
     <ClInclude Include="src\Framework\Window\KdWindow.h" />
+    <ClInclude Include="Src\System\DebugKey\DebugKey.h" />
+    <ClInclude Include="Src\System\FileSystem\FileSystem.h" />
+    <ClInclude Include="Src\System\ImGui\ImGuiManager.h" />
+    <ClInclude Include="Src\System\Input\RawInputManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Library\imgui\imgui.cpp" />
@@ -370,6 +372,8 @@
     <ClCompile Include="Src\Application\GameObject\Projectile\ProjectileBase.cpp" />
     <ClCompile Include="Src\Application\GameObject\Projectile\StickyBomb\StickyBomb.cpp" />
     <ClCompile Include="Src\Application\main.cpp" />
+    <ClCompile Include="Src\Application\Resource\Prefab\Prefab.cpp" />
+    <ClCompile Include="Src\Application\Resource\ResourceManager.cpp" />
     <ClCompile Include="Src\Application\Scene\BaseScene\BaseScene.cpp" />
     <ClCompile Include="Src\Application\Scene\GameScene\GameScene.cpp" />
     <ClCompile Include="Src\Application\Scene\SceneManager.cpp" />
@@ -380,10 +384,6 @@
     <ClCompile Include="Src\Application\State\Actor\Player\StickyBombThrow\PlayerStickyBombThrowState.cpp" />
     <ClCompile Include="Src\Application\State\Camera\TPSCamera\FocusOnPlayerThrow\TPSCameraFocusOnPlayerThrowState.cpp" />
     <ClCompile Include="Src\Application\State\Camera\TPSCamera\FollowPlayer\TPSCameraFollowPlayerState.cpp" />
-    <ClCompile Include="Src\Application\Utility\DebugKey\DebugKey.cpp" />
-    <ClCompile Include="Src\Application\Utility\FileSystem\FileSystem.cpp" />
-    <ClCompile Include="Src\Application\Utility\ImGui\ImGuiManager.cpp" />
-    <ClCompile Include="Src\Application\Utility\InputManager\RawInputManager.cpp" />
     <ClCompile Include="Src\Application\Utility\JsonUtility.cpp" />
     <ClCompile Include="Src\Framework\Direct3D\KdMaterial.cpp">
       <SubType>
@@ -427,6 +427,10 @@
     <ClCompile Include="Src\Framework\Shader\SpriteShader\KdSpriteShader.cpp" />
     <ClCompile Include="Src\Framework\Utility\KdUtility.cpp" />
     <ClCompile Include="src\Framework\Window\KdWindow.cpp" />
+    <ClCompile Include="Src\System\DebugKey\DebugKey.cpp" />
+    <ClCompile Include="Src\System\FileSystem\FileSystem.cpp" />
+    <ClCompile Include="Src\System\ImGui\ImGuiManager.cpp" />
+    <ClCompile Include="Src\System\Input\RawInputManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Src\Framework\Shader\inc_KdCommon.hlsli" />

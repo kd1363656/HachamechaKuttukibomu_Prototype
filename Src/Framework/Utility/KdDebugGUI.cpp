@@ -2,9 +2,8 @@
 
 #include "KdDebugGUI.h"
 
-#include "Src/Application/Utility/ImGui/ImGuiManager.h"
-
-#include "Src/Application//Utility/InputManager/RawInputManager.h"
+#include "Src/System/ImGui/ImGuiManager.h"
+#include "Src/System/Input/RawInputManager.h"
 
 KdDebugGUI::KdDebugGUI()
 {}

@@ -1,6 +1,6 @@
 ﻿#include "RawInputManager.h"
 
-#include "../../Scene/SceneManager.h"
+#include "../Src/Application/Scene/SceneManager.h"
 
 #include "../Src/Application/main.h"
 

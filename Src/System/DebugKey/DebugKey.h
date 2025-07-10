@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "../CommonStruct.h"
-#include "../SingletonBase.h"
+#include "../Src/Application/Utility/CommonStruct.h"
+#include "../Src/Application/Utility/SingletonBase.h"
 
 // 発表会、瞬発的なデバッグで使うのでシングルトンで管理
 class DebugKey : public SingletonBase<DebugKey>

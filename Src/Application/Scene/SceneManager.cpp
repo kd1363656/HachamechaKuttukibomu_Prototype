@@ -60,6 +60,10 @@ void SceneManager::DrawDebug()
 
 void SceneManager::ChangeScene(SceneType _sceneType)
 {
+	// リソースマネージャーで確保したリソースの開放
+	// 無駄なメモリを開放する
+	KdAssets::Instance().ClearData(true);
+
 	// 次のシーンを作成し、現在のシーンにする
 	switch (_sceneType)
 	{
@@ -73,4 +77,6 @@ void SceneManager::ChangeScene(SceneType _sceneType)
 
 	// 現在のシーン情報を更新
 	m_currentSceneType = _sceneType;
+
+
 }

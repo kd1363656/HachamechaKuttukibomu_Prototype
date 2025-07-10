@@ -1,10 +1,11 @@
 ﻿#include "MapTileBase.h"
 
 #include "../../../Utility/JsonUtility.h"
-#include "../../../Utility/ImGui/ImGuiManager.h"
 #include "../../../Utility/CommonStruct.h"
 
 #include "../../../main.h"
+
+#include "../../../../System/ImGui/ImGuiManager.h"
 
 void MapTileBase::Init()
 {

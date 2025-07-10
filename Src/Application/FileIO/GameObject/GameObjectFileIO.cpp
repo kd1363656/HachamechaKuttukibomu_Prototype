@@ -3,12 +3,13 @@
 #include "../../Factory/Factory.h"
 
 #include "../../Utility/JsonUtility.h"
-#include "../../Utility/FileSystem/FileSystem.h"
 
 #include "../../GameObject/Actor/ActorBase.h"
 
 #include "../../Scene/BaseScene/BaseScene.h"
 #include "../../Scene/SceneManager.h"
+
+#include "../../../System/FileSystem/FileSystem.h"
 
 void GameObjectFileIO::Init()
 {

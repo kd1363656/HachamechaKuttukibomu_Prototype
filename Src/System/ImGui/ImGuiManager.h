@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "../SingletonBase.h"
-#include "../StringUtility.h"
+#include "../Src/Application/Utility/SingletonBase.h"
+#include "../Src/Application/Utility/StringUtility.h"
 
 class ImGuiManager : public SingletonBase<ImGuiManager>
 {
@@ -35,7 +35,6 @@ public:
 
 private:
 
-	// TODO
 	void DrawProjectPanel();
 
 	void DrawUserInputInfoPanel();
