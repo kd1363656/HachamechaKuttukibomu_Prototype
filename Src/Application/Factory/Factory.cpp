@@ -10,6 +10,8 @@
 
 #include "../GameObject/Map/BackGround/BackGround.h"
 
+#include "../GameObject/Projectile/StickyBomb/StickyBomb.h"
+
 void Factory::Init()
 {
 	RegisterGameObjectFactoryMethod();
@@ -30,6 +32,8 @@ void Factory::RegisterGameObjectFactoryMethod()
 	RegisterGameObjectFactoryMethod<MapTileTerrain>();
 
 	RegisterGameObjectFactoryMethod<BackGround>();
+
+	RegisterGameObjectFactoryMethod<StickyBomb>();
 
 #ifdef _DEBUG
 	KdDebugGUI::Instance().AddLog("\n============ End register gameObject factory ==============\n\n\n\n");

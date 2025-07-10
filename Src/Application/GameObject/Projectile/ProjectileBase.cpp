@@ -71,23 +71,6 @@ nlohmann::json ProjectileBase::SaveJsonData()
 	return json_;
 }
 
-void ProjectileBase::LoadAsset()
-{
-	// ファイルパスが存在しなければ"return"
-	if (m_meshInfo.assetFilePath.empty()) { return; }
-
-	if (m_hasAnimation && !m_animationMesh)
-	{
-		m_animationMesh = std::make_shared<KdModelWork>();
-		m_animationMesh->SetModelData(m_meshInfo.assetFilePath);
-	}
-	else if (!m_hasAnimation && !m_staticMesh)
-	{
-		m_staticMesh = std::make_shared<KdModelData>();
-		m_staticMesh->Load(m_meshInfo.assetFilePath);
-	}
-}
-
 void ProjectileBase::DrawImGuiTransformInspector()
 {
 	auto& imGui_ = ImGuiManager::GetInstance();
@@ -137,6 +120,23 @@ void ProjectileBase::DrawImGuiMaterialInspector()
 	}
 
 	ImGui::ColorEdit4("Color", &m_meshInfo.color.x);
+}
+
+void ProjectileBase::LoadAsset()
+{
+	// ファイルパスが存在しなければ"return"
+	if (m_meshInfo.assetFilePath.empty()) { return; }
+
+	if (m_hasAnimation && !m_animationMesh)
+	{
+		m_animationMesh = std::make_shared<KdModelWork>();
+		m_animationMesh->SetModelData(m_meshInfo.assetFilePath);
+	}
+	else if (!m_hasAnimation && !m_staticMesh)
+	{
+		m_staticMesh = std::make_shared<KdModelData>();
+		m_staticMesh->Load(m_meshInfo.assetFilePath);
+	}
 }
 
 void ProjectileBase::FixMatrix()

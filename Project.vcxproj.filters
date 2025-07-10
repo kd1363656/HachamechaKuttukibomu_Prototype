@@ -169,12 +169,6 @@
     <Filter Include="Src\Application\Utility\FileSystem">
       <UniqueIdentifier>{543a8596-86c3-41f6-8bac-7c7e273e0ef7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Application\Resource">
-      <UniqueIdentifier>{692c73f8-d6b0-42f6-bd01-d8f4e23fe884}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src\Application\Resource\Prefab">
-      <UniqueIdentifier>{a68ba349-50c1-4b42-ad03-5cd3fbb1f482}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -438,14 +432,8 @@
     <ClInclude Include="Src\Application\Utility\FileSystem\FileSystem.h">
       <Filter>Src\Application\Utility\FileSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\Resource\ResourceManagerBase.h">
-      <Filter>Src\Application\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\Resource\Prefab\PrefabData.h">
-      <Filter>Src\Application\Resource\Prefab</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Application\Resource\Prefab\PrefabManager.h">
-      <Filter>Src\Application\Resource\Prefab</Filter>
+    <ClInclude Include="Src\Application\GameObject\Projectile\StickyBomb\StickyBomb.h">
+      <Filter>Src\Application\GameObject\Projectile\StickyBomb</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -659,14 +647,8 @@
     <ClCompile Include="Src\Application\Utility\FileSystem\FileSystem.cpp">
       <Filter>Src\Application\Utility\FileSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\Resource\ResourceManagerBase.cpp">
-      <Filter>Src\Application\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\Resource\Prefab\PrefabData.cpp">
-      <Filter>Src\Application\Resource\Prefab</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Application\Resource\Prefab\PrefabManager.cpp">
-      <Filter>Src\Application\Resource\Prefab</Filter>
+    <ClCompile Include="Src\Application\GameObject\Projectile\StickyBomb\StickyBomb.cpp">
+      <Filter>Src\Application\GameObject\Projectile\StickyBomb</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

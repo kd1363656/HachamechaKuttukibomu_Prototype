@@ -1,14 +1,14 @@
 ﻿#pragma once
 #include "../../Utility/CommonStruct.h"
 
-class ProjectileBase : KdGameObject
+class ProjectileBase : public KdGameObject
 {
 public:
 
-	ProjectileBase         () = default;
-	virtual ~ProjectileBase() = default;
+	ProjectileBase         ()         = default;
+	virtual ~ProjectileBase()override = default;
 
-	virtual uint32_t GetFinalBaseTypeID()const { return GameObjectID::GetTypeID<ProjectileBase>(); }
+	virtual uint32_t GetFinalBaseTypeID()const override{ return GameObjectID::GetTypeID<ProjectileBase>(); }
 
 	void Init        () override;
 	void PostLoadInit() override;
@@ -23,6 +23,8 @@ public:
 	nlohmann::json SaveJsonData()						   override;
 
 	void LoadAsset() final override;
+
+	void SetLocation(Math::Vector3& Location) { m_transform.location = Location; }
 
 private:
 

@@ -6,6 +6,7 @@
 #include "../../GameObject/Actor/ActorBase.h"
 #include "../../GameObject/Map/MapTile/MapTileBase.h"
 #include "../../GameObject/Map/BackGround/BackGround.h"
+#include "../../GameObject/Projectile/ProjectileBase.h"
 
 #include "../../Factory/Factory.h"
 
@@ -17,10 +18,11 @@
 // "ImGui"の表示を消したかったら"KdDebugGui"を見てください
 void ImGuiManager::Init()
 {
-	GenereateGameObjectNameFilter<CameraBase> ();
-	GenereateGameObjectNameFilter<ActorBase>  ();
-	GenereateGameObjectNameFilter<MapTileBase>();
-	GenereateGameObjectNameFilter<BackGround> ();
+	GenereateGameObjectNameFilter<CameraBase>    ();
+	GenereateGameObjectNameFilter<ActorBase>     ();
+	GenereateGameObjectNameFilter<MapTileBase>   ();
+	GenereateGameObjectNameFilter<BackGround>    ();
+	GenereateGameObjectNameFilter<ProjectileBase>();
 
 	m_isShowSavePopUp = false;
 }
@@ -143,9 +145,11 @@ void ImGuiManager::DrawFactoryPanel()
 		ImGui::Separator();
 		DrawFactoryPanel(GameObjectID::GetTypeID<CameraBase>() , "Add Camera");
 		ImGui::Separator();
-		DrawFactoryPanel(GameObjectID::GetTypeID<MapTileBase>(), "Add Camera");
+		DrawFactoryPanel(GameObjectID::GetTypeID<MapTileBase>(), "Add MapTile");
 		ImGui::Separator();
 		DrawFactoryPanel(GameObjectID::GetTypeID<BackGround>() , "Add BackGround");
+		ImGui::Separator();
+		DrawFactoryPanel(GameObjectID::GetTypeID<ProjectileBase>(), "Add Projectile");
 		ImGui::Separator();
 	}
 	ImGui::End();
@@ -214,7 +218,7 @@ void ImGuiManager::DrawCreateButton(const char* WidgetLabel)
 	if (auto scene_ = sceneManager_.GetCurrentScene().lock())
 	{
 		// ウィジェットの位置を改行せずに離す形で配置する
-		ImGui::SameLine(260.0f);
+		ImGui::SameLine(400.0f);
 
 		if (ImGui::Button(WidgetLabel))
 		{
@@ -252,6 +256,8 @@ void ImGuiManager::DrawInspector()
 		DrawInspector(GameObjectID::GetTypeID<MapTileBase>());
 		ImGui::Separator();
 		DrawInspector(GameObjectID::GetTypeID<BackGround>());
+		ImGui::Separator();
+		DrawInspector(GameObjectID::GetTypeID<ProjectileBase>());
 		ImGui::Separator();
 	}
 	ImGui::End();
