@@ -1,5 +1,7 @@
 ﻿#include "GameScene.h"
 
+#include "../../Resource/ResourceManager.h"
+
 #include"../SceneManager.h"
 
 void GameScene::Event()
@@ -15,5 +17,5 @@ void GameScene::Event()
 
 void GameScene::Init()
 {
-	
+	BaseScene::Init();
 }

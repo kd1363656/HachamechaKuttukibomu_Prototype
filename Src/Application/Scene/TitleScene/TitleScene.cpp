@@ -15,5 +15,5 @@ void TitleScene::Event()
 
 void TitleScene::Init()
 {
-
+	BaseScene::Init();
 }

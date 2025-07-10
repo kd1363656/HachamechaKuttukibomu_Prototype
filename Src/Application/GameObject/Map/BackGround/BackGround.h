@@ -28,6 +28,8 @@ private:
 	void DrawImGuiTransformInspector();
 	void DrawImGuiMaterialInspector ();
 
+	const char* PREFAB_BASE_DIRECTORY = "BackGround/";
+
 	std::shared_ptr<KdModelData> m_staticMesh = nullptr;
 
 	CommonStruct::MeshInfo     m_meshInfo  = {};

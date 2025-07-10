@@ -148,6 +148,19 @@ void KdGameObject::CalcDistSqrFromCamera(const Math::Vector3& camPos)
 	m_distSqrFromCamera = (m_mWorld.Translation() - camPos).LengthSquared();
 }
 
+void KdGameObject::EnableDrawFlag(DrawType Type)
+{
+	const uint8_t flag_ = static_cast<uint8_t>(Type);
+
+	m_drawType |= flag_;
+}
+void KdGameObject::DisableDrawFlag(DrawType Type)
+{
+	const uint8_t flag_ = static_cast<uint8_t>(Type);
+
+	m_drawType &= ~flag_;
+}
+
 bool KdGameObject::Intersects(const KdCollider::SphereInfo& targetShape, std::list<KdCollider::CollisionResult>* pResults) const
 {
 	if (!m_pCollider) 
@@ -182,18 +195,6 @@ bool KdGameObject::HasDrawTypeFlag(DrawType Type)
 
 	// フラグが立っていたら"true"を返す
 	return (m_drawType & flag_) != 0;
-}
-void KdGameObject::EnableDrawFlag(DrawType Type)
-{
-	const uint8_t flag_ = static_cast<uint8_t>(Type);
-
-	m_drawType |= flag_;
-}
-void KdGameObject::DisableDrawFlag(DrawType Type)
-{
-	const uint8_t flag_ = static_cast<uint8_t>(Type);
-
-	m_drawType &= ~flag_;
 }
 
 Math::Vector3 KdGameObject::GetScale() const

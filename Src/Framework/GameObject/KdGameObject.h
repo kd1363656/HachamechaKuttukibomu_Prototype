@@ -19,18 +19,15 @@ public:
 		GenerateDepthFromMapLight = 1 << 6 ,
 	};
 
-	struct DrawTypeList
+	struct BitShiftBase
 	{
 		const char* label;
 		uint8_t     type;
 	};
 
-	// "ImGui"で使うだけのもの
-	struct CollisionTypeList
-	{
-		const char* label;
-		uint8_t     type;
-	};
+	// "ImGui"で使うだけの構造体
+	struct DrawTypeList      : public BitShiftBase {};
+	struct CollisionTypeList : public BitShiftBase {};
 
 	KdGameObject() = default;
 	virtual ~KdGameObject() { Release(); }
@@ -70,21 +67,22 @@ public:
 	virtual bool IsVisible () const { return false; }
 	virtual bool IsRideable() const { return false; }
 
+	void EnableDrawFlag (DrawType Type);
+	void DisableDrawFlag(DrawType Type);
+
 	bool Intersects(const KdCollider::SphereInfo& targetShape , std::list<KdCollider::CollisionResult>* pResults) const;
 	bool Intersects(const KdCollider::BoxInfo&    targetBox   , std::list<KdCollider::CollisionResult>* pResults) const;
 	bool Intersects(const KdCollider::RayInfo&    targetShape , std::list<KdCollider::CollisionResult>* pResults) const;
 
 	bool HasDrawTypeFlag(DrawType Type);
 
-	void EnableDrawFlag (DrawType Type);
-	void DisableDrawFlag(DrawType Type);
-
 	virtual Math::Vector3 GetPos  () const { return m_mWorld.Translation(); }
 	virtual Math::Vector3 GetScale() const;
 
 	const Math::Matrix& GetMatrix() const { return m_mWorld; }
 
-	std::string_view GetTypeName()const { return m_typeName; }
+	std::string_view GetTypeName      ()const { return m_typeName;       }
+	std::string_view GetPrefabSavePath()const { return m_prefabSavePath; }
 
 	float GetDistSqrFromCamera() const { return m_distSqrFromCamera; }
 
@@ -109,14 +107,14 @@ protected:
 
 	const std::string COMMON_ASSET_FILE_PATH = "Asset/";
 
-	std::unique_ptr<KdCollider> m_pCollider = nullptr;
-
+	std::unique_ptr<KdCollider>       m_pCollider  = nullptr;
 	std::unique_ptr<KdDebugWireFrame> m_pDebugWire = nullptr;
 
 	Math::Matrix m_mWorld = Math::Matrix::Identity;
 
 	// クラス名(ゲッター関数の名前が被ってしまうから)
-	std::string m_typeName = "";
+	std::string m_typeName       = "";
+	std::string m_prefabSavePath = "";
 
 	float m_distSqrFromCamera = 0;
 

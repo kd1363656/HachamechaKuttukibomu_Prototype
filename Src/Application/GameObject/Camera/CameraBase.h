@@ -64,6 +64,10 @@ public:
 		return m_targetPlayer;
 	}
 
+private:
+
+	const char* PREFAB_BASE_DIRECTORY = "CameraBase/";
+
 protected:
 
 	void FixMatrix();

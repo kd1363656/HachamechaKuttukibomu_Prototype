@@ -33,6 +33,8 @@ public:
 
 private:
 
+	const char* PREFAB_BASE_DIRECTORY = "ActorBase/";
+
 	void DrawImGuiTransformInspector();
 	void DrawImGuiMaterialInspector ();
 	void DrawImGuiCollisionInspector();

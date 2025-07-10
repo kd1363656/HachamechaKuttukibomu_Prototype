@@ -153,6 +153,13 @@ void BaseScene::ClearExpiredGameObject()
 	}
 	// ↑の後には有効なオブジェクトだけのリストになっている
 }
+void BaseScene::Init()
+{
+	if(!m_resourceManager)
+	{
+		m_resourceManager = std::make_unique<ResourceManager>();
+	}
+}
 void BaseScene::ClearExpiredGameObjectCacheList()
 {
 	// もしゲームオブジェクトが"Expired"で切れているなら"WeakPtr"からキャッシュ用の

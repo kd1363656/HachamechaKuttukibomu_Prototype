@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "../../Resource/ResourceManager.h"
 
 class BaseScene
 {
@@ -65,11 +66,16 @@ public :
 		return result_;
 	}
 
+	const std::unique_ptr<ResourceManager>& GetResourceManager()const
+	{
+		return m_resourceManager;
+	}
+
 protected :
 
 	// 継承先シーンで必要ならオーバーライドする
 	virtual void Event() { /* 各シーンで必要な内容を実装(オーバーライド)する */ }
-	virtual void Init () { /* 各シーンで必要な内容を実装(オーバーライド)する */ }
+	virtual void Init ();
 
 	void ClearExpiredGameObjectCacheList();
 	void ClearExpiredGameObject         ();
@@ -79,4 +85,6 @@ protected :
 
 	// 最終的な派生する前の中間基底クラスの"ID"をもとに構成されたキャッシュリスト
 	std::unordered_map<uint32_t, std::list<std::weak_ptr<KdGameObject>>> m_objectCacheList;
+
+	std::unique_ptr<ResourceManager> m_resourceManager = nullptr;
 };

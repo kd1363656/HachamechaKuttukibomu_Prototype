@@ -5,8 +5,8 @@ class GameObjectFileIO : public FileIOBase
 {
 public:
 
-	GameObjectFileIO         () = default;
-	virtual ~GameObjectFileIO() = default;
+	GameObjectFileIO ()         = default;
+	~GameObjectFileIO()override = default;
 
 	void Init()override;
 

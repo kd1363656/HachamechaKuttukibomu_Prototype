@@ -7,11 +7,14 @@ public:
 	Prefab () = default;
 	~Prefab() = default;
 
-	void Init(std::string TypeName);
+	const nlohmann::json& GetJsonData()const { return m_jsonData; }
+
+	void SetJsonData    (const nlohmann::json& Set) { m_jsonData     = Set; }
+	void SetSaveFilePath(const std::string&    Set) { m_saveFilePath = Set; }
 
 private:
 
-	const std::string COMMON_FILE_PATH = "	Asset/Data/Prefab/";
-
-	nlohmann::json JsonData;
+	nlohmann::json m_jsonData;
+	
+	std::string m_saveFilePath;
 };

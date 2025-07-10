@@ -2,12 +2,12 @@
 
 #include "../../Factory/Factory.h"
 
-#include "../../Utility/JsonUtility.h"
-
 #include "../../GameObject/Actor/ActorBase.h"
 
 #include "../../Scene/BaseScene/BaseScene.h"
 #include "../../Scene/SceneManager.h"
+
+#include "../../Resource/ResourceManager.h"
 
 #include "../../../System/FileSystem/FileSystem.h"
 
@@ -29,6 +29,9 @@ void GameObjectFileIO::SaveSceneData()
 	// すべてのオブジェクトを取得し状態を保持
 	for(auto& obj_ : currentScene_->GetObjectList())
 	{		
+		// TODO
+		// プレハブ用のデータをここで保存
+
 		json_.emplace_back(obj_->SaveJsonData()); 	
 	}
 
@@ -69,6 +72,11 @@ void GameObjectFileIO::LoadGameObjectData(std::string&& ClassName, const nlohman
 		// キーに対応したクラスの生成を行う
 		std::shared_ptr<KdGameObject> instance_ = itr_->second.gameObjectFactoryMethod();
 		instance_->Init();
+
+		if(auto& resourceManager_ = currentScene_->GetResourceManager())
+		{
+			resourceManager_->LoadPrefabData(instance_->GetTypeName().data() , instance_->GetPrefabSavePath().data());
+		}
 
 		// "Json"データの"Null"チェック
 		// 必要ならクラス名チェックも入れておいた方がいい

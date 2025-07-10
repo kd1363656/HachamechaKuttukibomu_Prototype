@@ -3,9 +3,9 @@
 nlohmann::json FileSystem::LoadJsonFile(const std::string& FilePath)
 {
 	std::filesystem::path path_(FilePath);
-	if (path_.extension() != ".json")
+	if (path_.extension() != JSON_EXTENSION)
 	{
-		path_ += ".json";
+		path_ += JSON_EXTENSION;
 	}
 
 	std::ifstream ifs_(path_);
@@ -23,9 +23,9 @@ void FileSystem::SaveJsonFile(const nlohmann::json& Json, const std::string& Fil
 {
 	std::filesystem::path path_(FilePath);
 
-	if (path_.extension() != ".json")
+	if (path_.extension() != JSON_EXTENSION)
 	{
-		path_ += ".json";
+		path_ += JSON_EXTENSION;
 	}
 
 	std::ofstream ofs_(path_, std::ios::out);

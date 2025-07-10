@@ -15,6 +15,8 @@ void CameraBase::Init()
 {
 	KdGameObject::Init();
 
+	m_prefabSavePath += PREFAB_BASE_DIRECTORY;
+
 	m_degAng   = Math::Vector3::Zero;
 	m_location = Math::Vector3::Zero;
 

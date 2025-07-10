@@ -28,6 +28,8 @@ private:
 	void DrawImGuiMaterialInspector ();
 	void DrawImGuiFlagsInspector    ();
 
+	const char* PREFAB_BASE_DIRECTORY = "MapTileBase/";
+
 protected:
 
 	void LoadAsset() final override;

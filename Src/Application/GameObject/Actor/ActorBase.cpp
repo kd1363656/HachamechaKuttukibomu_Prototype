@@ -28,6 +28,8 @@ void ActorBase::Init()
 
 	EnableDrawFlag(KdGameObject::DrawType::Lit                      );
 	EnableDrawFlag(KdGameObject::DrawType::GenerateDepthFromMapLight);
+
+	m_prefabSavePath += PREFAB_BASE_DIRECTORY;
 }
 
 void ActorBase::PostLoadInit()

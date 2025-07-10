@@ -31,6 +31,8 @@ private:
 	void DrawImGuiTransformInspector();
 	void DrawImGuiMaterialInspector ();
 
+	const char* PREFAB_BASE_DIRECTORY = "ProjectileBase/";
+
 protected:
 
 	void FixMatrix();

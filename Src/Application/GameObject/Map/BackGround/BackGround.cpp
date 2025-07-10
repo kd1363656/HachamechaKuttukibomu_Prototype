@@ -10,6 +10,8 @@ void BackGround::Init()
 {
 	KdGameObject::Init();
 
+	m_prefabSavePath += PREFAB_BASE_DIRECTORY;
+
 	m_meshInfo  = {};
 	m_transform = {};
 
