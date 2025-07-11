@@ -101,14 +101,21 @@ void GameObjectFileIO::LoadPrefabData(const std::string& TypeName, const std::st
 	
 #ifdef _DEBUG
 
-	// プレハブ操作用のオブジェクトを作って格納
-	std::shared_ptr<KdGameObject> prefabObject_ = std::make_shared<KdGameObject>();
-	prefabObject_->Init();
+	auto& factory_ = Factory::GetInstance();
 
-	instance_->SetPrefabPreviewObject(prefabObject_);
+	auto itr_ = factory_.GetGameObjectFactoryMethodList().find(TypeName);
+
+	if (itr_ != factory_.GetGameObjectFactoryMethodList().end())
+	{
+		// プレハブ操作用のオブジェクトを作って格納
+		auto prefabObject_ = itr_->second.gameObjectFactoryMethod();
+		prefabObject_->Init();
+
+		instance_->SetPrefabPreviewObject(prefabObject_);
+	}
 
 	std::string typeName_ = TypeName;
-	KdDebugGUI::Instance().AddLog("\nPrehab : %s is successfully Load" , typeName_.c_str());
+	KdDebugGUI::Instance().AddLog("\nPrehab : %s is successfully Load And Create" , typeName_.c_str());
 #endif
 	resourceManager_->GetPrefabDataList().emplace(TypeName , instance_);
 }

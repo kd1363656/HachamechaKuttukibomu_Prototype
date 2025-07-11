@@ -31,7 +31,6 @@ public:
 
 	void SetTimeScale(float Set) { m_fpsController.SetTimeScale(Set); }
 
-
 private:
 
 	void KdBeginUpdate();

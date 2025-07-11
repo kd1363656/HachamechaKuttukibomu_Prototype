@@ -51,11 +51,16 @@ void MapTileBase::DrawImGuiInspectors()
 {
 	// 汚くなったら関数でまとめる
 	DrawImGuiTransformInspector();
+
+	KdGameObject::DrawImGuiInspectors();
+}
+void MapTileBase::DrawImGuiPrefabInspectors()
+{
 	DrawImGuiMaterialInspector ();
 	DrawImGuiCollisionInspector();
 	DrawImGuiFlagsInspector    ();
 
-	KdGameObject::DrawImGuiInspectors();
+	KdGameObject::DrawImGuiPrefabInspectors();
 }
 
 void MapTileBase::LoadTransformData(const nlohmann::json& Json)

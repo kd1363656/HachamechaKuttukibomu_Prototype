@@ -39,9 +39,13 @@ void BackGround::PostUpdate()
 void BackGround::DrawImGuiInspectors()
 {
 	DrawImGuiTransformInspector();
-	DrawImGuiMaterialInspector ();
+}
 
-	KdGameObject::DrawImGuiInspectors();
+void BackGround::DrawImGuiPrefabInspectors()
+{
+	DrawImGuiMaterialInspector();
+
+	KdGameObject::DrawImGuiPrefabInspectors();
 }
 
 void BackGround::LoadTransformData(const nlohmann::json& Json)

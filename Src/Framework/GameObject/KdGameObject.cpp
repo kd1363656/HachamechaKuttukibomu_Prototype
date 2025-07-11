@@ -42,9 +42,10 @@ void KdGameObject::DrawDebug()
 	m_pDebugWire->Draw();
 }
 
-void KdGameObject::DrawImGuiInspectors()
+void KdGameObject::DrawImGuiPrefabInspectors()
 {
-	DrawImGuiDrawTypeInspector();
+	DrawImGuiDrawTypeInspector ();
+	DrawImGuiCollisionInspector();
 }
 
 void KdGameObject::DrawImGuiDrawTypeInspector()

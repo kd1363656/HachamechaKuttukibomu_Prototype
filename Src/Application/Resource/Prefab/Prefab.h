@@ -25,11 +25,11 @@ private:
 #ifdef _DEBUG
 public:
 
-	void SetPrefabPreviewObject(std::shared_ptr<KdGameObject> Set) { m_prefabPreviewObject = Set; }
+	void SetPrefabPreviewObject(const std::shared_ptr<KdGameObject> Set) { m_prefabPreviewObject = Set; }
 
 	std::weak_ptr<KdGameObject> GetPrefabPreviewObject() { return m_prefabPreviewObject; }
 
 private:
-	std::weak_ptr<KdGameObject> m_prefabPreviewObject;
+	std::shared_ptr<KdGameObject> m_prefabPreviewObject;
 #endif
 };

@@ -39,8 +39,10 @@ void ImGuiManager::Update()
 
 	DrawUserInputInfoPanel();
 
-	DrawFactoryPanel     ();
-	DrawInspector        ();
+	DrawFactoryPanel();
+
+	DrawInspector      ();
+	DrawPrefabInspector();
 
 	DrawPopups();
 }
@@ -281,26 +283,25 @@ void ImGuiManager::DrawInspector(uint32_t BaseTypeID)
 		{
 			for (auto obj_ : scene_->GetObjectList())
 			{
-				if (obj_->GetFinalBaseTypeID() == BaseTypeID)
+				if (obj_->GetFinalBaseTypeID() != BaseTypeID) continue;
+				
+				std::string className_ = obj_->GetTypeName().data();
+				// ウィジェットの"TreeNode"が個別に識別できるようにポインターを刷り込ませる
+				className_ += "##" + std::to_string(reinterpret_cast<uintptr_t>(obj_.get()));
+
+				if (ImGui::TreeNode(className_.data()))
 				{
-					std::string className_ = obj_->GetTypeName().data();
-					// ウィジェットの"TreeNode"が個別に識別できるようにポインターを刷り込ませる
-					className_ += "##" + std::to_string(reinterpret_cast<uintptr_t>(obj_.get()));
+					ImGui::SameLine(200.0, 0.0f);
 
-					if (ImGui::TreeNode(className_.data()))
+					// ボタンが押されたら対象のオブジェクトを削除
+					if (ImGui::SmallButton("Delete"))
 					{
-						ImGui::SameLine(200.0, 0.0f);
-
-						// ボタンが押されたら対象のオブジェクトを削除
-						if (ImGui::SmallButton("Delete"))
-						{
-							obj_->SetIsExpired(true);
-						}
-
-						obj_->DrawImGuiInspectors();
-
-						ImGui::TreePop();
+						obj_->SetIsExpired(true);
 					}
+
+					obj_->DrawImGuiInspectors();
+
+					ImGui::TreePop();
 				}
 			}
 			ImGui::TreePop();
@@ -314,7 +315,7 @@ void ImGuiManager::DrawPrefabInspector()
 
 	if (!scene_)return;
 
-	if (ImGui::Begin("Inspector"))
+	if (ImGui::Begin("PrefabInspector"))
 	{
 		DrawPrefabInspector(GameObjectID::GetTypeID<CameraBase>());
 		ImGui::Separator();
@@ -333,7 +334,11 @@ void ImGuiManager::DrawPrefabInspector(uint32_t BaseTypeID)
 {
 	auto scene_ = SceneManager::GetInstance().GetCurrentScene().lock();
 
-	if (!scene_)return;
+	if (!scene_) { return; }
+
+	auto& resourceManager_ = scene_->GetResourceManager();
+
+	if (!resourceManager_) { return; }
 
 	auto itr_ = m_gameObjectNameFilter.find(BaseTypeID);
 
@@ -343,8 +348,17 @@ void ImGuiManager::DrawPrefabInspector(uint32_t BaseTypeID)
 
 		if (ImGui::TreeNode(baseTypeName.data()))
 		{
-				
-
+			// リソースマネージャーのプレハブリストから合致するプレハブの
+			// プレハブ情報インスペクターを表示
+			for(auto& [key_ , value_] : resourceManager_->GetPrefabDataList())
+			{
+				if(auto prefab_ = value_->GetPrefabPreviewObject().lock())
+				{
+					if (prefab_->GetFinalBaseTypeID() != BaseTypeID) { continue; }
+					prefab_->DrawImGuiPrefabInspectors();
+				}
+			}
+			ImGui::TreePop();
 		}
 	}
 }

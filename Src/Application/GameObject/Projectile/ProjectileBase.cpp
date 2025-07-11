@@ -45,10 +45,16 @@ void ProjectileBase::PostUpdate()
 {
 	FixMatrix();
 }
+
 void ProjectileBase::DrawImGuiInspectors()
 {
 	DrawImGuiTransformInspector();
-	DrawImGuiMaterialInspector ();
+}
+void ProjectileBase::DrawImGuiPrefabInspectors()
+{
+	DrawImGuiMaterialInspector();
+
+	KdGameObject::DrawImGuiPrefabInspectors();
 }
 
 void ProjectileBase::LoadPrefabData(const nlohmann::json& Json)

@@ -56,10 +56,13 @@ void ActorBase::PostUpdate()
 void ActorBase::DrawImGuiInspectors()
 {
 	DrawImGuiTransformInspector();
+}
+void ActorBase::DrawImGuiPrefabInspectors()
+{
 	DrawImGuiMaterialInspector ();
 	DrawImGuiCollisionInspector();
 
-	KdGameObject::DrawImGuiInspectors();
+	KdGameObject::DrawImGuiPrefabInspectors();
 }
 void ActorBase::DrawImGuiTransformInspector()
 {

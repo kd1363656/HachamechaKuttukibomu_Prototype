@@ -50,7 +50,8 @@ public:
 	virtual void DrawDebug				  ();
 
 	// "ImGuiManager"で管理するよりこちらで管理したほうが柔軟性、拡張性が高いからここに書く
-	virtual void DrawImGuiInspectors        ();
+	virtual void DrawImGuiInspectors        () { /* まだ実装されていません、派生クラスで実装してください */ }
+	virtual void DrawImGuiPrefabInspectors  ();
 	void         DrawImGuiDrawTypeInspector ();
 	void         DrawImGuiCollisionInspector();
 

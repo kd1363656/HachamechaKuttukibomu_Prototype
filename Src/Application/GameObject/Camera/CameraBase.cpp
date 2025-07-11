@@ -67,6 +67,10 @@ void CameraBase::DrawImGuiInspectors()
 {
 	DrawImGuiTransformInspector();
 }
+void CameraBase::DrawImGuiPrefabInspectors()
+{
+	KdGameObject::DrawImGuiPrefabInspectors();
+}
 
 void CameraBase::LoadTransformData(const nlohmann::json& Json)
 {
