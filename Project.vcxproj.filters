@@ -668,9 +668,6 @@
     <ClCompile Include="Src\Application\Resource\ResourceManager.cpp">
       <Filter>Src\Application\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\Resource\Prefab\Prefab.cpp">
-      <Filter>Src\Application\Resource\Prefab</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Src\Framework\Shader\inc_KdCommon.hlsli">

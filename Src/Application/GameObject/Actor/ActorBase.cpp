@@ -114,12 +114,12 @@ nlohmann::json ActorBase::SavePrefabData()
 
 	json_["GravityInfo"] = JsonUtility::GravityInfoToJson(m_gravityInfo);
 
-	json_["MaxMoveSpeed"] = m_maxMoveSpeed;
-
 	json_["MapRayColliderSetting"   ] = JsonUtility::RayColliderSettingToJson   (m_mapRayColliderSetting   );
 	json_["MapSphereColliderSetting"] = JsonUtility::SphereColliderSettingToJson(m_mapSphereColliderSetting);
 
 	json_["DrawType"] = m_drawType;
+
+	json_["MaxMoveSpeed"] = m_maxMoveSpeed;
 
 	return json_;
 }

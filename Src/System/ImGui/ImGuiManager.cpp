@@ -44,6 +44,8 @@ void ImGuiManager::Update()
 	DrawInspector      ();
 	DrawPrefabInspector();
 
+	ApplyModifiedPrefab();
+
 	DrawPopups();
 }
 
@@ -355,12 +357,23 @@ void ImGuiManager::DrawPrefabInspector(uint32_t BaseTypeID)
 				if(auto prefab_ = value_->GetPrefabPreviewObject().lock())
 				{
 					if (prefab_->GetFinalBaseTypeID() != BaseTypeID) { continue; }
-					prefab_->DrawImGuiPrefabInspectors();
+
+					if (ImGui::TreeNode(prefab_->GetTypeName().data()))
+					{
+						prefab_->DrawImGuiPrefabInspectors();
+
+						ImGui::TreePop();
+					}
 				}
 			}
 			ImGui::TreePop();
 		}
 	}
+}
+
+void ImGuiManager::ApplyModifiedPrefab()
+{
+
 }
 
 void ImGuiManager::DrawPopups()

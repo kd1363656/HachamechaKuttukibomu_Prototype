@@ -7,20 +7,19 @@ public:
 	Prefab () = default;
 	~Prefab() = default;
 
-	void SetJsonData    (const nlohmann::json& Set) { m_jsonData = Set; }
+	void SetJsonData(const nlohmann::json& Set) { m_jsonData = Set; }
 
-	void SetSaveFilePath(const std::string&    Set) { m_saveFilePath = Set; }
+	void SetSaveFilePath(const std::string& Set) { m_saveFilePath = Set; }
 
 	const nlohmann::json& GetJsonData()const { return m_jsonData; }
 
-	std::string_view GetSaveFilePath() { return m_saveFilePath; }
+	const std::string& GetSaveFilePath()const { return m_saveFilePath; }
 	
 private:
 
 	nlohmann::json m_jsonData;
 	
 	std::string m_saveFilePath;
-
 
 #ifdef _DEBUG
 public:

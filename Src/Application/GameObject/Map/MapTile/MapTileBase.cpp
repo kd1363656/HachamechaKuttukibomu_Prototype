@@ -92,9 +92,11 @@ nlohmann::json MapTileBase::SavePrefabData()
 {
 	nlohmann::json json_;
 
+	json_["TypeName"] = m_typeName;
+
 	json_["MeshInfo"] = JsonUtility::MeshInfoToJson(m_meshInfo);
 
-	json_["DrawType"] = m_drawType;
+	json_["DrawType"]      = m_drawType;
 	json_["CollisionType"] = m_collisionType;
 
 	json_["HasAnimation"] = m_hasAnimation;

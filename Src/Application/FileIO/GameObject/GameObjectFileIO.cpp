@@ -33,6 +33,9 @@ void GameObjectFileIO::SaveSceneData()
 		json_.emplace_back(obj_->SaveTransformData()); 	
 	}
 
+	// プレハブデータの保存
+	SavePrefabData();
+
 	FileSystem::SaveJsonFile(json_, m_filePath);
 }
 
@@ -68,10 +71,14 @@ void GameObjectFileIO::SavePrefabData()
 	{
 		for(auto& [key_ , value_] : resourceManager_->GetPrefabDataList())
 		{
-			if(auto prefabData_ = resourceManager_->GetPrefabData(key_).lock())
-			{
-				FileSystem::SaveJsonFile(prefabData_->GetJsonData() , prefabData_->GetSaveFilePath().data());
-			}
+			if (!value_) { continue; }
+			
+			auto           prefabObject_ = value_->GetPrefabPreviewObject().lock();
+			nlohmann::json json_         =  prefabObject_->SavePrefabData();
+
+			if (!prefabObject_) { continue; }
+
+			FileSystem::SaveJsonFile(json_ , value_->GetSaveFilePath());
 		}
 	}
 }
@@ -93,11 +100,11 @@ void GameObjectFileIO::LoadPrefabData(const std::string& TypeName, const std::st
 	const std::string    filePath_ = COMMON_PREFAB_DIRECTORY_PATH + LocalPath + TypeName + FileSystem::SLASH_SYMBOL + TypeName;
 	const nlohmann::json json_     = FileSystem::LoadJsonFile(filePath_);
 
-	auto instance_ = std::make_shared<Prefab>();
-	instance_->SetJsonData(json_);
+	auto prefab_ = std::make_shared<Prefab>();
+	prefab_->SetJsonData(json_);
 
 	// セーブするときに使うファイルパスを保存
-	instance_->SetSaveFilePath(filePath_);
+	prefab_->SetSaveFilePath(filePath_);
 	
 #ifdef _DEBUG
 
@@ -110,16 +117,16 @@ void GameObjectFileIO::LoadPrefabData(const std::string& TypeName, const std::st
 		// プレハブ操作用のオブジェクトを作って格納
 		auto prefabObject_ = itr_->second.gameObjectFactoryMethod();
 		prefabObject_->Init();
+		prefabObject_->LoadPrefabData(prefab_->GetJsonData());
 
-		instance_->SetPrefabPreviewObject(prefabObject_);
+		prefab_->SetPrefabPreviewObject(prefabObject_);
 	}
 
 	std::string typeName_ = TypeName;
 	KdDebugGUI::Instance().AddLog("\nPrehab : %s is successfully Load And Create" , typeName_.c_str());
 #endif
-	resourceManager_->GetPrefabDataList().emplace(TypeName , instance_);
+	resourceManager_->GetPrefabDataList().emplace(TypeName , prefab_);
 }
-
 void GameObjectFileIO::LoadGameObjectData(std::string&& ClassName, const nlohmann::json& Json)
 {
 	auto& factory_      = Factory::GetInstance                              ();

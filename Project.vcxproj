@@ -372,7 +372,6 @@
     <ClCompile Include="Src\Application\GameObject\Projectile\ProjectileBase.cpp" />
     <ClCompile Include="Src\Application\GameObject\Projectile\StickyBomb\StickyBomb.cpp" />
     <ClCompile Include="Src\Application\main.cpp" />
-    <ClCompile Include="Src\Application\Resource\Prefab\Prefab.cpp" />
     <ClCompile Include="Src\Application\Resource\ResourceManager.cpp" />
     <ClCompile Include="Src\Application\Scene\BaseScene\BaseScene.cpp" />
     <ClCompile Include="Src\Application\Scene\GameScene\GameScene.cpp" />

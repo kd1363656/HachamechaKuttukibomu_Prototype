@@ -1,53 +1,14 @@
 [
     {
-        "DrawType": 65,
-        "GravityInfo": {
-            "AccumulatedGravity": 2.5,
-            "CurrentGravity": 0.0,
-            "MaxGravity": 4.5
-        },
-        "MapRayColliderSetting": {
-            "CollisionType": 1,
-            "Direction": {
-                "X": 0.0,
-                "Y": -1.0,
-                "Z": 0.0
-            },
-            "Offset": {
-                "X": 0.0,
-                "Y": 0.4000000059604645,
-                "Z": 0.0
-            },
-            "Range": 0.4099999964237213
-        },
-        "MapSphereColliderSetting": {
-            "CollisionType": 1,
-            "Offset": {
-                "X": 0.0,
-                "Y": 0.5600000023841858,
-                "Z": 0.0
-            },
-            "Radius": 0.550000011920929
-        },
-        "MaxMoveSpeed": 3.0,
-        "MeshInfo": {
-            "AssetFilePath": "Asset/Models/Player/MF_IDLE/MF_IDLE.gltf",
-            "Color": {
-                "W": 1.0,
-                "X": 1.0,
-                "Y": 1.0,
-                "Z": 1.0
-            }
-        },
         "Transform": {
             "Location": {
-                "X": 3.2244598865509033,
+                "X": 19.115175247192383,
                 "Y": -0.19999979436397552,
-                "Z": -2.9297993183135986
+                "Z": 1.0723481178283691
             },
             "Rotation": {
                 "X": 0.0,
-                "Y": 266.8482971191406,
+                "Y": 122.7003173828125,
                 "Z": 0.0
             },
             "Scale": {
@@ -59,18 +20,6 @@
         "TypeName": "Player"
     },
     {
-        "CollisionType": 1,
-        "DrawType": 1,
-        "HasAnimation": false,
-        "MeshInfo": {
-            "AssetFilePath": "Asset\\Models\\Map\\MapTile\\Grass\\Grass_1\\Grass_1.gltf",
-            "Color": {
-                "W": 1.0,
-                "X": 1.0,
-                "Y": 1.0,
-                "Z": 1.0
-            }
-        },
         "Transform": {
             "Location": {
                 "X": 0.0,
@@ -92,8 +41,8 @@
     },
     {
         "DegAng": {
-            "X": 4.050017356872559,
-            "Y": 431.4005126953125,
+            "X": 5.550009250640869,
+            "Y": 326.25042724609375,
             "Z": 0.0
         },
         "Location": {
@@ -104,18 +53,6 @@
         "TypeName": "TPSCamera"
     },
     {
-        "CollisionType": 1,
-        "DrawType": 1,
-        "HasAnimation": false,
-        "MeshInfo": {
-            "AssetFilePath": "Asset\\Models\\Map\\MapTile\\Grass\\Grass_1\\Grass_1.gltf",
-            "Color": {
-                "W": 1.0,
-                "X": 1.0,
-                "Y": 1.0,
-                "Z": 1.0
-            }
-        },
         "Transform": {
             "Location": {
                 "X": 23.299999237060547,
@@ -136,15 +73,6 @@
         "TypeName": "MapTileTerrain"
     },
     {
-        "MeshInfo": {
-            "AssetFilePath": "Asset\\Models\\Map\\BackGround\\Morning\\Sky.gltf",
-            "Color": {
-                "W": 1.0,
-                "X": 1.0,
-                "Y": 1.0,
-                "Z": 1.0
-            }
-        },
         "Transform": {
             "Location": {
                 "X": 0.0,
