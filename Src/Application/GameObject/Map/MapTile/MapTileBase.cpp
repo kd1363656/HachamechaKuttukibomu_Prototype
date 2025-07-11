@@ -58,12 +58,24 @@ void MapTileBase::DrawImGuiInspectors()
 	KdGameObject::DrawImGuiInspectors();
 }
 
-void MapTileBase::LoadJsonData(const nlohmann::json& Json)
-{
-	// Jsonで設定した値を代入
-	m_typeName = Json.value("TypeName" , "");
+void MapTileBase::LoadTransformData(const nlohmann::json& Json)
+{	
+	m_typeName = Json.value("TypeName", "");
 
 	if (Json.contains("Transform")) { m_transform = JsonUtility::JsonToTransform3D(Json["Transform"]); }
+}
+nlohmann::json MapTileBase::SaveTransformData()
+{
+	nlohmann::json json_;
+
+	json_["TypeName"] = m_typeName;
+
+	json_["Transform"] = JsonUtility::Transform3DToJson(m_transform);
+
+	return json_;
+}
+void MapTileBase::LoadPrefabData(const nlohmann::json& Json)
+{
 	if (Json.contains("MeshInfo" )) { m_meshInfo  = JsonUtility::JsonToMeshInfo   (Json["MeshInfo" ]); }
 
 	m_drawType      = Json.value("DrawType"      , static_cast<uint8_t>(KdGameObject::DrawType::Lit));
@@ -71,21 +83,18 @@ void MapTileBase::LoadJsonData(const nlohmann::json& Json)
 
 	m_hasAnimation = Json.value("HasAnimation" , false);
 }
-nlohmann::json MapTileBase::SaveJsonData()
+nlohmann::json MapTileBase::SavePrefabData()
 {
 	nlohmann::json json_;
 
-	json_["TypeName"] = m_typeName;
+	json_["MeshInfo"] = JsonUtility::MeshInfoToJson(m_meshInfo);
 
-	json_["Transform"] = JsonUtility::Transform3DToJson(m_transform);
-	json_["MeshInfo" ] = JsonUtility::MeshInfoToJson   (m_meshInfo );
-
-	json_["DrawType"     ] = m_drawType;
+	json_["DrawType"] = m_drawType;
 	json_["CollisionType"] = m_collisionType;
 
 	json_["HasAnimation"] = m_hasAnimation;
 
-	return json_;
+	return nlohmann::json();
 }
 
 void MapTileBase::DrawImGuiTransformInspector()

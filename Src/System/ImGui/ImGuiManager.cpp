@@ -1,12 +1,15 @@
 ﻿#include "ImGuiManager.h"
 
+#include "../Src/Application/Factory/Factory.h"
+
 #include "../Src/Application/GameObject/Camera/CameraBase.h"
 #include "../Src/Application/GameObject/Actor/ActorBase.h"
 #include "../Src/Application/GameObject/Map/MapTile/MapTileBase.h"
 #include "../Src/Application/GameObject/Map/BackGround/BackGround.h"
 #include "../Src/Application/GameObject/Projectile/ProjectileBase.h"
 
-#include "../Src/Application/Factory/Factory.h"
+#include "../Src/Application/Resource/ResourceManager.h"
+#include "../Src/Application/Resource/Prefab/Prefab.h"
 
 #include "../Input/RawInputManager.h"
 

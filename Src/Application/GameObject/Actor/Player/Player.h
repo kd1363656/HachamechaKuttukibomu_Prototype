@@ -32,14 +32,14 @@ public:
 
 private:
 
+	void AddMoveDirectionIfKeyPressed(int VirtualKeyCode, Math::Vector3& MoveDirection, const Math::Vector3& WantAddDirection);
+
+	void AssignCameraFromScene();
+
 	StateMachine<Player> m_stateMachine;
 
 	std::weak_ptr<CameraBase> m_camera;
 
-	void AddMoveDirectionIfKeyPressed(int VirtualKeyCode , Math::Vector3& MoveDirection , const Math::Vector3& WantAddDirection);
-
-	void AssignCameraFromScene();
-	
 protected:
 
 	void FixMatrix() override;

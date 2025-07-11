@@ -51,7 +51,7 @@ void ProjectileBase::DrawImGuiInspectors()
 	DrawImGuiMaterialInspector ();
 }
 
-void ProjectileBase::LoadJsonData(const nlohmann::json& Json)
+void ProjectileBase::LoadPrefabData(const nlohmann::json& Json)
 {
 	// Jsonで設定した値を代入
 	m_typeName = Json.value("TypeName", "");
@@ -61,7 +61,7 @@ void ProjectileBase::LoadJsonData(const nlohmann::json& Json)
 
 	m_hasAnimation = Json.value("HasAnimation", false);
 }
-nlohmann::json ProjectileBase::SaveJsonData()
+nlohmann::json ProjectileBase::SavePrefabData()
 {
 	nlohmann::json json_;
 

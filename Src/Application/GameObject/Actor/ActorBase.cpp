@@ -72,15 +72,28 @@ void ActorBase::DrawImGuiTransformInspector()
 	ImGui::DragFloat3("Rotation", &m_transform.rotation.x, 1.0f);
 	ImGui::DragFloat3("Scale"   , &m_transform.scale.x   , 0.1f);
 }
-void ActorBase::LoadJsonData(const nlohmann::json& Json)
+void ActorBase::LoadTransformData(const nlohmann::json& Json)
 {
 	// Jsonで設定した値を代入
-	m_typeName = Json.value("TypeName" , "");
+	m_typeName = Json.value("TypeName", "");
 
 	if (Json.contains("Transform")) { m_transform   = JsonUtility::JsonToTransform3D(Json["Transform"]); }
-	if (Json.contains("MeshInfo" )) { m_meshInfo    = JsonUtility::JsonToMeshInfo   (Json["MeshInfo" ]); }
+}
+nlohmann::json ActorBase::SaveTransformData()
+{
+	nlohmann::json json_;
 
-	// TODO
+	json_["TypeName"] = m_typeName;
+
+	json_["Transform"] = JsonUtility::Transform3DToJson(m_transform);
+
+	return json_;
+}
+
+void ActorBase::LoadPrefabData(const nlohmann::json& Json)
+{
+	if (Json.contains("MeshInfo")) { m_meshInfo = JsonUtility::JsonToMeshInfo(Json["MeshInfo"]); }
+
 	if (Json.contains("GravityInfo")) { m_gravityInfo = JsonUtility::JsonToGravityInfo(Json["GravityInfo"]); }
 
 	if (Json.contains("MapRayColliderSetting"   )) { m_mapRayColliderSetting    = JsonUtility::JsonToRayColliderSetting   (Json["MapRayColliderSetting"   ]); }
@@ -90,19 +103,14 @@ void ActorBase::LoadJsonData(const nlohmann::json& Json)
 
 	m_maxMoveSpeed = Json.value("MaxMoveSpeed" , 0.0f);
 }
-nlohmann::json ActorBase::SaveJsonData()
+nlohmann::json ActorBase::SavePrefabData()
 {
-	// TODO
-	// 絶対にステータスと座標管理などは分けるべき
 	nlohmann::json json_;
 
-	json_["TypeName"] = m_typeName;
+	json_["MeshInfo"] = JsonUtility::MeshInfoToJson(m_meshInfo);
 
-	json_["Transform"] = JsonUtility::Transform3DToJson(m_transform);
-	json_["MeshInfo" ] = JsonUtility::MeshInfoToJson   (m_meshInfo );
-
-	// TODO
 	json_["GravityInfo"] = JsonUtility::GravityInfoToJson(m_gravityInfo);
+
 	json_["MaxMoveSpeed"] = m_maxMoveSpeed;
 
 	json_["MapRayColliderSetting"   ] = JsonUtility::RayColliderSettingToJson   (m_mapRayColliderSetting   );

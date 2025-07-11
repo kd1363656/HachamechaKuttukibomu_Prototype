@@ -12,6 +12,8 @@ public:
 	void SetJsonData    (const nlohmann::json& Set) { m_jsonData     = Set; }
 	void SetSaveFilePath(const std::string&    Set) { m_saveFilePath = Set; }
 
+	std::string_view GetSaveFilePath() { return m_saveFilePath; }
+
 private:
 
 	nlohmann::json m_jsonData;

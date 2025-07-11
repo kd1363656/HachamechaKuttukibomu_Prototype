@@ -19,8 +19,8 @@ public:
 
 	void DrawImGuiInspectors()override;
 
-	void           LoadJsonData(const nlohmann::json& Json) override;
-	nlohmann::json SaveJsonData()					 	    override;
+	virtual void           LoadPrefabData(const nlohmann::json& Json) override;
+	virtual nlohmann::json SavePrefabData()                           override;
 
 	void LoadAsset() final override;
 

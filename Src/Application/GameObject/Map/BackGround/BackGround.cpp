@@ -44,23 +44,30 @@ void BackGround::DrawImGuiInspectors()
 	KdGameObject::DrawImGuiInspectors();
 }
 
-void BackGround::LoadJsonData(const nlohmann::json& Json)
+void BackGround::LoadTransformData(const nlohmann::json& Json)
 {
-	// Jsonで設定した値を代入
-	m_typeName = Json.value("TypeName" , "");
+	m_typeName = Json.value("TypeName", "");
 
 	if (Json.contains("Transform")) { m_transform = JsonUtility::JsonToTransform3D(Json["Transform"]); }
-	if (Json.contains("MeshInfo" )) { m_meshInfo  = JsonUtility::JsonToMeshInfo   (Json["MeshInfo" ]); }
 }
-
-nlohmann::json BackGround::SaveJsonData()
+nlohmann::json BackGround::SaveTransformData()
 {
 	nlohmann::json json_;
 
 	json_["TypeName"] = m_typeName;
 
 	json_["Transform"] = JsonUtility::Transform3DToJson(m_transform);
-	json_["MeshInfo" ] = JsonUtility::MeshInfoToJson   (m_meshInfo );
+	return json_;
+}
+void BackGround::LoadPrefabData(const nlohmann::json& Json)
+{
+	if (Json.contains("MeshInfo")) { m_meshInfo = JsonUtility::JsonToMeshInfo(Json["MeshInfo"]); }
+}
+nlohmann::json BackGround::SavePrefabData()
+{
+	nlohmann::json json_;
+
+	json_["MeshInfo"] = JsonUtility::MeshInfoToJson(m_meshInfo);
 
 	return json_;
 }

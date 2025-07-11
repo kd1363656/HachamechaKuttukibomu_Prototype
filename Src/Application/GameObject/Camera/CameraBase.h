@@ -21,8 +21,8 @@ public:
 
 	virtual void DrawImGuiInspectors() override;
 
-	void           LoadJsonData(const nlohmann::json& Json) override;
-	nlohmann::json SaveJsonData()					 	    override;
+	void           LoadTransformData(const nlohmann::json& Json) override;
+	nlohmann::json SaveTransformData()						     override;
 
 	void UpdateRotateByMouse();
 

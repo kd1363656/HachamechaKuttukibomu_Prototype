@@ -68,15 +68,14 @@ void CameraBase::DrawImGuiInspectors()
 	DrawImGuiTransformInspector();
 }
 
-void CameraBase::LoadJsonData(const nlohmann::json& Json)
+void CameraBase::LoadTransformData(const nlohmann::json& Json)
 {
 	m_typeName = Json.value("TypeName", "");
 
 	m_degAng   = JsonUtility::JsonToVec3(Json["DegAng"  ]);
 	m_location = JsonUtility::JsonToVec3(Json["Location"]);
 }
-
-nlohmann::json CameraBase::SaveJsonData()
+nlohmann::json CameraBase::SaveTransformData()
 {
 	nlohmann::json json_;
 

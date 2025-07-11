@@ -12,17 +12,11 @@ public:
 	ResourceManager () = default;
 	~ResourceManager() = default;
 
-	auto& GetPrefabDataList()const { return m_prefabDataList; }
-
-	// TODO
-	// "std::string_view"にできるならする
-	void LoadPrefabData(const std::string& TypeName , const std::string& LocalPath);
+	auto& GetPrefabDataList() { return m_prefabDataList; }
 
 	std::weak_ptr<Prefab> GetPrefabData(const std::string& TypeName);
 
 private:
-
-	const std::string COMMON_DIRECTORY_PATH = "Asset/Data/Prefab/";
 
 	std::unordered_map<std::string , std::shared_ptr<Prefab>> m_prefabDataList;
 };
