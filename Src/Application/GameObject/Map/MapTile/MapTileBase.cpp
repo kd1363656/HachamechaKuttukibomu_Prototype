@@ -81,6 +81,8 @@ nlohmann::json MapTileBase::SaveTransformData()
 }
 void MapTileBase::LoadPrefabData(const nlohmann::json& Json)
 {
+	m_typeName = Json.value("TypeName" , "");
+
 	if (Json.contains("MeshInfo" )) { m_meshInfo  = JsonUtility::JsonToMeshInfo   (Json["MeshInfo" ]); }
 
 	m_drawType      = Json.value("DrawType"      , static_cast<uint8_t>(KdGameObject::DrawType::Lit));
@@ -101,7 +103,7 @@ nlohmann::json MapTileBase::SavePrefabData()
 
 	json_["HasAnimation"] = m_hasAnimation;
 
-	return nlohmann::json();
+	return json_;
 }
 
 void MapTileBase::DrawImGuiTransformInspector()

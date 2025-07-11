@@ -3,7 +3,7 @@
     "DrawType": 1,
     "HasAnimation": false,
     "MeshInfo": {
-        "AssetFilePath": "Asset\\Models\\Map\\MapTile\\Grass\\Grass_1\\Grass_1.gltf",
+        "AssetFilePath": "Asset\\Models\\Projectile\\StickyBomb\\StickyBomb.gltf",
         "Color": {
             "W": 1.0,
             "X": 1.0,
@@ -11,5 +11,5 @@
             "Z": 1.0
         }
     },
-    "TypeName": "MapTileTerrain"
+    "TypeName": "StickyBomb"
 }

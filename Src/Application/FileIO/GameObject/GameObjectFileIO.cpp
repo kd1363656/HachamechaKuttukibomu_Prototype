@@ -38,7 +38,6 @@ void GameObjectFileIO::SaveSceneData()
 
 	FileSystem::SaveJsonFile(json_, m_filePath);
 }
-
 void GameObjectFileIO::LoadSceneData()
 {
 	auto currentScene_ = SceneManager::GetInstance().GetCurrentScene().lock();
@@ -73,16 +72,16 @@ void GameObjectFileIO::SavePrefabData()
 		{
 			if (!value_) { continue; }
 			
-			auto           prefabObject_ = value_->GetPrefabPreviewObject().lock();
-			nlohmann::json json_         =  prefabObject_->SavePrefabData();
+			auto prefabObject_ = value_->GetPrefabPreviewObject().lock();
 
 			if (!prefabObject_) { continue; }
+
+			nlohmann::json json_ =  prefabObject_->SavePrefabData();
 
 			FileSystem::SaveJsonFile(json_ , value_->GetSaveFilePath());
 		}
 	}
 }
-
 void GameObjectFileIO::LoadPrefabData(const std::string& TypeName, const std::string& LocalPath)
 {
 	auto currentScene_ = SceneManager::GetInstance().GetCurrentScene().lock();

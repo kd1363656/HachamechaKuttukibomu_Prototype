@@ -10,7 +10,7 @@ void ProjectileBase::Init()
 {
 	KdGameObject::Init();
 
-	m_prefabSavePath = PREFAB_BASE_DIRECTORY;
+	m_prefabSavePath += PREFAB_BASE_DIRECTORY;
 
 	m_meshInfo  = {};
 	m_transform = {};
@@ -57,10 +57,26 @@ void ProjectileBase::DrawImGuiPrefabInspectors()
 	KdGameObject::DrawImGuiPrefabInspectors();
 }
 
+void ProjectileBase::LoadTransformData(const nlohmann::json& Json)
+{
+	m_typeName = Json.value("TypeName" , "");
+}
+
+nlohmann::json ProjectileBase::SaveTransformData()
+{
+	nlohmann::json json_;
+
+	json_["TypeName"] = m_typeName;
+
+	return json_;
+}
+
 void ProjectileBase::LoadPrefabData(const nlohmann::json& Json)
 {
 	// Jsonで設定した値を代入
 	m_typeName = Json.value("TypeName", "");
+
+	if (Json.contains("MeshInfo")) { m_meshInfo = JsonUtility::JsonToMeshInfo(Json["MeshInfo"]); }
 
 	m_drawType      = Json.value("DrawType"      , static_cast<uint8_t>(KdGameObject::DrawType::Lit));
 	m_collisionType = Json.value("CollisionType" , static_cast<uint8_t>(KdCollider::TypeGround     ));
@@ -72,6 +88,8 @@ nlohmann::json ProjectileBase::SavePrefabData()
 	nlohmann::json json_;
 
 	json_["TypeName"] = m_typeName;
+
+	json_["MeshInfo"] = JsonUtility::MeshInfoToJson(m_meshInfo);
 
 	json_["DrawType"     ] = m_drawType;
 	json_["CollisionType"] = m_collisionType;

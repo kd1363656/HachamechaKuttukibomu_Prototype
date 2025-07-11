@@ -63,6 +63,8 @@ private:
 		return keyStatus_ = Status ? "true" : "false";
 	}
 
+	const std::string COMMON_PREFAB_DIRECTORY_PATH = "Asset/Data/Prefab/";
+
 	// 対応するファクトリーごとに名前を変えていたら霧がないので一つだけ使用
 	// これだけでも十分成り立つ
 	std::string m_createObjectName = "Player";

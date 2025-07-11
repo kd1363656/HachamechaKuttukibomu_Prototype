@@ -11,6 +11,8 @@
 #include "../Src/Application/Resource/ResourceManager.h"
 #include "../Src/Application/Resource/Prefab/Prefab.h"
 
+#include "../FileSystem/FileSystem.h"
+
 #include "../Input/RawInputManager.h"
 
 #include "../Src/Application/Scene/BaseScene/BaseScene.h"
@@ -219,31 +221,55 @@ void ImGuiManager::DrawClassSelectorDropdown(uint32_t BaseTypeID)
 
 void ImGuiManager::DrawCreateButton(const char* WidgetLabel)
 {
-	auto& sceneManager_ = SceneManager::GetInstance();
-	auto& factory_      = Factory::GetInstance  ();
+	auto& sceneManager_ = SceneManager::GetInstance           ();
+	auto& factory_      = Factory::GetInstance                ();
+	auto  scene_        = sceneManager_.GetCurrentScene().lock();
 
-	if (auto scene_ = sceneManager_.GetCurrentScene().lock())
+	if (!scene_) { return; }
+
+	// ウィジェットの位置を改行せずに離す形で配置する
+	ImGui::SameLine(400.0f);
+
+	if (ImGui::Button(WidgetLabel))
 	{
-		// ウィジェットの位置を改行せずに離す形で配置する
-		ImGui::SameLine(400.0f);
-
-		if (ImGui::Button(WidgetLabel))
+		// しっかりとファクトリーに登録されているか確認
+		if (auto itr_      = factory_.GetGameObjectFactoryMethodList().find(m_createObjectName);
+			auto instance_ = itr_->second.gameObjectFactoryMethod()							  )
 		{
-			// しっかりとファクトリーに登録されているか確認
-			if (auto itr_      = factory_.GetGameObjectFactoryMethodList().find(m_createObjectName);
-				auto instance_ = itr_->second.gameObjectFactoryMethod()							  )
+			// 初期化してから渡す
+			instance_->Init();
+
+			auto& resourceManager_ = scene_->GetResourceManager();
+
+			// プレハブに存在しないデータならプレハブを作る
+			if (resourceManager_)
 			{
-				// 初期化してから渡す
-				instance_->Init();
+				if(!resourceManager_->GetPrefabDataList().contains(instance_->GetTypeName().data()))
+				{
+					auto prefabObject_ = itr_->second.gameObjectFactoryMethod();
+					// クラス名を取得するため初期化
+					prefabObject_->Init();
 
-				std::string log_ = "Add ";
-				log_ += instance_->GetTypeName().data();
-				log_ += "\n";
+					const std::string className_ = instance_->GetTypeName().data();
+					const std::string filePath_  = COMMON_PREFAB_DIRECTORY_PATH + prefabObject_->GetPrefabSavePath().data() + className_ + FileSystem::SLASH_SYMBOL + className_;
 
-				KdDebugGUI::Instance().AddLog(log_.data());
+					auto& prefabData_ = resourceManager_->GetPrefabDataList()[className_];
 
-				scene_->AddObject(instance_);
+					prefabData_ = std::make_shared<Prefab>();
+					prefabData_->SetPrefabPreviewObject(prefabObject_);
+
+					prefabData_->SetSaveFilePath(filePath_);
+				}
 			}
+
+			// デバックログに生成官僚の旨を伝える
+			std::string log_ = "Add ";
+			log_ += instance_->GetTypeName().data();
+			log_ += "\n";
+
+			KdDebugGUI::Instance().AddLog(log_.data());
+
+			scene_->AddObject(instance_);
 		}
 	}
 }
