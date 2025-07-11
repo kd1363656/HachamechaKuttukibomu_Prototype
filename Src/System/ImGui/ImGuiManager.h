@@ -49,6 +49,9 @@ private:
 	void DrawInspector();
 	void DrawInspector(uint32_t BaseTypeID);
 
+	void DrawPrefabInspector();
+	void DrawPrefabInspector(uint32_t BaseTypeID);
+
 	void DrawPopups();
 
 	const char* JudgeInputStatus(bool Status)

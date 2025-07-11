@@ -100,6 +100,13 @@ void GameObjectFileIO::LoadPrefabData(const std::string& TypeName, const std::st
 	instance_->SetSaveFilePath(filePath_);
 	
 #ifdef _DEBUG
+
+	// プレハブ操作用のオブジェクトを作って格納
+	std::shared_ptr<KdGameObject> prefabObject_ = std::make_shared<KdGameObject>();
+	prefabObject_->Init();
+
+	instance_->SetPrefabPreviewObject(prefabObject_);
+
 	std::string typeName_ = TypeName;
 	KdDebugGUI::Instance().AddLog("\nPrehab : %s is successfully Load" , typeName_.c_str());
 #endif

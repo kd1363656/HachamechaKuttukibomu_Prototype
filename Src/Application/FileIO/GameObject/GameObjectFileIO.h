@@ -5,10 +5,10 @@ class GameObjectFileIO : public FileIOBase
 {
 public:
 
-	GameObjectFileIO ()         = default;
-	~GameObjectFileIO()override = default;
+	GameObjectFileIO ()          = default;
+	~GameObjectFileIO() override = default;
 
-	void Init()override;
+	void Init() override;
 
 	void SaveSceneData() override;
 	void LoadSceneData() override;

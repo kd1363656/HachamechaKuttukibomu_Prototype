@@ -265,11 +265,8 @@ void ImGuiManager::DrawInspector()
 	}
 	ImGui::End();
 }
-
 void ImGuiManager::DrawInspector(uint32_t BaseTypeID)
 {
-	// この関数を使っている大本の関数でヌルチェックを行っているがもしかしたら別の関数で使う可能性があるので
-	// ここでもヌルチェックを行う
 	auto scene_ = SceneManager::GetInstance().GetCurrentScene().lock();
 
 	if (!scene_)return;
@@ -307,6 +304,47 @@ void ImGuiManager::DrawInspector(uint32_t BaseTypeID)
 				}
 			}
 			ImGui::TreePop();
+		}
+	}
+}
+
+void ImGuiManager::DrawPrefabInspector()
+{
+	auto scene_ = SceneManager::GetInstance().GetCurrentScene().lock();
+
+	if (!scene_)return;
+
+	if (ImGui::Begin("Inspector"))
+	{
+		DrawPrefabInspector(GameObjectID::GetTypeID<CameraBase>());
+		ImGui::Separator();
+		DrawPrefabInspector(GameObjectID::GetTypeID<ActorBase> ());
+		ImGui::Separator();
+		DrawPrefabInspector(GameObjectID::GetTypeID<MapTileBase>());
+		ImGui::Separator();
+		DrawPrefabInspector(GameObjectID::GetTypeID<BackGround>());
+		ImGui::Separator();
+		DrawPrefabInspector(GameObjectID::GetTypeID<ProjectileBase>());
+		ImGui::Separator();
+	}
+	ImGui::End();
+}
+void ImGuiManager::DrawPrefabInspector(uint32_t BaseTypeID)
+{
+	auto scene_ = SceneManager::GetInstance().GetCurrentScene().lock();
+
+	if (!scene_)return;
+
+	auto itr_ = m_gameObjectNameFilter.find(BaseTypeID);
+
+	if (itr_ != m_gameObjectNameFilter.end())
+	{
+		std::string baseTypeName = itr_->second;
+
+		if (ImGui::TreeNode(baseTypeName.data()))
+		{
+				
+
 		}
 	}
 }
