@@ -58,7 +58,7 @@ void MapTileBase::DrawImGuiInspectors()
 	KdGameObject::DrawImGuiInspectors();
 }
 
-void MapTileBase::LoadJsonData(const nlohmann::json Json)
+void MapTileBase::LoadJsonData(const nlohmann::json& Json)
 {
 	// Jsonで設定した値を代入
 	m_typeName = Json.value("TypeName" , "");

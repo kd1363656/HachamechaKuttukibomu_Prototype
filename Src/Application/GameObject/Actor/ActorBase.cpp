@@ -72,7 +72,7 @@ void ActorBase::DrawImGuiTransformInspector()
 	ImGui::DragFloat3("Rotation", &m_transform.rotation.x, 1.0f);
 	ImGui::DragFloat3("Scale"   , &m_transform.scale.x   , 0.1f);
 }
-void ActorBase::LoadJsonData(const nlohmann::json Json)
+void ActorBase::LoadJsonData(const nlohmann::json& Json)
 {
 	// Jsonで設定した値を代入
 	m_typeName = Json.value("TypeName" , "");

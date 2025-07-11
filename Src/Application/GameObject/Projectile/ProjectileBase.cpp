@@ -51,7 +51,7 @@ void ProjectileBase::DrawImGuiInspectors()
 	DrawImGuiMaterialInspector ();
 }
 
-void ProjectileBase::LoadJsonData(const nlohmann::json Json)
+void ProjectileBase::LoadJsonData(const nlohmann::json& Json)
 {
 	// Jsonで設定した値を代入
 	m_typeName = Json.value("TypeName", "");

@@ -20,7 +20,7 @@ public:
 
 	virtual void DrawImGuiInspectors() override;
 
-	void           LoadJsonData(const nlohmann::json Json);
+	void           LoadJsonData(const nlohmann::json& Json);
 	nlohmann::json SaveJsonData();
 
 private:

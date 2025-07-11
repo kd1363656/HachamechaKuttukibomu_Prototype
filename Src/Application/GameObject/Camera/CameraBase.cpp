@@ -68,7 +68,7 @@ void CameraBase::DrawImGuiInspectors()
 	DrawImGuiTransformInspector();
 }
 
-void CameraBase::LoadJsonData(const nlohmann::json Json)
+void CameraBase::LoadJsonData(const nlohmann::json& Json)
 {
 	m_typeName = Json.value("TypeName", "");
 

@@ -44,7 +44,7 @@ void BackGround::DrawImGuiInspectors()
 	KdGameObject::DrawImGuiInspectors();
 }
 
-void BackGround::LoadJsonData(const nlohmann::json Json)
+void BackGround::LoadJsonData(const nlohmann::json& Json)
 {
 	// Jsonで設定した値を代入
 	m_typeName = Json.value("TypeName" , "");

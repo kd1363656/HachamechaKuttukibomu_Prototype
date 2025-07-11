@@ -54,8 +54,8 @@ public:
 	void         DrawImGuiDrawTypeInspector ();
 	void         DrawImGuiCollisionInspector();
 
-	virtual void           LoadJsonData(const nlohmann::json Json) {/* まだ実装されていません、派生クラスで実装してください */ }
-	virtual nlohmann::json SaveJsonData()						   { return nlohmann::json(); }
+	virtual void           LoadJsonData(const nlohmann::json& Json) {/* まだ実装されていません、派生クラスで実装してください */ }
+	virtual nlohmann::json SaveJsonData()						    { return nlohmann::json(); }
 
 	// カメラからの距離を計算
 	virtual void CalcDistSqrFromCamera(const Math::Vector3& camPos);
